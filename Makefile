@@ -1,3 +1,3 @@
 .PHONY: run-backend
-run-backend:
-	(cd backend; npm run start)
+run-backend-dev:
+	(cd backend; npm run dev)
