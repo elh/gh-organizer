@@ -55,38 +55,39 @@ function App() {
         </div>
       </div>
       <div className="px-6">
-      {loaded ? (
-          <table className="table table-xs table-pin-rows">
-            <thead>
-              <tr>
-                <th>Login</th>
-                <th>Name</th>
-                <th>Repos</th>
-                <th>Starred</th>
-                <th>Followers</th>
-                <th>Following</th>
-                {/* <th>Orgs</th>
-                <th>Sponsors</th> */}
+        <table className="table table-xs table-pin-rows">
+          <thead>
+            <tr>
+              <th>Login</th>
+              <th>Name</th>
+              <th>Repos</th>
+              <th>Starred</th>
+              <th>Followers</th>
+              <th>Following</th>
+              {/* <th>Orgs</th>
+              <th>Sponsors</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {members.map((member, i) =>
+              <tr className="hover">
+                <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
+                <td>{member['name']}</td>
+                <td>{member['repositories']['totalCount']}</td>
+                <td>{member['starredRepositories']['totalCount']}</td>
+                <td>{member['followers']['totalCount']}</td>
+                <td>{member['following']['totalCount']}</td>
+                {/* <td>{member['organizations']['totalCount']}</td>
+                <td>{member['sponsors']['totalCount']}</td> */}
               </tr>
-            </thead>
-            <tbody>
-              {members.map((member, i) =>
-                <tr className="hover">
-                  <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
-                  <td>{member['name']}</td>
-                  <td>{member['repositories']['totalCount']}</td>
-                  <td>{member['starredRepositories']['totalCount']}</td>
-                  <td>{member['followers']['totalCount']}</td>
-                  <td>{member['following']['totalCount']}</td>
-                  {/* <td>{member['organizations']['totalCount']}</td>
-                  <td>{member['sponsors']['totalCount']}</td> */}
-                </tr>
-              )}
-            </tbody>
-          </table>
-        ) : (
-          <span className="loading loading-spinner text-primary"></span>
-        )}
+            )}
+          </tbody>
+        </table>
+        {!loaded &&
+          <div className="flex justify-center items-center m-10">
+            <span className="loading loading-spinner text-primary"></span>
+          </div>
+        }
       </div>
     </div>
   );
