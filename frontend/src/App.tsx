@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
   const [members, setMembers] = useState<Record<string, any>[]>([]);
+  const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
 
   // TODO: fetch org info
@@ -22,6 +23,9 @@ function App() {
 
   useEffect(() => {
     (async () => {
+      if (fetchStarted.current) return;
+      fetchStarted.current = true;
+
       let endCursor = ""; // eslint does not like infinite loops so i need a valid start
       while (endCursor !== null) {
         const res = await fetchMembers(endCursor);
@@ -33,6 +37,9 @@ function App() {
               ...res.data['nodes'].filter((newNode: Record<string, any>) => !prevMembers.some(member => member.login === newNode.login))
             ];
           });
+          if (!res.data['pageInfo']['hasNextPage']) {
+            break;
+          }
           endCursor = res.data['pageInfo']['endCursor'];
         } else {
           break;
