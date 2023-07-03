@@ -11,7 +11,7 @@ if (!process.env.GH_TOKEN || !process.env.GH_ORG) {
 
 // set up
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const octokit = new Octokit({
   auth: process.env.GH_TOKEN,
 });
