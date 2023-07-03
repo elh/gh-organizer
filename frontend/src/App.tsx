@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState<Record<string, any>[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   // TODO: fetch org info
-  // TODO: paginate
-  const fetchMembers = async () => {
+  const fetchMembers = async (cursor: string) => {
     try {
-      const response = await fetch('/members');
+      const response = await fetch('/members?cursor=' + cursor);
       if (!response.ok) {
         console.log(response.text());
         return { success: false };
@@ -23,11 +22,23 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetchMembers();
-      if (res.success) {
-        setMembers(res.data['nodes']);
-        setLoaded(true);
+      let endCursor = ""; // eslint does not like infinite loops so i need a valid start
+      while (endCursor !== null) {
+        const res = await fetchMembers(endCursor);
+
+        if (res.success) {
+          setMembers(prevMembers => {
+            return [
+              ...prevMembers,
+              ...res.data['nodes'].filter((newNode: Record<string, any>) => !prevMembers.some(member => member.login === newNode.login))
+            ];
+          });
+          endCursor = res.data['pageInfo']['endCursor'];
+        } else {
+          break;
+        }
       }
+      setLoaded(true);
     })();
   }, []);
 
@@ -70,7 +81,7 @@ function App() {
           </thead>
           <tbody>
             {members.map((member, i) =>
-              <tr className="hover">
+              <tr className="hover" key={i}>
                 <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
                 <td>{member['name']}</td>
                 <td>{member['repositories']['totalCount']}</td>
