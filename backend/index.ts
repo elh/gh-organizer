@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { Octokit } from "octokit";
+import {getPRStats} from './gh';
 
 // env vars
 dotenv.config();
@@ -123,6 +124,19 @@ app.get('/members', async (req, res) => {
     }
     const out = resp.data.data.organization.membersWithRole;
     res.json(out);
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({'error': 'Error querying Github'});
+  }
+});
+
+// query params:
+// * login - member login
+app.get('/pull_stats', async (req, res) => {
+  // no pull request information
+  try {
+    const resp = await getPRStats(octokit, String(process.env.GH_ORG), String(req.query['login']));
+    res.json(resp);
   } catch(err) {
     console.error(err);
     res.status(500).json({'error': 'Error querying Github'});
