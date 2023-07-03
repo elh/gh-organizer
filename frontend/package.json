@@ -1,6 +1,14 @@
 {
   "name": "gh-organizer-frontend",
   "version": "0.1.0",
+  "keywords": [],
+  "author": "elh",
+  "license": "MIT",
+  "homepage": "https://github.com/elh/gh-organizer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elh/gh-organizer.git"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
