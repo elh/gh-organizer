@@ -43,11 +43,11 @@ function App() {
             <li>
               <details>
                 <summary>
-                  Mode
+                  Members
                 </summary>
                 <ul className="p-2 bg-base-100 z-10">
-                  <li><a>One</a></li>
-                  <li><a>Two</a></li>
+                  <li><a>Members</a></li>
+                  <li><a>Repos</a></li>
                 </ul>
               </details>
             </li>
