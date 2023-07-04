@@ -22,81 +22,6 @@ function caseInsensitiveSortFn(field: string) {
   }
 }
 
-const columns = [
-  {
-    id: '',
-    name: '',
-    // sortFunction: caseInsensitiveSortFn('login'),
-    // selector: (row: any) => row.login,
-    cell: (row: any) => <img src={row.avatarUrl} className='max-h-7 w-7'></img>,
-    maxWidth: "60px",
-    minWidth: "60px",
-  },
-  {
-      id: 'login',
-      name: 'Login',
-      sortable: true,
-      sortFunction: caseInsensitiveSortFn('login'),
-      selector: (row: any) => row.login,
-      cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
-      maxWidth: "400px",
-  },
-  {
-      name: 'Name',
-      sortable: true,
-      sortFunction: caseInsensitiveSortFn('name'),
-      selector: (row: any) => row.name,
-      maxWidth: "400px",
-  },
-  {
-    name: 'Org PRs - 3mo',
-    sortable: true,
-    selector: (row: any) => row.prs.threeMoOrgPrCount.issueCount,
-    cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
-    maxWidth: "140px",
-  },
-  {
-    name: 'Org PRs - 12mo',
-    sortable: true,
-    selector: (row: any) => row.prs.twelveMoOrgPrCount.issueCount,
-    cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
-    maxWidth: "140px",
-  },
-  {
-    name: 'Org PRs',
-    sortable: true,
-    selector: (row: any) => row.prs.orgPrCount.issueCount,
-    cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
-    maxWidth: "140px",
-  },
-  {
-    name: 'Repos',
-    sortable: true,
-    selector: (row: any) => row.repositories.totalCount,
-    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>,
-    maxWidth: "110px",
-  },
-  {
-    name: 'Starred',
-    sortable: true,
-    selector: (row: any) => row.starredRepositories.totalCount,
-    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>,
-    maxWidth: "110px",
-  },
-  {
-    name: 'Followers',
-    sortable: true,
-    selector: (row: any) => row.followers.totalCount,
-    maxWidth: "110px",
-  },
-  {
-    name: 'Following',
-    sortable: true,
-    selector: (row: any) => row.following.totalCount,
-    maxWidth: "110px",
-  },
-];
-
 // ty EdPike365/DarkModeBrowserPref.js
 function DarkModePreferredStatus() {
   const [prefersDarkMode, setPrefersDarkMode] = useState(
@@ -168,6 +93,8 @@ function App() {
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
 
+  const [showPersonal, setShowPersonal] = React.useState(false);
+
   const prefersDarkMode = DarkModePreferredStatus();
 
   const fetchData = async () => {
@@ -198,12 +125,94 @@ function App() {
     })();
   }, []);
 
+  const columns = React.useMemo(
+    () => [
+      {
+        id: '',
+        name: '',
+        // sortFunction: caseInsensitiveSortFn('login'),
+        // selector: (row: any) => row.login,
+        cell: (row: any) => <a href={`https://github.com/${row.login}`}><img src={row.avatarUrl} className='max-h-7 w-7'></img></a>,
+        maxWidth: "60px",
+        minWidth: "60px",
+      },
+      {
+          id: 'login',
+          name: 'Login',
+          sortable: true,
+          sortFunction: caseInsensitiveSortFn('login'),
+          selector: (row: any) => row.login,
+          cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
+          maxWidth: "400px",
+      },
+      {
+          name: 'Name',
+          sortable: true,
+          sortFunction: caseInsensitiveSortFn('name'),
+          selector: (row: any) => row.name,
+          maxWidth: "400px",
+      },
+      {
+        name: 'Org PRs - 3mo',
+        sortable: true,
+        selector: (row: any) => row.prs.threeMoOrgPrCount.issueCount,
+        cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
+        maxWidth: "140px",
+      },
+      {
+        name: 'Org PRs - 12mo',
+        sortable: true,
+        selector: (row: any) => row.prs.twelveMoOrgPrCount.issueCount,
+        cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
+        maxWidth: "140px",
+      },
+      {
+        name: 'Org PRs',
+        sortable: true,
+        selector: (row: any) => row.prs.orgPrCount.issueCount,
+        cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
+        maxWidth: "140px",
+      },
+      {
+        name: 'Repos',
+        sortable: true,
+        selector: (row: any) => row.repositories.totalCount,
+        cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>,
+        maxWidth: "110px",
+        omit: !showPersonal,
+      },
+      {
+        name: 'Starred',
+        sortable: true,
+        selector: (row: any) => row.starredRepositories.totalCount,
+        cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>,
+        maxWidth: "110px",
+        omit: !showPersonal,
+      },
+      {
+        name: 'Followers',
+        sortable: true,
+        selector: (row: any) => row.followers.totalCount,
+        maxWidth: "110px",
+        omit: !showPersonal,
+      },
+      {
+        name: 'Following',
+        sortable: true,
+        selector: (row: any) => row.following.totalCount,
+        maxWidth: "110px",
+        omit: !showPersonal,
+      },
+    ],
+    [showPersonal],
+  );
+
   // Consider https://github.com/jbetancur/react-data-table-component for sorting
   return (
     <div className="overflow-x-auto">
       <div className="navbar bg-base-100">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">gh-organizer</a>
+          <a className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
           {'org' in data &&
           <div>
             {/* <img className="w-8 mx-2" src={data['org']['avatarUrl']} alt="logo"/> */}
@@ -234,22 +243,26 @@ function App() {
           </div>
         }
         {'members' in data &&
-          <DataTable
-              columns={columns}
-              data={data['members']}
-              dense={true}
-              fixedHeader={true}
-              responsive={true}
-              fixedHeaderScrollHeight={"85vh"}
-              defaultSortFieldId={"login"}
-              theme={prefersDarkMode ? 'dark' : 'light'}
-              customStyles={prefersDarkMode ? darkStyles : lightStyles}
-              expandableRows
-              expandableRowsComponent={ExpandedComponent}
-              pagination={true}
-              paginationPerPage={100}
-              paginationRowsPerPageOptions={[25, 50, 100, 1000]}
-          />
+          <div>
+            <DataTable
+                columns={columns}
+                data={data['members']}
+                dense={true}
+                fixedHeader={true}
+                responsive={true}
+                fixedHeaderScrollHeight={"84vh"}
+                defaultSortFieldId={"login"}
+                theme={prefersDarkMode ? 'dark' : 'light'}
+                customStyles={prefersDarkMode ? darkStyles : lightStyles}
+                expandableRows
+                expandableRowsComponent={ExpandedComponent}
+                pagination={true}
+                paginationPerPage={100}
+                paginationRowsPerPageOptions={[25, 50, 100, 1000]}
+            />
+            {/* TODO: push this button into the table headers using a ReactNode `name` */}
+            <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowPersonal(!showPersonal)}>Show/Hide Personal</button>
+          </div>
         }
       </div>
     </div>
