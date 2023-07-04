@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import DataTable from 'react-data-table-component';
+import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
@@ -101,7 +101,26 @@ const darkStyles = {
       backgroundColor: 'rgb(29, 35, 42)',
       color: 'rgb(166, 173, 186)',
     }
+  },
+  expanderRow: {
+    style: {
+      backgroundColor: 'rgb(29, 35, 42)',
+      color: 'rgb(166, 173, 186)',
+      fontSize: '11px',
+    }
   }
+};
+
+const lightStyles = {
+  expanderRow: {
+    style: {
+      fontSize: '11px',
+    }
+  }
+};
+
+const ExpandedComponent: React.FC<ExpanderComponentProps<Record<string, any>>> = ({ data }) => {
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
 };
 
 function App() {
@@ -184,7 +203,9 @@ function App() {
               fixedHeaderScrollHeight={"90vh"}
               defaultSortFieldId={"login"}
               theme={prefersDarkMode ? 'dark' : 'light'}
-              customStyles={prefersDarkMode ? darkStyles : undefined}
+              customStyles={prefersDarkMode ? darkStyles : lightStyles}
+              expandableRows
+              expandableRowsComponent={ExpandedComponent}
           />
         }
       </div>
