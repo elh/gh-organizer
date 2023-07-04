@@ -121,6 +121,12 @@ const darkStyles = {
       color: 'rgb(166, 173, 186)',
     }
   },
+  rows: {
+    style: {
+      backgroundColor: 'rgb(29, 35, 42)',
+      color: 'rgb(166, 173, 186)',
+    },
+  },
   headRow: {
     style: {
       backgroundColor: 'rgb(29, 35, 42)',
