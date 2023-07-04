@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import { Octokit } from "octokit";
-import {getOrg, getMembers, getPRStats} from './gh';
+import {getOrg, getMembers, getPRStats, getRepos} from './gh';
+import e from 'express';
 
 const file = 'data/data.json';
 
@@ -28,9 +29,15 @@ function fetcherEnabled(name: string): boolean {
 
 async function fetch() {
   try {
-    // load existing file
-    const jsonString = await fs.readFile(file, 'utf-8');
-    const data = JSON.parse(jsonString);
+    // load existing file. if file does not exist, data is an empty object
+    let data: any = {};
+    try {
+      const jsonString = await fs.readFile(file, 'utf-8');
+      data = JSON.parse(jsonString);
+    } catch (err) {
+      console.log('No existing data file found. Creating new one.');
+    }
+
 
     if (!('org' in data) || fetcherEnabled('org')) {
       console.time('getOrg')
@@ -72,6 +79,27 @@ async function fetch() {
         await fs.writeFile(file, JSON.stringify(data, null, 2));
       }
       console.timeEnd('getPRStats - all')
+    }
+
+    if (!('repos' in data) || fetcherEnabled('repos')) {
+      data['repos'] = [];
+      let cursor: string | null = null;
+      let done = false;
+      console.time('getRepos - all')
+      while (!done) { // ts really doesn't like constant condition loops
+        console.time('getRepos')
+        const resp = await getRepos(octokit, String(process.env.GH_ORG), cursor);
+        console.timeEnd('getRepos')
+        data['repos'] = data['repos'].concat(resp.nodes);
+        await fs.writeFile(file, JSON.stringify(data, null, 2));
+
+        if (!resp.pageInfo.hasNextPage) {
+          done = true;
+          break;
+        }
+        cursor = resp.pageInfo.endCursor;
+      }
+      console.timeEnd('getRepos - all')
     }
 
   } catch (err) {
