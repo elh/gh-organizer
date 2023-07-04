@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import { Octokit } from "octokit";
-import {getOrg, getMembers, getPRStats} from './gh';
+import {getOrg, getMembers} from './gh';
 
 // env vars
 dotenv.config();

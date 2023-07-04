@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
-  const [members, setMembers] = useState<Record<string, any>[]>([]);
+  const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
 
-  // TODO: fetch org info
-  const fetchMembers = async (cursor: string) => {
+  const fetchData = async () => {
     try {
-      const response = await fetch('/members?cursor=' + cursor);
+      const response = await fetch('/data/data.json');
       if (!response.ok) {
         console.log(response.text());
         return { success: false };
@@ -26,24 +25,9 @@ function App() {
       if (fetchStarted.current) return;
       fetchStarted.current = true;
 
-      let endCursor = ""; // eslint does not like infinite loops so i need a valid start
-      while (endCursor !== null) {
-        const res = await fetchMembers(endCursor);
-
-        if (res.success) {
-          setMembers(prevMembers => {
-            return [
-              ...prevMembers,
-              ...res.data['nodes'].filter((newNode: Record<string, any>) => !prevMembers.some(member => member.login === newNode.login))
-            ];
-          });
-          if (!res.data['pageInfo']['hasNextPage']) {
-            break;
-          }
-          endCursor = res.data['pageInfo']['endCursor'];
-        } else {
-          break;
-        }
+      const res = await fetchData();
+      if (res.success) {
+        setData(res.data);
       }
       setLoaded(true);
     })();
@@ -87,18 +71,20 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {members.map((member, i) =>
-              <tr className="hover" key={i}>
-                <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
-                <td>{member['name']}</td>
-                <td>{member['repositories']['totalCount']}</td>
-                <td>{member['starredRepositories']['totalCount']}</td>
-                <td>{member['followers']['totalCount']}</td>
-                <td>{member['following']['totalCount']}</td>
-                {/* <td>{member['organizations']['totalCount']}</td>
-                <td>{member['sponsors']['totalCount']}</td> */}
-              </tr>
-            )}
+            {'members' in data &&
+              data['members'].map((member: any, i: number) =>
+                <tr className="hover" key={i}>
+                  <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
+                  <td>{member['name']}</td>
+                  <td>{member['repositories']['totalCount']}</td>
+                  <td>{member['starredRepositories']['totalCount']}</td>
+                  <td>{member['followers']['totalCount']}</td>
+                  <td>{member['following']['totalCount']}</td>
+                  {/* <td>{member['organizations']['totalCount']}</td>
+                  <td>{member['sponsors']['totalCount']}</td> */}
+                </tr>
+              )
+            }
           </tbody>
         </table>
         {!loaded &&

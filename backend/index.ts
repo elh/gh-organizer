@@ -19,6 +19,9 @@ const octokit = new Octokit({
 
 // app + routes
 
+// serve data/data.json
+app.use('/data', express.static('data'));
+
 // query params: none
 app.get('/org', async (_, res) => {
   try {
