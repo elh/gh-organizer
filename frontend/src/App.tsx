@@ -1,4 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
+import DataTable from 'react-data-table-component';
+
+function caseInsensitiveSortFn(field: string) {
+  return (a: any, b: any) => {
+    const aVal = field in a && !!a[field] ? a[field].toLowerCase() : '';
+    const bVal = field in b && !!b[field] ? b[field].toLowerCase() : '';
+    if (aVal > bVal) return 1;
+    if (bVal > aVal) return -1;
+    return 0;
+  }
+}
+
+const columns = [
+  {
+      name: 'Login',
+      sortable: true,
+      sortFunction: caseInsensitiveSortFn('login'),
+      selector: (row: any) => row.login,
+      cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>
+  },
+  {
+      name: 'Name',
+      sortable: true,
+      sortFunction: caseInsensitiveSortFn('name'),
+      selector: (row: any) => row.name,
+  },
+  {
+    name: 'Org PRs',
+    sortable: true,
+    selector: (row: any) => row.prs.org_pr_count,
+  },
+  {
+    name: 'Repos',
+    sortable: true,
+    selector: (row: any) => row.repositories.totalCount,
+  },
+  {
+    name: 'Starred',
+    sortable: true,
+    selector: (row: any) => row.starredRepositories.totalCount,
+  },
+  {
+    name: 'Followers',
+    sortable: true,
+    selector: (row: any) => row.followers.totalCount,
+  },
+  {
+    name: 'Following',
+    sortable: true,
+    selector: (row: any) => row.following.totalCount,
+  },
+];
 
 function App() {
   const [data, setData] = useState<Record<string, any>>({});
@@ -63,42 +115,19 @@ function App() {
         </div>
       </div>
       <div className="px-6">
-        <table className="table table-xs table-pin-rows">
-          <thead>
-            <tr>
-              <th>Login</th>
-              <th>Name</th>
-              <th>Org PRs</th>
-              <th>Repos</th>
-              <th>Starred</th>
-              <th>Followers</th>
-              <th>Following</th>
-              {/* <th>Orgs</th>
-              <th>Sponsors</th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {'members' in data &&
-              data['members'].map((member: any, i: number) =>
-                <tr className="hover" key={i}>
-                  <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
-                  <td>{member['name']}</td>
-                  <td>{member['prs']['org_pr_count']}</td>
-                  <td>{member['repositories']['totalCount']}</td>
-                  <td>{member['starredRepositories']['totalCount']}</td>
-                  <td>{member['followers']['totalCount']}</td>
-                  <td>{member['following']['totalCount']}</td>
-                  {/* <td>{member['organizations']['totalCount']}</td>
-                  <td>{member['sponsors']['totalCount']}</td> */}
-                </tr>
-              )
-            }
-          </tbody>
-        </table>
         {!loaded &&
           <div className="flex justify-center items-center m-10">
             <span className="loading loading-spinner text-primary"></span>
           </div>
+        }
+        {'members' in data &&
+          <DataTable
+              columns={columns}
+              data={data['members']}
+              dense={true}
+              fixedHeader={true}
+              responsive={true}
+          />
         }
       </div>
     </div>
