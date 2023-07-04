@@ -92,9 +92,9 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
 }
 
 export async function getPRStats(octokit: Octokit, org: string, login: string): Promise<Record<string, any>> {
-  let threeMo = new Date();
+  const threeMo = new Date();
   threeMo.setMonth(threeMo.getMonth() - 3);
-  let twelveMo = new Date();
+  const twelveMo = new Date();
   twelveMo.setFullYear(twelveMo.getFullYear() - 1);
 
   const resp = await octokit.request("POST /graphql", {

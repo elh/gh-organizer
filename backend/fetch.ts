@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import { Octokit } from "octokit";
 import {getOrg, getMembers, getPRStats, getRepos} from './gh';
-import e from 'express';
 
 const file = 'data/data.json';
 

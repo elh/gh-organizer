@@ -8,7 +8,7 @@ import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 // parallelize fetching
 // repo page
 // viz? https://github.com/recharts/recharts, D3? https://2019.wattenberger.com/blog/react-and-d3
-// user data: first org PR
+// user data: first org PR + last org PR. org-wide timeline
 // go through all PRs. find past users. in subsequent calls look for different authors!
 // drop ts?
 
@@ -73,7 +73,13 @@ const darkStyles = {
       color: 'rgb(166, 173, 186)',
       fontSize: '10px',
     }
-  }
+  },
+  pagination: {
+    style: {
+      backgroundColor: 'rgb(29, 35, 42)',
+      color: 'rgb(166, 173, 186)',
+    }
+  },
 };
 
 const lightStyles = {
@@ -128,11 +134,9 @@ function App() {
   const columns = React.useMemo(
     () => [
       {
-        id: '',
+        id: 'avatarUrl',
         name: '',
-        // sortFunction: caseInsensitiveSortFn('login'),
-        // selector: (row: any) => row.login,
-        cell: (row: any) => <a href={`https://github.com/${row.login}`}><img src={row.avatarUrl} className='max-h-7 w-7'></img></a>,
+        cell: (row: any) => <a href={`https://github.com/${row.login}`}><img src={row.avatarUrl} className='max-h-6 w-6'></img></a>,
         maxWidth: "60px",
         minWidth: "60px",
       },
@@ -143,14 +147,14 @@ function App() {
           sortFunction: caseInsensitiveSortFn('login'),
           selector: (row: any) => row.login,
           cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
-          maxWidth: "400px",
+          maxWidth: "360px",
       },
       {
           name: 'Name',
           sortable: true,
           sortFunction: caseInsensitiveSortFn('name'),
           selector: (row: any) => row.name,
-          maxWidth: "400px",
+          maxWidth: "360px",
       },
       {
         name: 'Org PRs - 3mo',
@@ -203,6 +207,10 @@ function App() {
         maxWidth: "110px",
         omit: !showPersonal,
       },
+      {
+        id: 'personalButton',
+        name: <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowPersonal(!showPersonal)}>{showPersonal ? '-' : '+'} Personal</button>,
+      },
     ],
     [showPersonal],
   );
@@ -217,6 +225,7 @@ function App() {
           <div>
             {/* <img className="w-8 mx-2" src={data['org']['avatarUrl']} alt="logo"/> */}
             <span>{data['org']['name']}</span>
+            <span className="text-xs text-slate-500 pl-2">(last updated {data['lastUpdated']})</span>
           </div>
           }
         </div>
@@ -250,7 +259,7 @@ function App() {
                 dense={true}
                 fixedHeader={true}
                 responsive={true}
-                fixedHeaderScrollHeight={"84vh"}
+                fixedHeaderScrollHeight={"86vh"}
                 defaultSortFieldId={"login"}
                 theme={prefersDarkMode ? 'dark' : 'light'}
                 customStyles={prefersDarkMode ? darkStyles : lightStyles}
@@ -260,8 +269,6 @@ function App() {
                 paginationPerPage={100}
                 paginationRowsPerPageOptions={[25, 50, 100, 1000]}
             />
-            {/* TODO: push this button into the table headers using a ReactNode `name` */}
-            <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowPersonal(!showPersonal)}>Show/Hide Personal</button>
           </div>
         }
       </div>
