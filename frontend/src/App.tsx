@@ -24,6 +24,15 @@ function caseInsensitiveSortFn(field: string) {
 
 const columns = [
   {
+    id: '',
+    name: '',
+    // sortFunction: caseInsensitiveSortFn('login'),
+    // selector: (row: any) => row.login,
+    cell: (row: any) => <img src={row.avatarUrl} className='max-h-7 w-7'></img>,
+    maxWidth: "60px",
+    minWidth: "60px",
+  },
+  {
       id: 'login',
       name: 'Login',
       sortable: true,
@@ -137,7 +146,7 @@ const darkStyles = {
     style: {
       backgroundColor: 'rgb(29, 35, 42)',
       color: 'rgb(166, 173, 186)',
-      fontSize: '11px',
+      fontSize: '10px',
     }
   }
 };
@@ -145,7 +154,7 @@ const darkStyles = {
 const lightStyles = {
   expanderRow: {
     style: {
-      fontSize: '11px',
+      fontSize: '10px',
     }
   }
 };
@@ -231,12 +240,15 @@ function App() {
               dense={true}
               fixedHeader={true}
               responsive={true}
-              fixedHeaderScrollHeight={"90vh"}
+              fixedHeaderScrollHeight={"85vh"}
               defaultSortFieldId={"login"}
               theme={prefersDarkMode ? 'dark' : 'light'}
               customStyles={prefersDarkMode ? darkStyles : lightStyles}
               expandableRows
               expandableRowsComponent={ExpandedComponent}
+              pagination={true}
+              paginationPerPage={100}
+              paginationRowsPerPageOptions={[25, 50, 100, 1000]}
           />
         }
       </div>
