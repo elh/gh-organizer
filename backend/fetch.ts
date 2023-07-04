@@ -55,7 +55,7 @@ async function fetch() {
     console.timeEnd('getPRStats - all')
 
   } catch (err) {
-    console.error('An error occurred:', err);
+    console.error('An error occurred:', JSON.stringify(err, null, 2));
   }
 }
 
