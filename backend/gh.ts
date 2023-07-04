@@ -58,7 +58,7 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
                 name
               }
             }
-            repositories(isFork: false) {
+            repositories(isFork: false, privacy: PUBLIC) {
               totalCount
             }
             socialAccounts(first: 100) {
