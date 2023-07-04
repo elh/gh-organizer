@@ -1,3 +1,7 @@
+.PHONY: fetch
+fetch:
+	(cd backend; npx ts-node fetch.ts)
+
 .PHONY: run-backend
 run-backend-dev:
 	(cd backend; npm run dev)

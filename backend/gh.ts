@@ -35,15 +35,15 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
             login
             name
             avatarUrl
-            pronouns
-            bio
-            status {
-              emoji
-              message
-            }
-            email
-            twitterUsername
-            websiteUrl
+            # pronouns
+            # bio
+            # status {
+            #  emoji
+            #  message
+            # }
+            # email
+            # twitterUsername
+            # websiteUrl
             # attributes. not querying pull requests here. just some other simple stats
             followers {
               totalCount
@@ -51,35 +51,35 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
             following {
               totalCount
             }
-            organizations(first: 100) {
-              totalCount
-              pageInfo {
-                endCursor
-                hasNextPage
-              }
-              nodes {
-                login
-                name
-              }
-            }
+            # organizations(first: 100) {
+            #   totalCount
+            #   pageInfo {
+            #     endCursor
+            #     hasNextPage
+            #   }
+            #   nodes {
+            #     login
+            #     name
+            #   }
+            # }
             repositories(isFork: false, privacy: PUBLIC) {
               totalCount
             }
-            socialAccounts(first: 100) {
-              totalCount
-              pageInfo {
-                endCursor
-                hasNextPage
-              }
-              nodes {
-                displayName
-                provider
-                url
-              }
-            }
-            sponsors {
-              totalCount
-            }
+            # socialAccounts(first: 100) {
+            #   totalCount
+            #   pageInfo {
+            #     endCursor
+            #     hasNextPage
+            #   }
+            #   nodes {
+            #     displayName
+            #     provider
+            #     url
+            #   }
+            # }
+            # sponsors {
+            #   totalCount
+            # }
             starredRepositories {
               totalCount
             }
