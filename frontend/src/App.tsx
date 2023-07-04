@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
+import DarkModePreferredStatus from './DarkMode';
 
 // TODO: add a list of TODOs and put this on ice?
-
+//
 // Pages + React Router
 // user -> repo force directed graph
 // parallelize fetching
@@ -22,33 +23,7 @@ function caseInsensitiveSortFn(field: string) {
   }
 }
 
-// ty EdPike365/DarkModeBrowserPref.js
-function DarkModePreferredStatus() {
-  const [prefersDarkMode, setPrefersDarkMode] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  )
-
-  useEffect(() => {
-    function handleDarkModePrefferedChange() {
-      const doesMatch = window.matchMedia("(prefers-color-scheme: dark)").matches
-      setPrefersDarkMode(doesMatch)
-    }
-
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", handleDarkModePrefferedChange)
-
-    return () => {
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", handleDarkModePrefferedChange)
-    }
-  }, [])
-
-  return prefersDarkMode
-}
-
-const darkStyles = {
+const dataTableDarkStyles = {
   cells: {
     style: {
       backgroundColor: 'rgb(29, 35, 42)',
@@ -82,7 +57,7 @@ const darkStyles = {
   },
 };
 
-const lightStyles = {
+const dataTableLightStyles = {
   expanderRow: {
     style: {
       fontSize: '10px',
@@ -90,11 +65,11 @@ const lightStyles = {
   }
 };
 
-const ExpandedComponent: React.FC<ExpanderComponentProps<Record<string, any>>> = ({ data }) => {
+const DataTableExpanded: React.FC<ExpanderComponentProps<Record<string, any>>> = ({ data }) => {
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 };
 
-function App() {
+function MemberTable() {
   const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
@@ -215,7 +190,6 @@ function App() {
     [showPersonal],
   );
 
-  // Consider https://github.com/jbetancur/react-data-table-component for sorting
   return (
     <div className="overflow-x-auto">
       <div className="navbar bg-base-100">
@@ -246,33 +220,37 @@ function App() {
         </div>
       </div>
       <div className="px-6">
-        {!loaded &&
-          <div className="flex justify-center items-center m-10">
-            <span className="loading loading-spinner text-primary"></span>
-          </div>
-        }
-        {'members' in data &&
-          <div>
-            <DataTable
-                columns={columns}
-                data={data['members']}
-                dense={true}
-                fixedHeader={true}
-                responsive={true}
-                fixedHeaderScrollHeight={"86vh"}
-                defaultSortFieldId={"login"}
-                theme={prefersDarkMode ? 'dark' : 'light'}
-                customStyles={prefersDarkMode ? darkStyles : lightStyles}
-                expandableRows
-                expandableRowsComponent={ExpandedComponent}
-                pagination={true}
-                paginationPerPage={100}
-                paginationRowsPerPageOptions={[25, 50, 100, 1000]}
-            />
-          </div>
+        {!loaded
+          ? <div className="flex justify-center items-center m-10">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          : <div>
+              <DataTable
+                  columns={columns}
+                  data={data['members']}
+                  dense={true}
+                  fixedHeader={true}
+                  responsive={true}
+                  fixedHeaderScrollHeight={"86vh"}
+                  defaultSortFieldId={"login"}
+                  theme={prefersDarkMode ? 'dark' : 'light'}
+                  customStyles={prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
+                  expandableRows
+                  expandableRowsComponent={DataTableExpanded}
+                  pagination={true}
+                  paginationPerPage={100}
+                  paginationRowsPerPageOptions={[25, 50, 100, 1000]}
+              />
+            </div>
         }
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <MemberTable></MemberTable>
   );
 }
 

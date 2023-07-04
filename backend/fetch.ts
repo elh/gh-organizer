@@ -29,7 +29,12 @@ function fetcherEnabled(name: string): boolean {
 async function fetch() {
   try {
     // load existing file. if file does not exist, data is an empty object
-    let data: any = {};
+    let data: any = {
+      'lastUpdated': '',
+      'org': {},
+      'members': [],
+      'repos': [],
+    };
     try {
       const jsonString = await fs.readFile(file, 'utf-8');
       data = JSON.parse(jsonString);
