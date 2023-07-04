@@ -29,16 +29,19 @@ const columns = [
     name: 'Org PRs',
     sortable: true,
     selector: (row: any) => row.prs.org_pr_count,
+    cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.org_pr_count}</a>
   },
   {
     name: 'Repos',
     sortable: true,
     selector: (row: any) => row.repositories.totalCount,
+    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>
   },
   {
     name: 'Starred',
     sortable: true,
     selector: (row: any) => row.starredRepositories.totalCount,
+    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>
   },
   {
     name: 'Followers',
