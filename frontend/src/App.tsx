@@ -69,42 +69,8 @@ const DataTableExpanded: React.FC<ExpanderComponentProps<Record<string, any>>> =
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 };
 
-function MemberTable() {
-  const [data, setData] = useState<Record<string, any>>({});
-  const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
-  const [loaded, setLoaded] = useState(false);
-
+function MemberTable(props: any) {
   const [showPersonal, setShowPersonal] = React.useState(false);
-
-  const prefersDarkMode = DarkModePreferredStatus();
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch('/data/data.json');
-      if (!response.ok) {
-        console.log(response.text());
-        return { success: false };
-      }
-      const json = await response.json();
-      return { success: true, data: json };
-    } catch (error) {
-      console.log(error);
-      return { success: false };
-    }
-  }
-
-  useEffect(() => {
-    (async () => {
-      if (fetchStarted.current) return;
-      fetchStarted.current = true;
-
-      const res = await fetchData();
-      if (res.success) {
-        setData(res.data);
-      }
-      setLoaded(true);
-    })();
-  }, []);
 
   const columns = React.useMemo(
     () => [
@@ -191,6 +157,70 @@ function MemberTable() {
   );
 
   return (
+    <div>
+      {!props.loaded
+          ? <div className="flex justify-center items-center m-10">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          : <div>
+              <DataTable
+                  columns={columns}
+                  data={props.data['members']}
+                  dense={true}
+                  fixedHeader={true}
+                  responsive={true}
+                  fixedHeaderScrollHeight={"86vh"}
+                  defaultSortFieldId={"login"}
+                  theme={props.prefersDarkMode ? 'dark' : 'light'}
+                  customStyles={props.prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
+                  expandableRows
+                  expandableRowsComponent={DataTableExpanded}
+                  pagination={true}
+                  paginationPerPage={100}
+                  paginationRowsPerPageOptions={[25, 50, 100, 1000]}
+              />
+            </div>
+        }
+    </div>
+  );
+}
+
+function App() {
+  const [data, setData] = useState<Record<string, any>>({});
+  const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
+  const [loaded, setLoaded] = useState(false);
+
+  const prefersDarkMode = DarkModePreferredStatus();
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/data/data.json');
+      if (!response.ok) {
+        console.log(response.text());
+        return { success: false };
+      }
+      const json = await response.json();
+      return { success: true, data: json };
+    } catch (error) {
+      console.log(error);
+      return { success: false };
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      if (fetchStarted.current) return;
+      fetchStarted.current = true;
+
+      const res = await fetchData();
+      if (res.success) {
+        setData(res.data);
+      }
+      setLoaded(true);
+    })();
+  }, []);
+
+  return (
     <div className="overflow-x-auto">
       <div className="navbar bg-base-100">
         <div className="flex-1">
@@ -220,37 +250,10 @@ function MemberTable() {
         </div>
       </div>
       <div className="px-6">
-        {!loaded
-          ? <div className="flex justify-center items-center m-10">
-              <span className="loading loading-spinner text-primary"></span>
-            </div>
-          : <div>
-              <DataTable
-                  columns={columns}
-                  data={data['members']}
-                  dense={true}
-                  fixedHeader={true}
-                  responsive={true}
-                  fixedHeaderScrollHeight={"86vh"}
-                  defaultSortFieldId={"login"}
-                  theme={prefersDarkMode ? 'dark' : 'light'}
-                  customStyles={prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
-                  expandableRows
-                  expandableRowsComponent={DataTableExpanded}
-                  pagination={true}
-                  paginationPerPage={100}
-                  paginationRowsPerPageOptions={[25, 50, 100, 1000]}
-              />
-            </div>
-        }
+        {/* Content */}
+        <MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>
       </div>
     </div>
-  );
-}
-
-function App() {
-  return (
-    <MemberTable></MemberTable>
   );
 }
 
