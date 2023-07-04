@@ -39,6 +39,12 @@ function App() {
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost normal-case text-xl">gh-organizer</a>
+          {'org' in data &&
+          <div>
+            {/* <img className="w-8 mx-2" src={data['org']['avatarUrl']} alt="logo"/> */}
+            <span>{data['org']['name']}</span>
+          </div>
+          }
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
@@ -62,6 +68,7 @@ function App() {
             <tr>
               <th>Login</th>
               <th>Name</th>
+              <th>Org PRs</th>
               <th>Repos</th>
               <th>Starred</th>
               <th>Followers</th>
@@ -76,6 +83,7 @@ function App() {
                 <tr className="hover" key={i}>
                   <th><a href={`https://github.com/${member['login']}`} className="link link-hover">{member['login']}</a></th>
                   <td>{member['name']}</td>
+                  <td>{member['prs']['org_pr_count']}</td>
                   <td>{member['repositories']['totalCount']}</td>
                   <td>{member['starredRepositories']['totalCount']}</td>
                   <td>{member['followers']['totalCount']}</td>

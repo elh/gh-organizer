@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import { Octokit } from "octokit";
-import {getOrg, getMembers} from './gh';
+import {getOrg, getMembers, getPRStats} from './gh';
 
 // env vars
 dotenv.config();
@@ -42,6 +42,17 @@ async function fetch() {
       cursor = resp.pageInfo.endCursor;
     }
     console.timeEnd('getMembers - all')
+
+    // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+    console.time('getPRStats - all')
+    for (const member of data['members']) {
+      console.time('getPRStats')
+      const stats = await getPRStats(octokit, String(process.env.GH_ORG), member.login);
+      console.timeEnd('getPRStats')
+      member['prs'] = stats;
+      await fs.writeFile('data/data.json', JSON.stringify(data, null, 2));
+    }
+    console.timeEnd('getPRStats - all')
 
   } catch (err) {
     console.error('An error occurred:', err);
