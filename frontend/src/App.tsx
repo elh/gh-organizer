@@ -13,45 +13,53 @@ function caseInsensitiveSortFn(field: string) {
 
 const columns = [
   {
+      id: 'login',
       name: 'Login',
       sortable: true,
       sortFunction: caseInsensitiveSortFn('login'),
       selector: (row: any) => row.login,
-      cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>
+      cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
+      maxWidth: "400px",
   },
   {
       name: 'Name',
       sortable: true,
       sortFunction: caseInsensitiveSortFn('name'),
       selector: (row: any) => row.name,
+      maxWidth: "400px",
   },
   {
     name: 'Org PRs',
     sortable: true,
     selector: (row: any) => row.prs.org_pr_count,
-    cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.org_pr_count}</a>
+    cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.org_pr_count}</a>,
+    maxWidth: "120px",
   },
   {
     name: 'Repos',
     sortable: true,
     selector: (row: any) => row.repositories.totalCount,
-    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>
+    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>,
+    maxWidth: "120px",
   },
   {
     name: 'Starred',
     sortable: true,
     selector: (row: any) => row.starredRepositories.totalCount,
-    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>
+    cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>,
+    maxWidth: "120px",
   },
   {
     name: 'Followers',
     sortable: true,
     selector: (row: any) => row.followers.totalCount,
+    maxWidth: "120px",
   },
   {
     name: 'Following',
     sortable: true,
     selector: (row: any) => row.following.totalCount,
+    maxWidth: "120px",
   },
 ];
 
@@ -130,6 +138,8 @@ function App() {
               dense={true}
               fixedHeader={true}
               responsive={true}
+              fixedHeaderScrollHeight={"90vh"}
+              defaultSortFieldId={"login"}
           />
         }
       </div>
