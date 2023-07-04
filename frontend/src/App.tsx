@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 
+// TODO: add a list of TODOs and put this on ice?
+
+// Pages + React Router
+// user -> repo force directed graph
+// parallelize fetching
+// repo page
+// viz? https://github.com/recharts/recharts, D3? https://2019.wattenberger.com/blog/react-and-d3
+// user data: first org PR
+// go through all PRs. find past users. in subsequent calls look for different authors!
+// drop ts?
+
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
     const aVal = field in a && !!a[field] ? a[field].toLowerCase() : '';
