@@ -2,15 +2,15 @@ import { Octokit } from "octokit";
 
 export async function getOrg(octokit: Octokit, org: string): Promise<Record<string, any>> {
   const resp = await octokit.request("POST /graphql", {
-    query: `query ($login: String!) {
-      organization(login: $login) {
+    query: `query ($org: String!) {
+      organization(login: $org) {
         avatarUrl
         description
         name
       }
     }`,
     variables: {
-      login: org,
+      org,
     },
   });
   if (resp.data.errors) {
@@ -22,8 +22,8 @@ export async function getOrg(octokit: Octokit, org: string): Promise<Record<stri
 export async function getMembers(octokit: Octokit, org: string, cursor: string | null): Promise<Record<string, any>> {
   const pageSize = 20;
   const resp = await octokit.request("POST /graphql", {
-    query: `query ($login: String!, $after: String, $pageSize: Int!) {
-      organization(login: $login) {
+    query: `query ($org: String!, $after: String, $pageSize: Int!) {
+      organization(login: $org) {
         membersWithRole(first: $pageSize, after: $after) {
           totalCount
           pageInfo {
@@ -31,55 +31,55 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
             hasNextPage
           }
           nodes {
-            # bio
+            ######## bio ########
             login
             name
             avatarUrl
-            # pronouns
-            # bio
-            # status {
-            #  emoji
-            #  message
-            # }
-            # email
-            # twitterUsername
-            # websiteUrl
-            # attributes. not querying pull requests here. just some other simple stats
+            pronouns
+            bio
+            status {
+             emoji
+             message
+            }
+            email
+            twitterUsername
+            websiteUrl
+            ######## attributes. not querying pull requests here. just some other simple stats ########
             followers {
               totalCount
             }
             following {
               totalCount
             }
-            # organizations(first: 100) {
-            #   totalCount
-            #   pageInfo {
-            #     endCursor
-            #     hasNextPage
-            #   }
-            #   nodes {
-            #     login
-            #     name
-            #   }
-            # }
-            repositories(isFork: false, privacy: PUBLIC) {
+            organizations(first: 100) {
+              totalCount
+              pageInfo {
+                endCursor
+                hasNextPage
+              }
+              nodes {
+                login
+                name
+              }
+            }
+            repositories(isFork: false) {
               totalCount
             }
-            # socialAccounts(first: 100) {
-            #   totalCount
-            #   pageInfo {
-            #     endCursor
-            #     hasNextPage
-            #   }
-            #   nodes {
-            #     displayName
-            #     provider
-            #     url
-            #   }
-            # }
-            # sponsors {
-            #   totalCount
-            # }
+            socialAccounts(first: 100) {
+              totalCount
+              pageInfo {
+                endCursor
+                hasNextPage
+              }
+              nodes {
+                displayName
+                provider
+                url
+              }
+            }
+            sponsors {
+              totalCount
+            }
             starredRepositories {
               totalCount
             }
@@ -88,7 +88,7 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
       }
     }`,
     variables: {
-      login: org,
+      org: org,
       pageSize: pageSize,
       after: cursor,
     },
