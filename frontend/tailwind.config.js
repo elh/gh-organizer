@@ -8,8 +8,9 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["light", "dark"],
-    darkTheme: "dark",
+    themes: ["light"], // extra components will not fit dark theme style automatically
+    // themes: ["light", "dark"],
+    // darkTheme: "dark",
   },
 }
 
