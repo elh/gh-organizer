@@ -63,10 +63,53 @@ const columns = [
   },
 ];
 
+// ty EdPike365/DarkModeBrowserPref.js
+function DarkModePreferredStatus() {
+  const [prefersDarkMode, setPrefersDarkMode] = useState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  )
+
+  useEffect(() => {
+    function handleDarkModePrefferedChange() {
+      const doesMatch = window.matchMedia("(prefers-color-scheme: dark)").matches
+      setPrefersDarkMode(doesMatch)
+    }
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", handleDarkModePrefferedChange)
+
+    return () => {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", handleDarkModePrefferedChange)
+    }
+  }, [])
+
+  return prefersDarkMode
+}
+
+const darkStyles = {
+  cells: {
+    style: {
+      backgroundColor: 'rgb(29, 35, 42)',
+      color: 'rgb(166, 173, 186)',
+    }
+  },
+  headRow: {
+    style: {
+      backgroundColor: 'rgb(29, 35, 42)',
+      color: 'rgb(166, 173, 186)',
+    }
+  }
+};
+
 function App() {
   const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
+
+  const prefersDarkMode = DarkModePreferredStatus();
 
   const fetchData = async () => {
     try {
@@ -140,6 +183,8 @@ function App() {
               responsive={true}
               fixedHeaderScrollHeight={"90vh"}
               defaultSortFieldId={"login"}
+              theme={prefersDarkMode ? 'dark' : 'light'}
+              customStyles={prefersDarkMode ? darkStyles : undefined}
           />
         }
       </div>
