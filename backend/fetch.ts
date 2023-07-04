@@ -37,7 +37,8 @@ async function fetch() {
     } catch (err) {
       console.log('No existing data file found. Creating new one.');
     }
-
+    data['lastUpdated'] = new Date().toISOString();
+    console.time('fetch')
 
     if (!('org' in data) || fetcherEnabled('org')) {
       console.time('getOrg')
@@ -101,6 +102,8 @@ async function fetch() {
       }
       console.timeEnd('getRepos - all')
     }
+
+    console.timeEnd('fetch')
 
   } catch (err) {
     console.error('An error occurred:', JSON.stringify(err, null, 2));

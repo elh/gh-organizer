@@ -92,23 +92,34 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
 }
 
 export async function getPRStats(octokit: Octokit, org: string, login: string): Promise<Record<string, any>> {
+  let threeMo = new Date();
+  threeMo.setMonth(threeMo.getMonth() - 3);
+  let twelveMo = new Date();
+  twelveMo.setFullYear(twelveMo.getFullYear() - 1);
+
   const resp = await octokit.request("POST /graphql", {
-    query: `query ($pageSize: Int!, $query: String!) {
-      search(query: $query, first: $pageSize, type: ISSUE) {
+    query: `query ($pageSize: Int!, $orgPrCountQuery: String!, $threeMoOrgPrCountQuery: String!, $twelveMoOrgPrCountQuery: String!) {
+      orgPrCount: search(query: $orgPrCountQuery, first: $pageSize, type: ISSUE) {
+        issueCount
+      }
+      threeMoOrgPrCount: search(query: $threeMoOrgPrCountQuery, first: $pageSize, type: ISSUE) {
+        issueCount
+      }
+      twelveMoOrgPrCount: search(query: $twelveMoOrgPrCountQuery, first: $pageSize, type: ISSUE) {
         issueCount
       }
     }`,
     variables: {
-      query: `is:pr org:${org} author:${login}`,
+      orgPrCountQuery: `is:pr org:${org} author:${login}`,
+      threeMoOrgPrCountQuery: `is:pr org:${org} author:${login} created:>${threeMo.toISOString().slice(0,10)}`,
+      twelveMoOrgPrCountQuery: `is:pr org:${org} author:${login} created:>${twelveMo.toISOString().slice(0,10)}`,
       pageSize: 1,
     },
   });
   if (resp.data.errors) {
     throw new Error(`Error querying Github: ${String(resp.data.errors)}`);
   }
-  return {
-    'org_pr_count': resp.data.data.search.issueCount,
-  };
+  return resp.data.data;
 }
 
 export async function getRepos(octokit: Octokit, org: string, cursor: string | null): Promise<Record<string, any>> {
@@ -126,6 +137,7 @@ export async function getRepos(octokit: Octokit, org: string, cursor: string | n
             name
             description
             isArchived
+            isFork
             createdAt
             pushedAt
             archivedAt
