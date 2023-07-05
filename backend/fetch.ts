@@ -12,19 +12,25 @@ if (!process.env.GH_TOKEN) {
   process.exit(1);
 }
 
-// `npx ts-node fetch.ts <org> <fetchers>`
+// `npx ts-node fetch.ts <mode> <owner> <fetchers>`
 // `npx ts-node fetch.ts clojure all`
-// 1) org is a github org to fetch
+// 1) mode is either "org" or "user"
+// 1) owner is a github org or user to fetch for
 // 2) fetchers is a comma-separated list of fetchers to run
 //      options: org, members, members-prs, repo-prs, nonmembers, nonmembers-prs, all. if all, run all fetchers
 //      example: "org,members"
-console.log(process.argv)
-if (process.argv.length < 4) {
-  console.error('Usage: npx ts-node fetch.ts <org> <fetchers>');
+//      hack: "org" also applies to the "user" mode owner
+if (process.argv.length < 5) {
+  console.error('Usage: npx ts-node fetch.ts <mode> <owner> <fetchers>');
   process.exit(1);
 }
-const org = process.argv[2];
-const fetchers = process.argv[3] ? process.argv[3].split(',') : [];
+const mode = process.argv[2];
+const orgOrUser = process.argv[3]; // the owner
+const fetchers = process.argv[4] ? process.argv[4].split(',') : [];
+if (mode !== 'org' && mode !== 'user') {
+  console.error('Mode must be either "org" or "user"');
+  process.exit(1);
+}
 
 // set up
 const octokit = new Octokit({
@@ -40,7 +46,9 @@ async function fetch() {
     // load existing file. if file does not exist, data is an empty object
     let data: any = {
       'lastUpdated': '',
-      'org': {},
+      // // org xor user object will be present
+      // 'org': {},
+      // 'user': {},
       'members': [],
       'repos': [],
       'nonMemberLogins': {},
@@ -56,43 +64,53 @@ async function fetch() {
     data['lastUpdated'] = new Date().toISOString();
     console.time('fetch')
 
-    if (!('org' in data) || fetcherEnabled('org')) {
-      console.time('getOrg')
-      data['org'] = await getOrg(octokit, org);
-      console.timeEnd('getOrg')
-      await fs.writeFile(file, JSON.stringify(data, null, 2));
-    }
-
-    if (!('members' in data) || fetcherEnabled('members')) {
-      data['members'] = [];
-      let cursor: string | null = null;
-      let done = false;
-      console.time('getMembers - all')
-      let i = 0;
-      while (!done) { // ts really doesn't like constant condition loops
-        console.time('getMembers - ' + i)
-        const resp = await getMembers(octokit, org, cursor);
-        console.timeEnd('getMembers - ' + i)
-        data['members'] = data['members'].concat(resp.nodes);
+    if (fetcherEnabled('org')) {
+      if (mode == 'org') {
+        console.time('getOrg')
+        data['org'] = await getOrg(octokit, orgOrUser);
+        console.timeEnd('getOrg')
         await fs.writeFile(file, JSON.stringify(data, null, 2));
-
-        if (!resp.pageInfo.hasNextPage) {
-          done = true;
-          break;
-        }
-        cursor = resp.pageInfo.endCursor;
-        i++
+      } else {
+        console.time('getUser')
+        data['user'] = await getUser(octokit, orgOrUser);
+        console.timeEnd('getUser')
+        await fs.writeFile(file, JSON.stringify(data, null, 2));
       }
-      console.timeEnd('getMembers - all')
     }
 
-    // only run if explicitly requested
+    if (fetcherEnabled('members')) {
+      if (mode == 'org') {
+        data['members'] = [];
+        let cursor: string | null = null;
+        let done = false;
+        console.time('getMembers - all')
+        let i = 0;
+        while (!done) { // ts really doesn't like constant condition loops
+          console.time('getMembers - ' + i)
+          const resp = await getMembers(octokit, orgOrUser, cursor);
+          console.timeEnd('getMembers - ' + i)
+          data['members'] = data['members'].concat(resp.nodes);
+          await fs.writeFile(file, JSON.stringify(data, null, 2));
+
+          if (!resp.pageInfo.hasNextPage) {
+            done = true;
+            break;
+          }
+          cursor = resp.pageInfo.endCursor;
+          i++
+        }
+        console.timeEnd('getMembers - all')
+      } else {
+        data['members'] = [data['user']];
+      }
+    }
+
     if (fetcherEnabled('members-prs')) {
-      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      // TODO: do this in a promise pool
       console.time('getPRStats - all')
       for (const member of data['members']) {
         console.time('getPRStats - ' + member.login)
-        const stats = await getPRStats(octokit, org, member.login);
+        const stats = await getPRStats(octokit, orgOrUser, member.login);
         console.timeEnd('getPRStats - ' + member.login)
         member['prs'] = stats;
         await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -100,7 +118,7 @@ async function fetch() {
       console.timeEnd('getPRStats - all')
     }
 
-    if (!('repos' in data) || fetcherEnabled('repos')) {
+    if (fetcherEnabled('repos')) {
       data['repos'] = [];
       let cursor: string | null = null;
       let done = false;
@@ -108,7 +126,7 @@ async function fetch() {
       let i = 0;
       while (!done) { // ts really doesn't like constant condition loops
         console.time('getRepos - ' + i)
-        const resp = await getRepos(octokit, org, cursor);
+        const resp = await getRepos(octokit, mode == "org" ? "organization" : "user", orgOrUser, cursor);
         console.timeEnd('getRepos - ' + i)
         data['repos'] = data['repos'].concat(resp.nodes);
         await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -123,9 +141,8 @@ async function fetch() {
       console.timeEnd('getRepos - all')
     }
 
-    // only run if explicitly requested
     if (fetcherEnabled('repo-prs')) {
-      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      // TODO: do this in a promise pool
       console.time('getRepoPullRequests - all')
       for (const repo of data['repos']) {
         console.time('getRepoPullRequests - ' + repo.name)
@@ -135,7 +152,14 @@ async function fetch() {
         let i = 0;
         while (!done) { // ts really doesn't like constant condition loops
           console.time('getRepoPullRequests - ' + repo.name + ' - ' + i)
-          const resp = await getRepoPullRequests(octokit, org, repo.name, cursor);
+          let resp: Record<string, any> = {};
+          try {
+            resp = await getRepoPullRequests(octokit, orgOrUser, repo.name, cursor);
+          } catch (err) {
+            console.error('Error fetching PRs for repo ' + repo.name + ': ' + err);
+            console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)
+            break;
+          }
           console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)
 
           for (const pr of resp.nodes) {
@@ -179,9 +203,8 @@ async function fetch() {
       console.timeEnd('getRepoPullRequests - all')
     }
 
-    // only run if explicitly requested
     if (fetcherEnabled('nonmembers')) {
-      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      // TODO: do this in a promise pool
       console.time('getUser - all')
       for (const nonMemberLogin of Object.keys(data['nonMemberLogins'])) {
         try {
@@ -198,13 +221,12 @@ async function fetch() {
       console.timeEnd('getUser - all')
     }
 
-    // only run if explicitly requested
     if (fetcherEnabled('nonmembers-prs')) {
-      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      // TODO: do this in a promise pool
       console.time('getNonMemberPRStats - all')
       for (const nonmember of data['nonMembers']) {
         console.time('getNonMemberPRStats - ' + nonmember.login)
-        const stats = await getPRStats(octokit, org, nonmember.login);
+        const stats = await getPRStats(octokit, orgOrUser, nonmember.login);
         console.timeEnd('getNonMemberPRStats - ' + nonmember.login)
         nonmember['prs'] = stats;
         await fs.writeFile(file, JSON.stringify(data, null, 2));

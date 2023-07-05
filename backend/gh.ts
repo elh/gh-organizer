@@ -153,7 +153,7 @@ export async function getUser(octokit: Octokit, login: string): Promise<Record<s
   return resp.data.data.user
 }
 
-export async function getPRStats(octokit: Octokit, org: string, login: string): Promise<Record<string, any>> {
+export async function getPRStats(octokit: Octokit, orgOrUser: string, login: string): Promise<Record<string, any>> {
   const threeMo = new Date();
   threeMo.setMonth(threeMo.getMonth() - 3);
   const twelveMo = new Date();
@@ -172,9 +172,9 @@ export async function getPRStats(octokit: Octokit, org: string, login: string): 
       }
     }`,
     variables: {
-      orgPrCountQuery: `is:pr org:${org} author:${login}`,
-      threeMoOrgPrCountQuery: `is:pr org:${org} author:${login} created:>${threeMo.toISOString().slice(0,10)}`,
-      twelveMoOrgPrCountQuery: `is:pr org:${org} author:${login} created:>${twelveMo.toISOString().slice(0,10)}`,
+      orgPrCountQuery: `is:pr org:${orgOrUser} author:${login}`,
+      threeMoOrgPrCountQuery: `is:pr org:${orgOrUser} author:${login} created:>${threeMo.toISOString().slice(0,10)}`,
+      twelveMoOrgPrCountQuery: `is:pr org:${orgOrUser} author:${login} created:>${twelveMo.toISOString().slice(0,10)}`,
       pageSize: 1,
     },
   });
@@ -184,12 +184,13 @@ export async function getPRStats(octokit: Octokit, org: string, login: string): 
   return resp.data.data;
 }
 
-export async function getRepos(octokit: Octokit, org: string, cursor: string | null): Promise<Record<string, any>> {
+// TODO: control for visibility
+export async function getRepos(octokit: Octokit, type: "organization"| "user", orgOrUser: string, cursor: string | null): Promise<Record<string, any>> {
   const pageSize = 20;
   const resp = await octokit.request("POST /graphql", {
-    query: `query ($org: String!, $after: String, $pageSize: Int!) {
-      organization(login: $org) {
-        repositories(first: $pageSize, after: $after) {
+    query: `query ($orgOrUser: String!, $after: String, $pageSize: Int!) {
+      ${type}(login: $orgOrUser) {
+        repositories(first: $pageSize, after: $after, ownerAffiliations: OWNER) {
           totalCount
           pageInfo {
             endCursor
@@ -223,7 +224,7 @@ export async function getRepos(octokit: Octokit, org: string, cursor: string | n
       }
     }`,
     variables: {
-      org: org,
+      orgOrUser,
       pageSize: pageSize,
       after: cursor,
     },
@@ -231,14 +232,17 @@ export async function getRepos(octokit: Octokit, org: string, cursor: string | n
   if (resp.data.errors) {
     throw new Error(`Error querying Github: ${JSON.stringify(resp.data.errors, null, 2)}`);
   }
+  if (type === "user") {
+    return resp.data.data.user.repositories
+  }
   return resp.data.data.organization.repositories
 }
 
-export async function getRepoPullRequests(octokit: Octokit, org: string, repo: string, cursor: string | null): Promise<Record<string, any>> {
+export async function getRepoPullRequests(octokit: Octokit, orgOrUser: string, repo: string, cursor: string | null): Promise<Record<string, any>> {
   const pageSize = 100;
   const resp = await octokit.request("POST /graphql", {
-    query: `query ($org: String!, $repo: String!, $after: String, $pageSize: Int!) {
-      repository(owner: $org, name: $repo) {
+    query: `query ($orgOrUser: String!, $repo: String!, $after: String, $pageSize: Int!) {
+      repository(owner: $orgOrUser, name: $repo) {
         # orderBy?
         pullRequests(first: $pageSize, after: $after) {
           totalCount
@@ -256,7 +260,7 @@ export async function getRepoPullRequests(octokit: Octokit, org: string, repo: s
       }
     }`,
     variables: {
-      org: org,
+      orgOrUser,
       repo: repo,
       pageSize: pageSize,
       after: cursor,

@@ -6,9 +6,12 @@ import { Chart as GoogleChart } from "react-google-charts";
 
 // TODO: add a list of TODOs and put this on ice?
 //
+// support serving multiple data.json files for users/orgs at the same time
 // user -> repo force directed graph
 // parallelize fetching
-// make this usable for single user; not just orgs
+// starred repos
+
+// TODO: update UI to handle if in user mode
 
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {

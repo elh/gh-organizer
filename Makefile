@@ -1,6 +1,7 @@
+# janky arg passing...
 .PHONY: fetch
 fetch:
-	(cd backend; npx ts-node fetch.ts $(ORG) $(FETCHERS))
+	(cd backend; npx ts-node fetch.ts $(MODE) $(OWNER) $(FETCHERS))
 
 .PHONY: run-backend
 run-backend-dev:
