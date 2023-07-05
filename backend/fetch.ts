@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import { Octokit } from "octokit";
-import {getOrg, getMembers, getPRStats, getRepos, getRepoPullRequests} from './gh';
+import {getOrg, getMembers, getPRStats, getRepos, getRepoPullRequests, getUser} from './gh';
 
 const file = 'data/data.json';
 
@@ -13,7 +13,7 @@ if (!process.env.GH_TOKEN || !process.env.GH_ORG) {
 }
 
 // command line args: a comma-separated list of fetchers to run
-// options: org, members, members-prs, repo-prs, all. if all, run all fetchers
+// options: org, members, members-prs, repo-prs, nonmembers, all. if all, run all fetchers
 // example: "org,members"
 const fetchers = process.argv[2] ? process.argv[2].split(',') : [];
 
@@ -36,6 +36,7 @@ async function fetch() {
       'repos': [],
       'nonMemberLogins': {},
       'prDates': {},
+      'nonMembers': [],
     };
     try {
       const jsonString = await fs.readFile(file, 'utf-8');
@@ -165,6 +166,25 @@ async function fetch() {
         console.timeEnd('getRepoPullRequests - ' + repo.name)
       }
       console.timeEnd('getRepoPullRequests - all')
+    }
+
+    // only run if explicitly requested
+    if (fetcherEnabled('nonmembers')) {
+      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      console.time('getUser - all')
+      for (const nonMemberLogin of Object.keys(data['nonMemberLogins'])) {
+        try {
+          console.time('getUser - ' + nonMemberLogin)
+          const user = await getUser(octokit, nonMemberLogin);
+          data.nonMembers.push(user);
+        } catch (err) {
+          // hack: some are non-user bots like dependabot
+          console.log("ignoring error for " + nonMemberLogin)
+        }
+        console.timeEnd('getUser - ' + nonMemberLogin)
+        await fs.writeFile(file, JSON.stringify(data, null, 2));
+      }
+      console.timeEnd('getUser - all')
     }
 
     // TODO: pull down details for the non-members + show on the page

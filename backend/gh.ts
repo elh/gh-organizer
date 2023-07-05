@@ -92,6 +92,67 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
   return resp.data.data.organization.membersWithRole
 }
 
+export async function getUser(octokit: Octokit, login: string): Promise<Record<string, any>> {
+  const resp = await octokit.request("POST /graphql", {
+    query: `query ($login: String!) {
+      user(login: $login) {
+        ######## bio ########
+        login
+        name
+        avatarUrl
+        pronouns
+        bio
+        status {
+          emoji
+          message
+        }
+        email
+        twitterUsername
+        websiteUrl
+        ######## attributes. not querying pull requests here. just some other simple stats ########
+        followers {
+          totalCount
+        }
+        following {
+          totalCount
+        }
+        organizations(first: 100) {
+          totalCount
+          nodes {
+            login
+            name
+          }
+        }
+        repositories(isFork: false, privacy: PUBLIC) {
+          totalCount
+        }
+        socialAccounts(first: 100) {
+          totalCount
+          nodes {
+            displayName
+            provider
+            url
+          }
+        }
+        sponsors {
+          totalCount
+        }
+        starredRepositories {
+          totalCount
+        }
+      }
+    }`,
+    variables: {
+      login
+    },
+  });
+  if (resp.data.errors) {
+    console.log(resp.data.errors)
+    throw new Error(`Error querying Github: ${String(resp.data.errors)}`);
+  }
+  return resp.data.data.user
+}
+
 export async function getPRStats(octokit: Octokit, org: string, login: string): Promise<Record<string, any>> {
   const threeMo = new Date();
   threeMo.setMonth(threeMo.getMonth() - 3);
