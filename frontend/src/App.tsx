@@ -70,6 +70,7 @@ const DataTableExpanded: React.FC<ExpanderComponentProps<Record<string, any>>> =
 
 function MemberTable(props: any) {
   const [showPersonal, setShowPersonal] = React.useState(false);
+  const [showNonMembers, setShowNonMembers] = React.useState(false);
 
   const columns = React.useMemo(
     () => {
@@ -88,7 +89,9 @@ function MemberTable(props: any) {
               sortable: true,
               sortFunction: caseInsensitiveSortFn('login'),
               selector: (row: any) => row.login,
-              cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
+              cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">
+                {'nonMemberLogins' in props.data && row.login in props.data.nonMemberLogins ? row.login + '†' : row.login}
+              </a>,
               maxWidth: "360px",
           },
           {
@@ -150,14 +153,19 @@ function MemberTable(props: any) {
             omit: !showPersonal,
           },
           {
-            id: 'personalButton',
-            name: <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowPersonal(!showPersonal)}>{showPersonal ? '-' : '+'} Personal</button>,
+            id: 'buttons',
+            name: <div>
+              <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowNonMembers(!showNonMembers)}>{showNonMembers ? '-' : '+'} Non-members</button>
+              <button className="btn btn-xs btn-ghost font-light hidden" onClick={() => setShowPersonal(!showPersonal)}>{showPersonal ? '-' : '+'} Personal</button>
+            </div>,
+            maxWidth: "160px",
           },
         ]
       },
-    [showPersonal],
+    [showPersonal, showNonMembers],
   );
 
+  // TODO: props.data['members'].concat(props.data['nonMembers']) on click
   return (
     <div>
       {!props.loaded
@@ -167,7 +175,7 @@ function MemberTable(props: any) {
           : <div>
               <DataTable
                   columns={columns}
-                  data={props.data['members']}
+                  data={showNonMembers ? props.data['members'].concat(props.data['nonMembers']) : props.data['members']}
                   dense={true}
                   fixedHeader={true}
                   responsive={true}
@@ -304,7 +312,7 @@ function RepoTimeline(props: any) {
       if ('repos' in props.data) {
         rows = props.data.repos.map((repo: any) => {
           return [
-            repo.name,
+            repo.isArchived ? repo.name + ' †' : repo.name,
             new Date(repo.createdAt),
             // corner case: if repo is created after it's last push, just use the created date
             new Date(repo.createdAt) < new Date(repo.pushedAt) ? new Date(repo.pushedAt) : new Date(repo.createdAt),
