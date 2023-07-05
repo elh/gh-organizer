@@ -196,24 +196,41 @@ function RepoTable(props: any) {
             sortable: true,
             sortFunction: caseInsensitiveSortFn('name'),
             selector: (row: any) => row.name,
-            cell: (row: any) => <a href={`https://github.com/${org}/${row.name}`} className="font-bold link link-hover">{row.name}</a>,
-            maxWidth: "360px",
+            cell: (row: any) => <a href={`https://github.com/${org}/${row.name}`} className="font-bold link link-hover">
+              {row.name} {row.isFork ? <span title="Fork">↗</span> : null} {row.isArchived ? <span title="Archived">†</span> : null}
+            </a>,
+            maxWidth: "300px",
         },
         {
             name: 'Description',
             selector: (row: any) => row.description,
-            maxWidth: "360px",
+            maxWidth: "400px",
         },
         {
           name: 'Created At',
           sortable: true,
           selector: (row: any) => row.createdAt,
+          cell: (row: any) => <p>{(new Date(row.createdAt)).toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          })}</p>,
+          maxWidth: "110px",
         },
         {
           id: 'pushedAt',
           name: 'Pushed At',
           sortable: true,
           selector: (row: any) => row.pushedAt,
+          cell: (row: any) => <p>{(new Date(row.pushedAt)).toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+          })}</p>,
+          maxWidth: "180px",
         },
         {
           name: 'PR Count',
@@ -236,20 +253,6 @@ function RepoTable(props: any) {
               : ''}
           </div>,
           maxWidth: "140px",
-        },
-        {
-          name: 'Archived?',
-          sortable: true,
-          selector: (row: any) => row.isArchived,
-          cell: (row: any) => <span>{row.isArchived ? "Yes" : "No"}</span>,
-          maxWidth: "110px",
-        },
-        {
-          name: 'Fork?',
-          sortable: true,
-          selector: (row: any) => row.isFork,
-          cell: (row: any) => <span>{row.isFork ? "Yes" : "No"}</span>,
-          maxWidth: "110px",
         },
       ]
     },
