@@ -172,3 +172,38 @@ export async function getRepos(octokit: Octokit, org: string, cursor: string | n
   }
   return resp.data.data.organization.repositories
 }
+
+export async function getRepoPullRequests(octokit: Octokit, org: string, repo: string, cursor: string | null): Promise<Record<string, any>> {
+  const pageSize = 100;
+  const resp = await octokit.request("POST /graphql", {
+    query: `query ($org: String!, $repo: String!, $after: String, $pageSize: Int!) {
+      repository(owner: $org, name: $repo) {
+        # orderBy?
+        pullRequests(first: $pageSize, after: $after) {
+          totalCount
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          nodes {
+            author {
+              login
+            }
+            mergedAt
+          }
+        }
+      }
+    }`,
+    variables: {
+      org: org,
+      repo: repo,
+      pageSize: pageSize,
+      after: cursor,
+    },
+  });
+  if (resp.data.errors) {
+    console.log(JSON.stringify(resp.data.errors, null, 2));
+    throw new Error(`Error querying Github: ${JSON.stringify(resp.data.errors, null, 2)}`);
+  }
+  return resp.data.data.repository.pullRequests
+}

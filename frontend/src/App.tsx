@@ -10,6 +10,7 @@ import { Chart as GoogleChart } from "react-google-charts";
 // parallelize fetching
 // user data: first org PR + last org PR. org-wide timeline
 // go through all PRs. find past org members
+// make this usable for single user; not just orgs
 
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
