@@ -8,6 +8,7 @@ import { Chart as GoogleChart } from "react-google-charts";
 // support serving multiple data.json files for users/orgs at the same time
 // user -> repo force directed graph
 // parallelize fetching
+// repo stars
 // starred repos
 
 function caseInsensitiveSortFn(field: string) {
@@ -199,6 +200,8 @@ function MemberTable(props: any) {
 }
 
 function RepoTable(props: any) {
+  const [showForks, setShowForks] = React.useState(true);
+
   const columns = React.useMemo(
     () => {
       let owner ='';
@@ -217,12 +220,12 @@ function RepoTable(props: any) {
             cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}`} className="font-bold link link-hover">
               {row.name} {row.isFork ? <span title="Fork">↗</span> : null} {row.isArchived ? <span title="Archived">†</span> : null}
             </a>,
-            maxWidth: "300px",
+            maxWidth: "280px",
         },
         {
             name: 'Description',
             selector: (row: any) => row.description,
-            maxWidth: "400px",
+            maxWidth: "600px",
         },
         {
           name: 'Created At',
@@ -273,9 +276,16 @@ function RepoTable(props: any) {
           </div>,
           maxWidth: "140px",
         },
+        {
+          id: 'buttons',
+          name: <div>
+            <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowForks(!showForks)}>{showForks ? '-' : '+'} Forks</button>
+          </div>,
+          maxWidth: "160px",
+        },
       ]
     },
-    [props.data],
+    [props.data, showForks],
   );
 
   return (
@@ -287,7 +297,7 @@ function RepoTable(props: any) {
           : <div>
               <DataTable
                   columns={columns}
-                  data={props.data['repos']}
+                  data={showForks ? props.data['repos'] : props.data['repos'].filter((repo: any) => !repo.isFork)}
                   dense={true}
                   fixedHeader={true}
                   responsive={true}
