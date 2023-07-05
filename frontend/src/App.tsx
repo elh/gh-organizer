@@ -71,86 +71,89 @@ function MemberTable(props: any) {
   const [showPersonal, setShowPersonal] = React.useState(false);
 
   const columns = React.useMemo(
-    () => [
-      {
-        id: 'avatarUrl',
-        name: '',
-        cell: (row: any) => <a href={`https://github.com/${row.login}`}><img src={row.avatarUrl} className='max-h-6 w-6'></img></a>,
-        maxWidth: "60px",
-        minWidth: "60px",
+    () => {
+      const org = 'org' in props.data ? props.data.org.login : '';
+        return [
+          {
+            id: 'avatarUrl',
+            name: '',
+            cell: (row: any) => <a href={`https://github.com/${row.login}`}><img src={row.avatarUrl} className='max-h-6 w-6'></img></a>,
+            maxWidth: "60px",
+            minWidth: "60px",
+          },
+          {
+              id: 'login',
+              name: 'Login',
+              sortable: true,
+              sortFunction: caseInsensitiveSortFn('login'),
+              selector: (row: any) => row.login,
+              cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
+              maxWidth: "360px",
+          },
+          {
+              name: 'Name',
+              sortable: true,
+              sortFunction: caseInsensitiveSortFn('name'),
+              selector: (row: any) => row.name,
+              maxWidth: "360px",
+          },
+          {
+            name: 'Org PRs - 3mo',
+            sortable: true,
+            selector: (row: any) => row.prs.threeMoOrgPrCount.issueCount,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${org}+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
+            maxWidth: "140px",
+          },
+          {
+            name: 'Org PRs - 12mo',
+            sortable: true,
+            selector: (row: any) => row.prs.twelveMoOrgPrCount.issueCount,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${org}+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
+            maxWidth: "140px",
+          },
+          {
+            name: 'Org PRs',
+            sortable: true,
+            selector: (row: any) => row.prs.orgPrCount.issueCount,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${org}+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
+            maxWidth: "140px",
+          },
+          {
+            name: 'Repos',
+            sortable: true,
+            selector: (row: any) => row.repositories.totalCount,
+            cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>,
+            maxWidth: "110px",
+            omit: !showPersonal,
+          },
+          {
+            name: 'Starred',
+            sortable: true,
+            selector: (row: any) => row.starredRepositories.totalCount,
+            cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>,
+            maxWidth: "110px",
+            omit: !showPersonal,
+          },
+          {
+            name: 'Followers',
+            sortable: true,
+            selector: (row: any) => row.followers.totalCount,
+            maxWidth: "110px",
+            omit: !showPersonal,
+          },
+          {
+            name: 'Following',
+            sortable: true,
+            selector: (row: any) => row.following.totalCount,
+            maxWidth: "110px",
+            omit: !showPersonal,
+          },
+          {
+            id: 'personalButton',
+            name: <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowPersonal(!showPersonal)}>{showPersonal ? '-' : '+'} Personal</button>,
+          },
+        ]
       },
-      {
-          id: 'login',
-          name: 'Login',
-          sortable: true,
-          sortFunction: caseInsensitiveSortFn('login'),
-          selector: (row: any) => row.login,
-          cell: (row: any) => <a href={`https://github.com/${row.login}`} className="font-bold link link-hover">{row.login}</a>,
-          maxWidth: "360px",
-      },
-      {
-          name: 'Name',
-          sortable: true,
-          sortFunction: caseInsensitiveSortFn('name'),
-          selector: (row: any) => row.name,
-          maxWidth: "360px",
-      },
-      {
-        name: 'Org PRs - 3mo',
-        sortable: true,
-        selector: (row: any) => row.prs.threeMoOrgPrCount.issueCount,
-        cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
-        maxWidth: "140px",
-      },
-      {
-        name: 'Org PRs - 12mo',
-        sortable: true,
-        selector: (row: any) => row.prs.twelveMoOrgPrCount.issueCount,
-        cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
-        maxWidth: "140px",
-      },
-      {
-        name: 'Org PRs',
-        sortable: true,
-        selector: (row: any) => row.prs.orgPrCount.issueCount,
-        cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3Agoforward+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
-        maxWidth: "140px",
-      },
-      {
-        name: 'Repos',
-        sortable: true,
-        selector: (row: any) => row.repositories.totalCount,
-        cell: (row: any) => <a href={`https://github.com/${row.login}?tab=repositories`} className="link link-hover">{row.repositories.totalCount}</a>,
-        maxWidth: "110px",
-        omit: !showPersonal,
-      },
-      {
-        name: 'Starred',
-        sortable: true,
-        selector: (row: any) => row.starredRepositories.totalCount,
-        cell: (row: any) => <a href={`https://github.com/${row.login}?tab=stars`} className="link link-hover">{row.starredRepositories.totalCount}</a>,
-        maxWidth: "110px",
-        omit: !showPersonal,
-      },
-      {
-        name: 'Followers',
-        sortable: true,
-        selector: (row: any) => row.followers.totalCount,
-        maxWidth: "110px",
-        omit: !showPersonal,
-      },
-      {
-        name: 'Following',
-        sortable: true,
-        selector: (row: any) => row.following.totalCount,
-        maxWidth: "110px",
-        omit: !showPersonal,
-      },
-      {
-        id: 'personalButton',
-        name: <button className="btn btn-xs btn-ghost font-light" onClick={() => setShowPersonal(!showPersonal)}>{showPersonal ? '-' : '+'} Personal</button>,
-      },
-    ],
     [showPersonal],
   );
 
