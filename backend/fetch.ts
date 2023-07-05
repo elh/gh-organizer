@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import { Octokit } from "octokit";
-import {getOrg, getMembers, getPRStats, getRepos} from './gh';
+import {getOrg, getMembers, getPRStats, getRepos, getRepoPullRequests} from './gh';
 
 const file = 'data/data.json';
 
@@ -13,7 +13,7 @@ if (!process.env.GH_TOKEN || !process.env.GH_ORG) {
 }
 
 // command line args: a comma-separated list of fetchers to run
-// options: org, members, members-prs, all. if all, run all fetchers
+// options: org, members, members-prs, repo-prs, all. if all, run all fetchers
 // example: "org,members"
 const fetchers = process.argv[2] ? process.argv[2].split(',') : [];
 
@@ -34,6 +34,8 @@ async function fetch() {
       'org': {},
       'members': [],
       'repos': [],
+      'nonMembers': {},
+      'prDates': {},
     };
     try {
       const jsonString = await fs.readFile(file, 'utf-8');
@@ -56,10 +58,11 @@ async function fetch() {
       let cursor: string | null = null;
       let done = false;
       console.time('getMembers - all')
+      let i = 0;
       while (!done) { // ts really doesn't like constant condition loops
-        console.time('getMembers')
+        console.time('getMembers - ' + i)
         const resp = await getMembers(octokit, String(process.env.GH_ORG), cursor);
-        console.timeEnd('getMembers')
+        console.timeEnd('getMembers - ' + i)
         data['members'] = data['members'].concat(resp.nodes);
         await fs.writeFile(file, JSON.stringify(data, null, 2));
 
@@ -68,6 +71,7 @@ async function fetch() {
           break;
         }
         cursor = resp.pageInfo.endCursor;
+        i++
       }
       console.timeEnd('getMembers - all')
     }
@@ -77,9 +81,9 @@ async function fetch() {
       // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
       console.time('getPRStats - all')
       for (const member of data['members']) {
-        console.time('getPRStats')
+        console.time('getPRStats - ' + member.login)
         const stats = await getPRStats(octokit, String(process.env.GH_ORG), member.login);
-        console.timeEnd('getPRStats')
+        console.timeEnd('getPRStats - ' + member.login)
         member['prs'] = stats;
         await fs.writeFile(file, JSON.stringify(data, null, 2));
       }
@@ -91,10 +95,11 @@ async function fetch() {
       let cursor: string | null = null;
       let done = false;
       console.time('getRepos - all')
+      let i = 0;
       while (!done) { // ts really doesn't like constant condition loops
-        console.time('getRepos')
+        console.time('getRepos - ' + i)
         const resp = await getRepos(octokit, String(process.env.GH_ORG), cursor);
-        console.timeEnd('getRepos')
+        console.timeEnd('getRepos - ' + i)
         data['repos'] = data['repos'].concat(resp.nodes);
         await fs.writeFile(file, JSON.stringify(data, null, 2));
 
@@ -103,13 +108,69 @@ async function fetch() {
           break;
         }
         cursor = resp.pageInfo.endCursor;
+        i++
       }
       console.timeEnd('getRepos - all')
+    }
+
+    // only run if explicitly requested
+    if (fetcherEnabled('repo-prs')) {
+      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      console.time('getRepoPullRequests - all')
+      for (const repo of data['repos']) {
+        console.time('getRepoPullRequests - ' + repo.name)
+
+        let cursor: string | null = null;
+        let done = false;
+        let i = 0;
+        while (!done) { // ts really doesn't like constant condition loops
+          console.time('getRepoPullRequests - ' + repo.name + ' - ' + i)
+          const resp = await getRepoPullRequests(octokit, String(process.env.GH_ORG), repo.name, cursor);
+          console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)
+
+          for (const pr of resp.nodes) {
+            // if pr.author.login not in data['members'], add it to a new object: data.nonMembers
+            if (!data['members'].some((member: any) => member.login === pr.author.login)) {
+              if (!(pr.author.login in data['nonMembers'])) {
+                data['nonMembers'][pr.author.login] = true;
+              }
+            }
+
+            // track each author's earliest and latest PR merge date in data.prDates
+            if (!!pr.mergedAt) {
+              if (!(pr.author.login in data['prDates'])) {
+                data['prDates'][pr.author.login] = {
+                  'earliest': pr.mergedAt,
+                  'latest': pr.mergedAt,
+                };
+              } else {
+                if (new Date(pr.mergedAt) < (new Date(data['prDates'][pr.author.login]['earliest']))) {
+                  data['prDates'][pr.author.login]['earliest'] = pr.mergedAt;
+                }
+                if (new Date(pr.mergedAt) > (new Date(data['prDates'][pr.author.login]['latest']))) {
+                  data['prDates'][pr.author.login]['latest'] = pr.mergedAt;
+                }
+              }
+            }
+          }
+          await fs.writeFile(file, JSON.stringify(data, null, 2));
+
+          if (!resp.pageInfo.hasNextPage) {
+            done = true;
+            break;
+          }
+          cursor = resp.pageInfo.endCursor;
+          i++
+        }
+        console.timeEnd('getRepoPullRequests - ' + repo.name)
+      }
+      console.timeEnd('getRepoPullRequests - all')
     }
 
     console.timeEnd('fetch')
 
   } catch (err) {
+    console.log(err)
     console.error('An error occurred:', JSON.stringify(err, null, 2));
   }
 }
