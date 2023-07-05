@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 import DarkModePreferredStatus from './DarkMode';
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
+import { Route, Routes, Navigate, useLocation } from "react-router-dom"
 
 // TODO: add a list of TODOs and put this on ice?
 //
@@ -191,6 +191,7 @@ function App() {
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
 
+  const location = useLocation();
   const prefersDarkMode = DarkModePreferredStatus();
 
   const fetchData = async () => {
@@ -239,11 +240,11 @@ function App() {
             <li>
               <details>
                 <summary>
-                  Members
+                  {location.pathname}
                 </summary>
                 <ul className="p-2 bg-base-100 z-10">
-                  <li><a>Members</a></li>
-                  <li><a>Repos</a></li>
+                  <li><a href={`/members`}>/members</a></li>
+                  <li><a href={`/repos`}>/repos</a></li>
                 </ul>
               </details>
             </li>
@@ -252,12 +253,12 @@ function App() {
       </div>
       <div className="px-6">
         {/* Content */}
-        <BrowserRouter>
-          <Routes>
-            <Route path="/members" element={<MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>} />
-            <Route path="/*" element={<Navigate to="/members" replace />} />
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route path="/members" element={
+            <MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>
+          } />
+          <Route path="/*" element={<Navigate to="/members" replace />} />
+        </Routes>
       </div>
     </div>
   );
