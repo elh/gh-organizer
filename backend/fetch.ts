@@ -13,7 +13,7 @@ if (!process.env.GH_TOKEN || !process.env.GH_ORG) {
 }
 
 // command line args: a comma-separated list of fetchers to run
-// options: org, members, members-prs, repo-prs, nonmembers, all. if all, run all fetchers
+// options: org, members, members-prs, repo-prs, nonmembers, nonmembers-prs, all. if all, run all fetchers
 // example: "org,members"
 const fetchers = process.argv[2] ? process.argv[2].split(',') : [];
 
@@ -185,6 +185,20 @@ async function fetch() {
         await fs.writeFile(file, JSON.stringify(data, null, 2));
       }
       console.timeEnd('getUser - all')
+    }
+
+    // only run if explicitly requested
+    if (fetcherEnabled('nonmembers-prs')) {
+      // TODO: do this in a promise pool. why isn't there an obvious solution to this in ts...
+      console.time('getNonMemberPRStats - all')
+      for (const nonmember of data['nonMembers']) {
+        console.time('getNonMemberPRStats - ' + nonmember.login)
+        const stats = await getPRStats(octokit, String(process.env.GH_ORG), nonmember.login);
+        console.timeEnd('getNonMemberPRStats - ' + nonmember.login)
+        nonmember['prs'] = stats;
+        await fs.writeFile(file, JSON.stringify(data, null, 2));
+      }
+      console.timeEnd('getNonMemberPRStats - all')
     }
 
     // TODO: pull down details for the non-members + show on the page
