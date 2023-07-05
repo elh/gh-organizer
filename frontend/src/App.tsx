@@ -186,6 +186,106 @@ function MemberTable(props: any) {
   );
 }
 
+function RepoTable(props: any) {
+  const columns = React.useMemo(
+    () => {
+      const org = 'org' in props.data ? props.data.org.login : '';
+      return [
+        {
+            name: 'Name',
+            sortable: true,
+            sortFunction: caseInsensitiveSortFn('name'),
+            selector: (row: any) => row.name,
+            cell: (row: any) => <a href={`https://github.com/${org}/${row.name}`} className="font-bold link link-hover">{row.name}</a>,
+            maxWidth: "360px",
+        },
+        {
+            name: 'Description',
+            // sortable: true,
+            // sortFunction: caseInsensitiveSortFn('name'),
+            selector: (row: any) => row.description,
+            // maxWidth: "360px",
+        },
+        {
+          name: 'Created At',
+          sortable: true,
+          // sortFunction: caseInsensitiveSortFn('isArchived'),
+          selector: (row: any) => row.createdAt,
+          // maxWidth: "360px",
+        },
+        {
+          id: 'pushedAt',
+          name: 'Pushed At',
+          sortable: true,
+          // sortFunction: caseInsensitiveSortFn('isArchived'),
+          selector: (row: any) => row.pushedAt,
+          // maxWidth: "360px",
+        },
+        {
+          name: 'PR Count',
+          sortable: true,
+          // sortFunction: caseInsensitiveSortFn('isArchived'),
+          selector: (row: any) => row.pullRequests.totalCount,
+          // maxWidth: "360px",
+        },
+        // {
+        //   name: 'Language',
+        //   sortable: true,
+        //   // sortFunction: caseInsensitiveSortFn('isArchived'),
+        //   selector: (row: any) => row.languages.edges[0].node.name,
+        //   // maxWidth: "360px",
+        // },
+        {
+          name: 'Archived?',
+          sortable: true,
+          // sortFunction: caseInsensitiveSortFn('isArchived'),
+          selector: (row: any) => row.isArchived,
+          cell: (row: any) => <span>{row.isArchived ? "Yes" : "No"}</span>,
+          // maxWidth: "360px",
+        },
+        {
+          name: 'Fork?',
+          sortable: true,
+          // sortFunction: caseInsensitiveSortFn('isArchived'),
+          selector: (row: any) => row.isFork,
+          cell: (row: any) => <span>{row.isFork ? "Yes" : "No"}</span>,
+          // maxWidth: "360px",
+        },
+      ]
+    },
+    [props.data],
+  );
+
+  return (
+    <div>
+      {!props.loaded
+          ? <div className="flex justify-center items-center m-10">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          : <div>
+              <DataTable
+                  columns={columns}
+                  data={props.data['repos']}
+                  dense={true}
+                  fixedHeader={true}
+                  responsive={true}
+                  fixedHeaderScrollHeight={"86vh"}
+                  defaultSortFieldId={"pushedAt"}
+                  defaultSortAsc={false}
+                  theme={props.prefersDarkMode ? 'dark' : 'light'}
+                  customStyles={props.prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
+                  expandableRows
+                  expandableRowsComponent={DataTableExpanded}
+                  pagination={true}
+                  paginationPerPage={100}
+                  paginationRowsPerPageOptions={[25, 50, 100, 1000]}
+              />
+            </div>
+        }
+    </div>
+  );
+}
+
 function App() {
   const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
@@ -256,6 +356,9 @@ function App() {
         <Routes>
           <Route path="/members" element={
             <MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>
+          } />
+          <Route path="/repos" element={
+            <RepoTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></RepoTable>
           } />
           <Route path="/*" element={<Navigate to="/members" replace />} />
         </Routes>
