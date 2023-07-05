@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 import DarkModePreferredStatus from './DarkMode';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
 
 // TODO: add a list of TODOs and put this on ice?
 //
@@ -251,7 +252,12 @@ function App() {
       </div>
       <div className="px-6">
         {/* Content */}
-        <MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/members" element={<MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>} />
+            <Route path="/*" element={<Navigate to="/members" replace />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </div>
   );
