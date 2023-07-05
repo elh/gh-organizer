@@ -1,18 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-// import { Octokit } from "octokit";
-
-// env vars
-dotenv.config();
-if (!process.env.GH_TOKEN || !process.env.GH_ORG) {
-  console.error('GH_TOKEN and GH_ORG env vars are required');
-  process.exit(1);
-}
-
-// set up
-// const octokit = new Octokit({
-//   auth: process.env.GH_TOKEN,
-// });
 
 // env vars
 dotenv.config();

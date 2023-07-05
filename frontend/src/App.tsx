@@ -8,8 +8,6 @@ import { Chart as GoogleChart } from "react-google-charts";
 //
 // user -> repo force directed graph
 // parallelize fetching
-// user data: first org PR + last org PR. org-wide timeline
-// go through all PRs. find past org members
 // make this usable for single user; not just orgs
 
 function caseInsensitiveSortFn(field: string) {
@@ -165,7 +163,6 @@ function MemberTable(props: any) {
     [showPersonal, showNonMembers],
   );
 
-  // TODO: props.data['members'].concat(props.data['nonMembers']) on click
   return (
     <div>
       {!props.loaded

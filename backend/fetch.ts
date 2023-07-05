@@ -7,15 +7,24 @@ const file = 'data/data.json';
 
 // env vars
 dotenv.config();
-if (!process.env.GH_TOKEN || !process.env.GH_ORG) {
-  console.error('GH_TOKEN and GH_ORG env vars are required');
+if (!process.env.GH_TOKEN) {
+  console.error('GH_TOKEN env var is required');
   process.exit(1);
 }
 
-// command line args: a comma-separated list of fetchers to run
-// options: org, members, members-prs, repo-prs, nonmembers, nonmembers-prs, all. if all, run all fetchers
-// example: "org,members"
-const fetchers = process.argv[2] ? process.argv[2].split(',') : [];
+// `npx ts-node fetch.ts <org> <fetchers>`
+// `npx ts-node fetch.ts clojure all`
+// 1) org is a github org to fetch
+// 2) fetchers is a comma-separated list of fetchers to run
+//      options: org, members, members-prs, repo-prs, nonmembers, nonmembers-prs, all. if all, run all fetchers
+//      example: "org,members"
+console.log(process.argv)
+if (process.argv.length < 4) {
+  console.error('Usage: npx ts-node fetch.ts <org> <fetchers>');
+  process.exit(1);
+}
+const org = process.argv[2];
+const fetchers = process.argv[3] ? process.argv[3].split(',') : [];
 
 // set up
 const octokit = new Octokit({
@@ -49,7 +58,7 @@ async function fetch() {
 
     if (!('org' in data) || fetcherEnabled('org')) {
       console.time('getOrg')
-      data['org'] = await getOrg(octokit, String(process.env.GH_ORG));
+      data['org'] = await getOrg(octokit, org);
       console.timeEnd('getOrg')
       await fs.writeFile(file, JSON.stringify(data, null, 2));
     }
@@ -62,7 +71,7 @@ async function fetch() {
       let i = 0;
       while (!done) { // ts really doesn't like constant condition loops
         console.time('getMembers - ' + i)
-        const resp = await getMembers(octokit, String(process.env.GH_ORG), cursor);
+        const resp = await getMembers(octokit, org, cursor);
         console.timeEnd('getMembers - ' + i)
         data['members'] = data['members'].concat(resp.nodes);
         await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -83,7 +92,7 @@ async function fetch() {
       console.time('getPRStats - all')
       for (const member of data['members']) {
         console.time('getPRStats - ' + member.login)
-        const stats = await getPRStats(octokit, String(process.env.GH_ORG), member.login);
+        const stats = await getPRStats(octokit, org, member.login);
         console.timeEnd('getPRStats - ' + member.login)
         member['prs'] = stats;
         await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -99,7 +108,7 @@ async function fetch() {
       let i = 0;
       while (!done) { // ts really doesn't like constant condition loops
         console.time('getRepos - ' + i)
-        const resp = await getRepos(octokit, String(process.env.GH_ORG), cursor);
+        const resp = await getRepos(octokit, org, cursor);
         console.timeEnd('getRepos - ' + i)
         data['repos'] = data['repos'].concat(resp.nodes);
         await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -126,11 +135,13 @@ async function fetch() {
         let i = 0;
         while (!done) { // ts really doesn't like constant condition loops
           console.time('getRepoPullRequests - ' + repo.name + ' - ' + i)
-          const resp = await getRepoPullRequests(octokit, String(process.env.GH_ORG), repo.name, cursor);
+          const resp = await getRepoPullRequests(octokit, org, repo.name, cursor);
           console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)
 
           for (const pr of resp.nodes) {
-            // if pr.author.login not in data['members'], add it to a new object: data.nonMemberLogins
+            if (pr.author == null) {
+              continue;
+            }
             if (!data['members'].some((member: any) => member.login === pr.author.login)) {
               if (!(pr.author.login in data['nonMemberLogins'])) {
                 data['nonMemberLogins'][pr.author.login] = true;
@@ -193,15 +204,13 @@ async function fetch() {
       console.time('getNonMemberPRStats - all')
       for (const nonmember of data['nonMembers']) {
         console.time('getNonMemberPRStats - ' + nonmember.login)
-        const stats = await getPRStats(octokit, String(process.env.GH_ORG), nonmember.login);
+        const stats = await getPRStats(octokit, org, nonmember.login);
         console.timeEnd('getNonMemberPRStats - ' + nonmember.login)
         nonmember['prs'] = stats;
         await fs.writeFile(file, JSON.stringify(data, null, 2));
       }
       console.timeEnd('getNonMemberPRStats - all')
     }
-
-    // TODO: pull down details for the non-members + show on the page
 
     console.timeEnd('fetch')
 

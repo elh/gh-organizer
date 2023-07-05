@@ -1,6 +1,6 @@
 .PHONY: fetch
 fetch:
-	(cd backend; npx ts-node fetch.ts $(FETCHERS))
+	(cd backend; npx ts-node fetch.ts $(ORG) $(FETCHERS))
 
 .PHONY: run-backend
 run-backend-dev:
