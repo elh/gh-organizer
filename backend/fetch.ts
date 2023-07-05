@@ -138,7 +138,7 @@ async function fetch() {
             }
 
             // track each author's earliest and latest PR merge date in data.prDates
-            if (!!pr.mergedAt) {
+            if (pr.mergedAt != null) {
               if (!(pr.author.login in data['prDates'])) {
                 data['prDates'][pr.author.login] = {
                   'earliest': pr.mergedAt,
