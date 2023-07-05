@@ -11,8 +11,6 @@ import { Chart as GoogleChart } from "react-google-charts";
 // parallelize fetching
 // starred repos
 
-// TODO: update UI to handle if in user mode
-
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
     const aVal = field in a && !!a[field] ? a[field].toLowerCase() : '';
@@ -75,7 +73,13 @@ function MemberTable(props: any) {
 
   const columns = React.useMemo(
     () => {
-      const org = 'org' in props.data ? props.data.org.login : '';
+      let owner ='';
+      if ('org' in props.data) {
+        owner = props.data.org.login
+      }
+      else if ('user' in props.data) {
+        owner = props.data.user.login;
+      }
         return [
           {
             id: 'avatarUrl',
@@ -106,21 +110,21 @@ function MemberTable(props: any) {
             name: 'Org PRs - 3mo',
             sortable: true,
             selector: (row: any) => row.prs.threeMoOrgPrCount.issueCount,
-            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${org}+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner}+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
             maxWidth: "140px",
           },
           {
             name: 'Org PRs - 12mo',
             sortable: true,
             selector: (row: any) => row.prs.twelveMoOrgPrCount.issueCount,
-            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${org}+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner}+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
             maxWidth: "140px",
           },
           {
             name: 'Org PRs',
             sortable: true,
             selector: (row: any) => row.prs.orgPrCount.issueCount,
-            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${org}+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner}+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
             maxWidth: "140px",
           },
           {
@@ -163,7 +167,7 @@ function MemberTable(props: any) {
           },
         ]
       },
-    [showPersonal, showNonMembers],
+    [props.data, showPersonal, showNonMembers],
   );
 
   return (
@@ -198,14 +202,20 @@ function MemberTable(props: any) {
 function RepoTable(props: any) {
   const columns = React.useMemo(
     () => {
-      const org = 'org' in props.data ? props.data.org.login : '';
+      let owner ='';
+      if ('org' in props.data) {
+        owner = props.data.org.login
+      }
+      else if ('user' in props.data) {
+        owner = props.data.user.login;
+      }
       return [
         {
             name: 'Name',
             sortable: true,
             sortFunction: caseInsensitiveSortFn('name'),
             selector: (row: any) => row.name,
-            cell: (row: any) => <a href={`https://github.com/${org}/${row.name}`} className="font-bold link link-hover">
+            cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}`} className="font-bold link link-hover">
               {row.name} {row.isFork ? <span title="Fork">↗</span> : null} {row.isArchived ? <span title="Archived">†</span> : null}
             </a>,
             maxWidth: "300px",
@@ -245,7 +255,7 @@ function RepoTable(props: any) {
           name: 'PR Count',
           sortable: true,
           selector: (row: any) => row.pullRequests.totalCount,
-          cell: (row: any) => <a href={`https://github.com/${org}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
+          cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
           maxWidth: "110px",
         },
         {
@@ -453,9 +463,12 @@ function App() {
         <div className="flex-1">
           <a className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
           {'org' in data &&
-          <div>
-            {/* <img className="w-8 mx-2" src={data['org']['avatarUrl']} alt="logo"/> */}
-            <span>{data['org']['name']}</span>
+            <span>{data['org']['login']} - {data['org']['name']}</span>
+          }
+          {'user' in data &&
+            <span>{data['user']['login']} - {data['user']['name']}</span>
+          }
+          {'lastUpdated' in data &&
             <span className="text-xs text-slate-500 pl-2">
               (last updated {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
                 year: 'numeric',
@@ -466,7 +479,6 @@ function App() {
                 hour12: true
               })})
             </span>
-          </div>
           }
         </div>
         <div className="flex-none">
