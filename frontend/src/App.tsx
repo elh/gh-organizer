@@ -346,6 +346,63 @@ function RepoTimeline(props: any) {
   );
 }
 
+function ContribTimeline(props: any) {
+  const chartData = React.useMemo(
+    () => {
+      const columns = [
+        { type: "string", id: "Name" },
+        { type: "date", id: "Start" },
+        { type: "date", id: "End" },
+      ];
+
+      let rows: any[] = [];
+      if ('prDates' in props.data) {
+        rows = Object.keys(props.data.prDates).map(name => {
+          const dates = props.data.prDates[name];
+          return [
+            name in props.data.nonMemberLogins ? name + ' †' : name ,
+            new Date(dates.earliest),
+            new Date(dates.latest),
+          ]
+        });
+      }
+      rows.sort((a, b) => a[1] - b[1]);
+      return [columns, ...rows];
+    },
+    [props.data],
+  );
+
+  // TODO: factor this out for ContribTimeline and RepoTimeline
+  return (
+    <div>
+      {!props.loaded
+          ? <div className="flex justify-center items-center m-10">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          : <GoogleChart
+              chartType="Timeline"
+              data={chartData}
+              width="100%"
+              height="88vh"
+              options={{
+                alternatingRowStyle: false,
+                backgroundColor: props.prefersDarkMode ? 'rgb(29, 35, 42)' : '#fff',
+                fontName: 'ui-sans-serif',
+                timeline: {
+                  singleColor: "rgb(204, 0, 156)",
+                  rowLabelStyle: {
+                    color: props.prefersDarkMode ? '#fff' : null,
+                  },
+                  barLabelStyle: {
+                    color: props.prefersDarkMode ? '#fff' : null,
+                  },
+                },
+              }} />
+        }
+    </div>
+  );
+}
+
 function App() {
   const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
@@ -415,6 +472,7 @@ function App() {
                   <li><a href={`/members`}>/members</a></li>
                   <li><a href={`/repos`}>/repos</a></li>
                   <li><a href={`/repo-timeline`}>/repo-timeline</a></li>
+                  <li><a href={`/contrib-timeline`}>/contrib-timeline</a></li>
                 </ul>
               </details>
             </li>
@@ -432,6 +490,9 @@ function App() {
           } />
           <Route path="/repo-timeline" element={
             <RepoTimeline loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></RepoTimeline>
+          } />
+          <Route path="/contrib-timeline" element={
+            <ContribTimeline loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></ContribTimeline>
           } />
           <Route path="/*" element={<Navigate to="/members" replace />} />
         </Routes>

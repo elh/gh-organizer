@@ -34,7 +34,7 @@ async function fetch() {
       'org': {},
       'members': [],
       'repos': [],
-      'nonMembers': {},
+      'nonMemberLogins': {},
       'prDates': {},
     };
     try {
@@ -129,10 +129,10 @@ async function fetch() {
           console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)
 
           for (const pr of resp.nodes) {
-            // if pr.author.login not in data['members'], add it to a new object: data.nonMembers
+            // if pr.author.login not in data['members'], add it to a new object: data.nonMemberLogins
             if (!data['members'].some((member: any) => member.login === pr.author.login)) {
-              if (!(pr.author.login in data['nonMembers'])) {
-                data['nonMembers'][pr.author.login] = true;
+              if (!(pr.author.login in data['nonMemberLogins'])) {
+                data['nonMemberLogins'][pr.author.login] = true;
               }
             }
 
@@ -166,6 +166,8 @@ async function fetch() {
       }
       console.timeEnd('getRepoPullRequests - all')
     }
+
+    // TODO: pull down details for the non-members + show on the page
 
     console.timeEnd('fetch')
 
