@@ -236,6 +236,7 @@ function RepoTable(props: any) {
           name: 'PR Count',
           sortable: true,
           selector: (row: any) => row.pullRequests.totalCount,
+          cell: (row: any) => <a href={`https://github.com/${org}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
           maxWidth: "110px",
         },
         {
@@ -345,7 +346,7 @@ function App() {
                 <summary>
                   {location.pathname}
                 </summary>
-                <ul className="p-2 bg-base-100 z-10">
+                <ul className="p-2 bg-base-100 z-10 absolute right-0">
                   <li><a href={`/members`}>/members</a></li>
                   <li><a href={`/repos`}>/repos</a></li>
                 </ul>
