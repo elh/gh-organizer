@@ -184,13 +184,13 @@ export async function getPRStats(octokit: Octokit, orgOrUser: string, login: str
   return resp.data.data;
 }
 
-// TODO: control for visibility
-export async function getRepos(octokit: Octokit, type: "organization"| "user", orgOrUser: string, cursor: string | null): Promise<Record<string, any>> {
+// hack: string interpolation of privacy because its an enum, not a string. too lazy to figure out conversion
+export async function getRepos(octokit: Octokit, type: "organization"| "user", orgOrUser: string, cursor: string | null, privacy: string | null = null): Promise<Record<string, any>> {
   const pageSize = 20;
   const resp = await octokit.request("POST /graphql", {
     query: `query ($orgOrUser: String!, $after: String, $pageSize: Int!) {
       ${type}(login: $orgOrUser) {
-        repositories(first: $pageSize, after: $after, ownerAffiliations: OWNER) {
+        repositories(first: $pageSize, after: $after, ownerAffiliations: OWNER, ${privacy ? 'privacy: ' + privacy : ''}) {
           totalCount
           pageInfo {
             endCursor

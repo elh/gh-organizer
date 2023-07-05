@@ -12,21 +12,24 @@ if (!process.env.GH_TOKEN) {
   process.exit(1);
 }
 
-// `npx ts-node fetch.ts <mode> <owner> <fetchers>`
+// `npx ts-node fetch.ts <mode> <owner> <fetchers> [<repo-privacy>]`
 // `npx ts-node fetch.ts clojure all`
 // 1) mode is either "org" or "user"
-// 1) owner is a github org or user to fetch for
-// 2) fetchers is a comma-separated list of fetchers to run
+// 2) owner is a github org or user to fetch for
+// 3) fetchers is a comma-separated list of fetchers to run
 //      options: org, members, members-prs, repo-prs, nonmembers, nonmembers-prs, all. if all, run all fetchers
 //      example: "org,members"
 //      hack: "org" also applies to the "user" mode owner
+// 4) repo-privacy is an optional control filter on repo privacy, either "PUBLIC" or "PRIVATE". if unset, will fetch all repos
 if (process.argv.length < 5) {
-  console.error('Usage: npx ts-node fetch.ts <mode> <owner> <fetchers>');
+  console.error('Usage: npx ts-node fetch.ts <mode> <owner> <fetchers> [<repo-privacy>]');
   process.exit(1);
 }
+console.log(process.argv)
 const mode = process.argv[2];
 const orgOrUser = process.argv[3]; // the owner
 const fetchers = process.argv[4] ? process.argv[4].split(',') : [];
+const privacy = process.argv[5] || null;
 if (mode !== 'org' && mode !== 'user') {
   console.error('Mode must be either "org" or "user"');
   process.exit(1);
@@ -41,6 +44,7 @@ function fetcherEnabled(name: string): boolean {
   return fetchers.includes(name) || fetchers.includes('all');
 }
 
+// TODO: promise pools?
 async function fetch() {
   try {
     // load existing file. if file does not exist, data is an empty object
@@ -106,7 +110,6 @@ async function fetch() {
     }
 
     if (fetcherEnabled('members-prs')) {
-      // TODO: do this in a promise pool
       console.time('getPRStats - all')
       for (const member of data['members']) {
         console.time('getPRStats - ' + member.login)
@@ -126,7 +129,7 @@ async function fetch() {
       let i = 0;
       while (!done) { // ts really doesn't like constant condition loops
         console.time('getRepos - ' + i)
-        const resp = await getRepos(octokit, mode == "org" ? "organization" : "user", orgOrUser, cursor);
+        const resp = await getRepos(octokit, mode == "org" ? "organization" : "user", orgOrUser, cursor, privacy);
         console.timeEnd('getRepos - ' + i)
         data['repos'] = data['repos'].concat(resp.nodes);
         await fs.writeFile(file, JSON.stringify(data, null, 2));
@@ -142,7 +145,6 @@ async function fetch() {
     }
 
     if (fetcherEnabled('repo-prs')) {
-      // TODO: do this in a promise pool
       console.time('getRepoPullRequests - all')
       for (const repo of data['repos']) {
         console.time('getRepoPullRequests - ' + repo.name)
@@ -204,7 +206,6 @@ async function fetch() {
     }
 
     if (fetcherEnabled('nonmembers')) {
-      // TODO: do this in a promise pool
       console.time('getUser - all')
       for (const nonMemberLogin of Object.keys(data['nonMemberLogins'])) {
         try {
@@ -222,7 +223,6 @@ async function fetch() {
     }
 
     if (fetcherEnabled('nonmembers-prs')) {
-      // TODO: do this in a promise pool
       console.time('getNonMemberPRStats - all')
       for (const nonmember of data['nonMembers']) {
         console.time('getNonMemberPRStats - ' + nonmember.login)
