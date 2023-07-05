@@ -4,9 +4,10 @@ export async function getOrg(octokit: Octokit, org: string): Promise<Record<stri
   const resp = await octokit.request("POST /graphql", {
     query: `query ($org: String!) {
       organization(login: $org) {
-        avatarUrl
-        description
+        login
         name
+        description
+        avatarUrl
       }
     }`,
     variables: {

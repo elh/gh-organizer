@@ -390,7 +390,16 @@ function App() {
           <div>
             {/* <img className="w-8 mx-2" src={data['org']['avatarUrl']} alt="logo"/> */}
             <span>{data['org']['name']}</span>
-            <span className="text-xs text-slate-500 pl-2">(last updated {data['lastUpdated']})</span>
+            <span className="text-xs text-slate-500 pl-2">
+              (last updated {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+              })})
+            </span>
           </div>
           }
         </div>
