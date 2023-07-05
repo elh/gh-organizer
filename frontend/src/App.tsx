@@ -201,55 +201,55 @@ function RepoTable(props: any) {
         },
         {
             name: 'Description',
-            // sortable: true,
-            // sortFunction: caseInsensitiveSortFn('name'),
             selector: (row: any) => row.description,
-            // maxWidth: "360px",
+            maxWidth: "360px",
         },
         {
           name: 'Created At',
           sortable: true,
-          // sortFunction: caseInsensitiveSortFn('isArchived'),
           selector: (row: any) => row.createdAt,
-          // maxWidth: "360px",
         },
         {
           id: 'pushedAt',
           name: 'Pushed At',
           sortable: true,
-          // sortFunction: caseInsensitiveSortFn('isArchived'),
           selector: (row: any) => row.pushedAt,
-          // maxWidth: "360px",
         },
         {
           name: 'PR Count',
           sortable: true,
-          // sortFunction: caseInsensitiveSortFn('isArchived'),
           selector: (row: any) => row.pullRequests.totalCount,
-          // maxWidth: "360px",
+          maxWidth: "110px",
         },
-        // {
-        //   name: 'Language',
-        //   sortable: true,
-        //   // sortFunction: caseInsensitiveSortFn('isArchived'),
-        //   selector: (row: any) => row.languages.edges[0].node.name,
-        //   // maxWidth: "360px",
-        // },
+        {
+          name: 'Language',
+          sortable: true,
+          selector: (row: any) => row.languages.edges.length > 0 ? row.languages.edges[0].node.name : '',
+          cell: (row: any) => <div>
+            {row.languages.edges.length > 0
+              ? <div className="flex items-center">
+                  <svg height="10" width="10" className="mr-1">
+                    <circle cx="5" cy="5" r="4" fill={row.languages.edges[0].node.color} />
+                  </svg>
+                  <p>{row.languages.edges[0].node.name}</p>
+                </div>
+              : ''}
+          </div>,
+          maxWidth: "140px",
+        },
         {
           name: 'Archived?',
           sortable: true,
-          // sortFunction: caseInsensitiveSortFn('isArchived'),
           selector: (row: any) => row.isArchived,
           cell: (row: any) => <span>{row.isArchived ? "Yes" : "No"}</span>,
-          // maxWidth: "360px",
+          maxWidth: "110px",
         },
         {
           name: 'Fork?',
           sortable: true,
-          // sortFunction: caseInsensitiveSortFn('isArchived'),
           selector: (row: any) => row.isFork,
           cell: (row: any) => <span>{row.isFork ? "Yes" : "No"}</span>,
-          // maxWidth: "360px",
+          maxWidth: "110px",
         },
       ]
     },
