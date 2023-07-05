@@ -2,17 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 import DarkModePreferredStatus from './DarkMode';
 import { Route, Routes, Navigate, useLocation } from "react-router-dom"
+import { Chart as GoogleChart } from "react-google-charts";
 
 // TODO: add a list of TODOs and put this on ice?
 //
-// Pages + React Router
 // user -> repo force directed graph
 // parallelize fetching
-// repo page
-// viz? https://github.com/recharts/recharts, D3? https://2019.wattenberger.com/blog/react-and-d3
 // user data: first org PR + last org PR. org-wide timeline
-// go through all PRs. find past users. in subsequent calls look for different authors!
-// drop ts?
+// go through all PRs. find past org members
 
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
@@ -290,6 +287,61 @@ function RepoTable(props: any) {
   );
 }
 
+function RepoTimeline(props: any) {
+  const chartData = React.useMemo(
+    () => {
+      const columns = [
+        { type: "string", id: "Repo" },
+        { type: "date", id: "Start" },
+        { type: "date", id: "End" },
+      ];
+
+      let rows = [];
+      if ('repos' in props.data) {
+        rows = props.data.repos.map((repo: any) => {
+          return [
+            repo.name,
+            new Date(repo.createdAt),
+            // corner case: if repo is created after it's last push, just use the created date
+            new Date(repo.createdAt) < new Date(repo.pushedAt) ? new Date(repo.pushedAt) : new Date(repo.createdAt),
+          ]
+        })
+      }
+      return [columns, ...rows];
+    },
+    [props.data],
+  );
+
+  return (
+    <div>
+      {!props.loaded
+          ? <div className="flex justify-center items-center m-10">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          : <GoogleChart
+              chartType="Timeline"
+              data={chartData}
+              width="100%"
+              height="88vh"
+              options={{
+                alternatingRowStyle: false,
+                backgroundColor: props.prefersDarkMode ? 'rgb(29, 35, 42)' : '#fff',
+                fontName: 'ui-sans-serif',
+                timeline: {
+                  singleColor: "rgb(25, 174, 159)",
+                  rowLabelStyle: {
+                    color: props.prefersDarkMode ? '#fff' : null,
+                  },
+                  barLabelStyle: {
+                    color: props.prefersDarkMode ? '#fff' : null,
+                  },
+                },
+              }} />
+        }
+    </div>
+  );
+}
+
 function App() {
   const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
@@ -327,7 +379,7 @@ function App() {
   }, []);
 
   return (
-    <div className="overflow-x-auto">
+    <div className="">
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
@@ -349,6 +401,7 @@ function App() {
                 <ul className="p-2 bg-base-100 z-10 absolute right-0">
                   <li><a href={`/members`}>/members</a></li>
                   <li><a href={`/repos`}>/repos</a></li>
+                  <li><a href={`/repo-timeline`}>/repo-timeline</a></li>
                 </ul>
               </details>
             </li>
@@ -363,6 +416,9 @@ function App() {
           } />
           <Route path="/repos" element={
             <RepoTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></RepoTable>
+          } />
+          <Route path="/repo-timeline" element={
+            <RepoTimeline loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></RepoTimeline>
           } />
           <Route path="/*" element={<Navigate to="/members" replace />} />
         </Routes>
