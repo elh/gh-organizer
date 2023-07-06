@@ -450,9 +450,39 @@ function ContribTimeline() {
   );
 }
 
-// TODO: style
-// TODO: index of orgs/users
 function Home() {
+  const [paths, setPaths] = useState<string[]>([]);
+  const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
+  const [loaded, setLoaded] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`/data`);
+      if (!response.ok) {
+        console.log(response.text());
+        return { success: false };
+      }
+      const json = await response.json();
+      return { success: true, data: json };
+    } catch (error) {
+      console.log(error);
+      return { success: false };
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      if (fetchStarted.current) return;
+      fetchStarted.current = true;
+
+      const res = await fetchData();
+      if (res.success) {
+        setPaths(res.data);
+      }
+      setLoaded(true);
+    })();
+  }, []);
+
   return (
     <div className="hero min-h-screen bg-base-100">
       <div className="hero-content text-center">
@@ -467,7 +497,12 @@ function Home() {
                     Select an org or user
                   </summary>
                   <ul className="p-2 bg-base-100 z-10 w-72">
-                    <li><a href={`/owners/TODO`}>TODO</a></li>
+                    {paths.map(path => {
+                      path = path.replace(/\.[^/.]+$/, ""); // w/o file extension
+                      return (
+                        <li key={path}><a href={`/owners/${path}`}>{path}</a></li>
+                      );
+                    })}
                   </ul>
                 </details>
               </li>
