@@ -254,13 +254,6 @@ function RepoTable(props: any) {
           maxWidth: "180px",
         },
         {
-          name: 'PR Count',
-          sortable: true,
-          selector: (row: any) => row.pullRequests.totalCount,
-          cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
-          maxWidth: "110px",
-        },
-        {
           name: 'Language',
           sortable: true,
           selector: (row: any) => row.languages.edges.length > 0 ? row.languages.edges[0].node.name : '',
@@ -275,6 +268,19 @@ function RepoTable(props: any) {
               : ''}
           </div>,
           maxWidth: "140px",
+        },
+        {
+          name: 'Stars',
+          sortable: true,
+          selector: (row: any) => row.stargazerCount,
+          maxWidth: "110px",
+        },
+        {
+          name: 'PR Count',
+          sortable: true,
+          selector: (row: any) => row.pullRequests.totalCount,
+          cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
+          maxWidth: "110px",
         },
         {
           id: 'buttons',

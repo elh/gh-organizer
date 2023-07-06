@@ -204,6 +204,8 @@ export async function getRepos(octokit: Octokit, type: "organization"| "user", o
             createdAt
             pushedAt
             archivedAt
+            stargazerCount
+            forkCount
             # codeowners. API does not return the actual codeowner users
             # collaborators is just generic users in the org; not based on PRs
             pullRequests {
