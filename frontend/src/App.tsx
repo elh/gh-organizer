@@ -6,9 +6,9 @@ import { Chart as GoogleChart } from "react-google-charts";
 
 // TODO: ???
 // support serving multiple data.json files for users/orgs at the same time
+// kick off indexes as a background job from the API
 // user -> repo force directed graph
 // parallelize fetching
-// repo stars
 // starred repos
 
 function caseInsensitiveSortFn(field: string) {
@@ -19,6 +19,17 @@ function caseInsensitiveSortFn(field: string) {
     if (bVal > aVal) return -1;
     return 0;
   }
+}
+
+// return "owner" from a gh-organizer fetch data object
+function getOwner(data: Record<string, any>) : Record<string, any> {
+  if ('org' in data) {
+    return data.org
+  }
+  else if ('user' in data) {
+    return data.user;
+  }
+  return {};
 }
 
 const dataTableDarkStyles = {
@@ -71,15 +82,15 @@ function MemberTable(props: any) {
   const [showPersonal, setShowPersonal] = React.useState(false);
   const [showNonMembers, setShowNonMembers] = React.useState(false);
 
+  const owner = React.useMemo(
+    () => {
+      return getOwner(props.data);
+    },
+    [props.data],
+  );
+
   const columns = React.useMemo(
     () => {
-      let owner ='';
-      if ('org' in props.data) {
-        owner = props.data.org.login
-      }
-      else if ('user' in props.data) {
-        owner = props.data.user.login;
-      }
         return [
           {
             id: 'avatarUrl',
@@ -110,21 +121,21 @@ function MemberTable(props: any) {
             name: 'Org PRs - 3mo',
             sortable: true,
             selector: (row: any) => row.prs.threeMoOrgPrCount.issueCount,
-            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner}+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner.login}+`} className="link link-hover">{row.prs.threeMoOrgPrCount.issueCount}</a>,
             maxWidth: "140px",
           },
           {
             name: 'Org PRs - 12mo',
             sortable: true,
             selector: (row: any) => row.prs.twelveMoOrgPrCount.issueCount,
-            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner}+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner.login}+`} className="link link-hover">{row.prs.twelveMoOrgPrCount.issueCount}</a>,
             maxWidth: "140px",
           },
           {
             name: 'Org PRs',
             sortable: true,
             selector: (row: any) => row.prs.orgPrCount.issueCount,
-            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner}+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
+            cell: (row: any) => <a href={`https://github.com/pulls?q=is%3Apr+author%3A${row.login}+org%3A${owner.login}+`} className="link link-hover">{row.prs.orgPrCount.issueCount}</a>,
             maxWidth: "140px",
           },
           {
@@ -202,22 +213,22 @@ function MemberTable(props: any) {
 function RepoTable(props: any) {
   const [showForks, setShowForks] = React.useState(true);
 
+  const owner = React.useMemo(
+    () => {
+      return getOwner(props.data);
+    },
+    [props.data],
+  );
+
   const columns = React.useMemo(
     () => {
-      let owner ='';
-      if ('org' in props.data) {
-        owner = props.data.org.login
-      }
-      else if ('user' in props.data) {
-        owner = props.data.user.login;
-      }
       return [
         {
             name: 'Name',
             sortable: true,
             sortFunction: caseInsensitiveSortFn('name'),
             selector: (row: any) => row.name,
-            cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}`} className="font-bold link link-hover">
+            cell: (row: any) => <a href={`https://github.com/${owner.login}/${row.name}`} className="font-bold link link-hover">
               {row.name} {row.isFork ? <span title="Fork">↗</span> : null} {row.isArchived ? <span title="Archived">†</span> : null}
             </a>,
             maxWidth: "280px",
@@ -279,7 +290,7 @@ function RepoTable(props: any) {
           name: 'PR Count',
           sortable: true,
           selector: (row: any) => row.pullRequests.totalCount,
-          cell: (row: any) => <a href={`https://github.com/${owner}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
+          cell: (row: any) => <a href={`https://github.com/${owner.login}/${row.name}/pulls`} className="link link-hover">{row.pullRequests.totalCount}</a>,
           maxWidth: "110px",
         },
         {
@@ -444,6 +455,13 @@ function App() {
   const location = useLocation();
   const prefersDarkMode = DarkModePreferredStatus();
 
+  const owner = React.useMemo(
+    () => {
+      return getOwner(data);
+    },
+    [data],
+  );
+
   const fetchData = async () => {
     try {
       const response = await fetch('/data/data.json');
@@ -474,15 +492,11 @@ function App() {
 
   return (
     <div className="">
+      {/* Header */}
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
-          {'org' in data &&
-            <span>{data['org']['login']} - {data['org']['name']}</span>
-          }
-          {'user' in data &&
-            <span>{data['user']['login']} - {data['user']['name']}</span>
-          }
+          <a href={`https://github.com/${owner.login}`} className="link link-hover">{owner.login} - {owner.name}</a>
           {'lastUpdated' in data &&
             <span className="text-xs text-slate-500 pl-2">
               (last updated {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
@@ -514,8 +528,8 @@ function App() {
           </ul>
         </div>
       </div>
+      {/* Content */}
       <div className="px-6">
-        {/* Content */}
         <Routes>
           <Route path="/members" element={
             <MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>
