@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 import DarkModePreferredStatus from './DarkMode';
-import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletContext } from "react-router-dom"
+import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletContext, useNavigate } from "react-router-dom"
 import { Chart as GoogleChart } from "react-google-charts";
 import Screenshot1 from './assets/screenshot_1.png';
 
@@ -452,6 +452,7 @@ function ContribTimeline() {
 }
 
 function Home() {
+  const navigate = useNavigate();
   const [paths, setPaths] = useState<string[]>([]);
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
 
@@ -482,10 +483,14 @@ function Home() {
     })();
   }, []);
 
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    navigate(`/owners/${event.target.value}`);
+  }
+
   return (
     <div className="hero min-h-screen bg-base-100">
       <div className="hero-content flex-col lg:flex-row">
-        <div>
+        <div className="py-10">
           <img src={Screenshot1} className="rounded-lg shadow-2xl py-4" />
           {/* <img src={Screenshot2} className="rounded-lg shadow-2xl py-4" /> */}
         </div>
@@ -495,25 +500,17 @@ function Home() {
             <p className="py-6">Github org (and user) stats and timeline visualizer 📇</p>
           </div>
           <div className="flex-none">
-            <ul className="py-6 menu menu-horizontal">
-              <li>
-                <details>
-                  <summary className="bg-base-300 w-72">
-                    Select an org or user
-                  </summary>
-                  <ul className="p-2 bg-base-100 z-10 w-72">
-                    {paths.map(path => {
-                      path = path.replace(/\.[^/.]+$/, ""); // w/o file extension
-                      return (
-                        <li key={path}><a href={`/owners/${path}`}>{path}</a></li>
-                      );
-                    })}
-                  </ul>
-                </details>
-              </li>
-            </ul>
+            <select className="select select-sm bg-base-200 w-72 mx-2 font-semibold" onChange={handleSelect}>
+              <option disabled selected>Select an org or user</option>
+              {paths.map(path => {
+                path = path.replace(/\.[^/.]+$/, ""); // w/o file extension
+                return (
+                  <option>{path}</option>
+                );
+              })}
+            </select>
           </div>
-          <div className="h-60" /> {/* jank: vertical spacer */}
+          <div className="h-12" /> {/* jank: vertical spacer */}
         </div>
       </div>
     </div>
@@ -630,7 +627,7 @@ function OrgPage() {
   }, []);
 
   return (
-    <div className="">
+    <div className="p-8">
       <NavBar data={data} />
       <div className="px-6">
         {loaded &&
