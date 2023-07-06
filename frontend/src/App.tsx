@@ -5,7 +5,6 @@ import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletConte
 import { Chart as GoogleChart } from "react-google-charts";
 
 // TODO: ???
-// support serving multiple data.json files for users/orgs at the same time
 // kick off indexes as a background job from the API
 // user -> repo force directed graph
 // parallelize fetching
@@ -462,6 +461,15 @@ function Home() {
 }
 
 // TODO: style
+function FailedToLoadPage() {
+  return (
+    <div>
+      Failed to load owner org or user. We might not have that ready.
+    </div>
+  );
+}
+
+// TODO: style
 function NotFoundPage() {
   return (
     <div>
@@ -500,17 +508,18 @@ function NavBar({ data }: any) {
         }
       </div>
       <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-4">
           <li>
             <details>
-              <summary>
-                {location.pathname} {/* TODO: fix this */}
+              <summary className="bg-base-300">
+                {/* jank: I like nav bar being outside of the page components */}
+                /{location.pathname.split('/').slice(-1)[0]}
               </summary>
               <ul className="p-2 bg-base-100 z-10 absolute right-0">
-                <li><a href={`/members`}>/members</a></li>
-                <li><a href={`/repos`}>/repos</a></li>
-                <li><a href={`/repo-timeline`}>/repo-timeline</a></li>
-                <li><a href={`/contrib-timeline`}>/contrib-timeline</a></li>
+                <li><a href={`/owners/${owner.login}/members`}>/members</a></li>
+                <li><a href={`/owners/${owner.login}/repos`}>/repos</a></li>
+                <li><a href={`/owners/${owner.login}/repo-timeline`}>/repo-timeline</a></li>
+                <li><a href={`/owners/${owner.login}/contrib-timeline`}>/contrib-timeline</a></li>
               </ul>
             </details>
           </li>
@@ -525,6 +534,7 @@ function OrgPage() {
   const [data, setData] = useState<Record<string, any>>({});
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   const prefersDarkMode = DarkModePreferredStatus();
 
@@ -551,6 +561,8 @@ function OrgPage() {
       const res = await fetchData();
       if (res.success) {
         setData(res.data);
+      } else {
+        setError(true);
       }
       setLoaded(true);
     })();
@@ -560,7 +572,14 @@ function OrgPage() {
     <div className="">
       <NavBar data={data} />
       <div className="px-6">
-        <Outlet context={{ loaded, data, prefersDarkMode }}/>
+        {loaded &&
+          <div>
+            {!error
+              ? <Outlet context={{ loaded, data, prefersDarkMode }}/>
+              : <FailedToLoadPage />
+            }
+          </div>
+        }
       </div>
     </div>
   );
