@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 import DarkModePreferredStatus from './DarkMode';
-import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletContext } from "react-router-dom"
+import { Route, Routes, Navigate, useLocation } from "react-router-dom"
 import { Chart as GoogleChart } from "react-google-charts";
 
 // TODO: ???
@@ -78,8 +78,7 @@ const DataTableExpanded: React.FC<ExpanderComponentProps<Record<string, any>>> =
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 };
 
-function MemberTable() {
-  const props: any = useOutletContext();
+function MemberTable(props: any) {
   const [showPersonal, setShowPersonal] = React.useState(false);
   const [showNonMembers, setShowNonMembers] = React.useState(false);
 
@@ -211,8 +210,7 @@ function MemberTable() {
   );
 }
 
-function RepoTable() {
-  const props: any = useOutletContext();
+function RepoTable(props: any) {
   const [showForks, setShowForks] = React.useState(true);
 
   const owner = React.useMemo(
@@ -337,8 +335,7 @@ function RepoTable() {
   );
 }
 
-function RepoTimeline() {
-  const props: any = useOutletContext();
+function RepoTimeline(props: any) {
   const chartData = React.useMemo(
     () => {
       const columns = [
@@ -393,8 +390,7 @@ function RepoTimeline() {
   );
 }
 
-function ContribTimeline() {
-  const props: any = useOutletContext();
+function ContribTimeline(props: any) {
   const chartData = React.useMemo(
     () => {
       const columns = [
@@ -451,28 +447,13 @@ function ContribTimeline() {
   );
 }
 
-// TODO: style
-// TODO: index of orgs/users
-function Home() {
-  return (
-    <div>
-      Welcome to gh-organizer
-    </div>
-  );
-}
+function App() {
+  const [data, setData] = useState<Record<string, any>>({});
+  const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
+  const [loaded, setLoaded] = useState(false);
 
-// TODO: style
-function NotFoundPage() {
-  return (
-    <div>
-      Not Found
-      <div><a href='/' className="link">Back</a></div>
-    </div>
-  );
-}
-
-function NavBar({ data }: any) {
   const location = useLocation();
+  const prefersDarkMode = DarkModePreferredStatus();
 
   const owner = React.useMemo(
     () => {
@@ -481,56 +462,9 @@ function NavBar({ data }: any) {
     [data],
   );
 
-  return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1">
-        <a href={`/`} className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
-        <a href={`https://github.com/${owner.login}`} className="link link-hover">{owner.login} - {owner.name}</a>
-        {'lastUpdated' in data &&
-          <span className="text-xs text-slate-500 pl-2">
-            (last updated {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'numeric',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true
-            })})
-          </span>
-        }
-      </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <details>
-              <summary>
-                {location.pathname} {/* TODO: fix this */}
-              </summary>
-              <ul className="p-2 bg-base-100 z-10 absolute right-0">
-                <li><a href={`/members`}>/members</a></li>
-                <li><a href={`/repos`}>/repos</a></li>
-                <li><a href={`/repo-timeline`}>/repo-timeline</a></li>
-                <li><a href={`/contrib-timeline`}>/contrib-timeline</a></li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-function OrgPage() {
-  const { ownerId } = useParams();
-  const [data, setData] = useState<Record<string, any>>({});
-  const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
-  const [loaded, setLoaded] = useState(false);
-
-  const prefersDarkMode = DarkModePreferredStatus();
-
   const fetchData = async () => {
     try {
-      const response = await fetch(`/data/${ownerId}.json`);
+      const response = await fetch('/data/data.json');
       if (!response.ok) {
         console.log(response.text());
         return { success: false };
@@ -558,29 +492,61 @@ function OrgPage() {
 
   return (
     <div className="">
-      <NavBar data={data} />
+      {/* Header */}
+      <div className="navbar bg-base-100">
+        <div className="flex-1">
+          <a className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
+          <a href={`https://github.com/${owner.login}`} className="link link-hover">{owner.login} - {owner.name}</a>
+          {'lastUpdated' in data &&
+            <span className="text-xs text-slate-500 pl-2">
+              (last updated {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+              })})
+            </span>
+          }
+        </div>
+        <div className="flex-none">
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <details>
+                <summary>
+                  {location.pathname}
+                </summary>
+                <ul className="p-2 bg-base-100 z-10 absolute right-0">
+                  <li><a href={`/members`}>/members</a></li>
+                  <li><a href={`/repos`}>/repos</a></li>
+                  <li><a href={`/repo-timeline`}>/repo-timeline</a></li>
+                  <li><a href={`/contrib-timeline`}>/contrib-timeline</a></li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+      </div>
+      {/* Content */}
       <div className="px-6">
-        <Outlet context={{ loaded, data, prefersDarkMode }}/>
+        <Routes>
+          <Route path="/members" element={
+            <MemberTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></MemberTable>
+          } />
+          <Route path="/repos" element={
+            <RepoTable loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></RepoTable>
+          } />
+          <Route path="/repo-timeline" element={
+            <RepoTimeline loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></RepoTimeline>
+          } />
+          <Route path="/contrib-timeline" element={
+            <ContribTimeline loaded={loaded} data={data} prefersDarkMode={prefersDarkMode}></ContribTimeline>
+          } />
+          <Route path="/*" element={<Navigate to="/members" replace />} />
+        </Routes>
       </div>
     </div>
-  );
-}
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="owners/:ownerId" element={<OrgPage />}>
-        {/* jank: nested routes will take props via useOutletContext */}
-        <Route path="members" element={<MemberTable />} />
-        <Route path="repos" element={<RepoTable />} />
-        <Route path="repo-timeline" element={<RepoTimeline />} />
-        <Route path="contrib-timeline" element={<ContribTimeline />} />
-        <Route index element={<Navigate to="members" replace />} />
-        <Route path="*" element={<Navigate to="members" replace />} />
-      </Route>
-      <Route path="/*" element={<NotFoundPage/>} />
-    </Routes>
   );
 }
 
