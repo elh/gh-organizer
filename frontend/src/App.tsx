@@ -515,21 +515,22 @@ function Home() {
   );
 }
 
-// TODO: style
 function FailedToLoadPage() {
   return (
-    <div>
-      Failed to load owner org or user. We might not have that ready.
+    <div className="p-14">
+      <div className="alert alert-error">
+        <span>Failed to load owner org or user. We might not have that ready.</span>
+      </div>
     </div>
   );
 }
 
-// TODO: style
 function NotFoundPage() {
   return (
-    <div>
-      Not Found
-      <div><a href='/' className="link">Back</a></div>
+    <div className="p-14">
+      <div className="alert alert-error">
+        <span>Not Found.</span>
+      </div>
     </div>
   );
 }
