@@ -454,8 +454,28 @@ function ContribTimeline() {
 // TODO: index of orgs/users
 function Home() {
   return (
-    <div>
-      Welcome to gh-organizer
+    <div className="hero min-h-screen bg-base-100">
+      <div className="hero-content text-center">
+        <div className="max-w-xl">
+          <h1 className="text-5xl font-bold">gh-organizer</h1>
+          <p className="py-6">Github org (and user) stats and timeline visualizer 📇</p>
+          <div className="flex-none">
+            <ul className="py-6 menu menu-horizontal">
+              <li>
+                <details>
+                  <summary className="bg-base-300 w-72">
+                    Select an org or user
+                  </summary>
+                  <ul className="p-2 bg-base-100 z-10 w-72">
+                    <li><a href={`/owners/TODO`}>TODO</a></li>
+                  </ul>
+                </details>
+              </li>
+            </ul>
+          </div>
+          <div className="h-80" /> {/* vertical spacer */}
+        </div>
+      </div>
     </div>
   );
 }
@@ -492,7 +512,7 @@ function NavBar({ data }: any) {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a href={`/`} className="btn btn-ghost hover:bg-inherit normal-case text-xl">gh-organizer</a>
+        <a href={`/`} className="btn btn-ghost hover:bg-inherit normal-case text-2xl">gh-organizer</a>
         <a href={`https://github.com/${owner.login}`} className="link link-hover">{owner.login} - {owner.name}</a>
         {'lastUpdated' in data &&
           <span className="text-xs text-slate-500 pl-2">
