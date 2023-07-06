@@ -6,7 +6,6 @@ import fs from 'fs';
 dotenv.config();
 const port = process.env.PORT || 4000;
 
-// serve data/data.json
 const app = express();
 
 // serve files in data/
@@ -16,6 +15,10 @@ app.use('/data', express.static('data'));
 app.get('/data', async (_, res) => {
   const filePaths: string[] = [];
   fs.readdirSync('data').forEach(file => {
+    // if file does not end in .json, skip
+    if (!file.endsWith('.json')) {
+      return;
+    }
     filePaths.push(file);
   });
   res.json(filePaths);

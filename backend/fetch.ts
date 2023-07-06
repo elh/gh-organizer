@@ -3,8 +3,6 @@ import fs from 'fs/promises';
 import { Octokit } from "octokit";
 import {getOrg, getMembers, getPRStats, getRepos, getRepoPullRequests, getUser} from './gh';
 
-const file = 'data/data.json';
-
 // env vars
 dotenv.config();
 if (!process.env.GH_TOKEN) {
@@ -34,6 +32,8 @@ if (mode !== 'org' && mode !== 'user') {
   console.error('Mode must be either "org" or "user"');
   process.exit(1);
 }
+
+const file = `data/${orgOrUser}.json`;
 
 // set up
 const octokit = new Octokit({

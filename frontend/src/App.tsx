@@ -3,6 +3,7 @@ import DataTable, { ExpanderComponentProps } from 'react-data-table-component';
 import DarkModePreferredStatus from './DarkMode';
 import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletContext } from "react-router-dom"
 import { Chart as GoogleChart } from "react-google-charts";
+import Screenshot1 from './assets/screenshot_1.png';
 
 // TODO: ???
 // kick off indexes as a background job from the API
@@ -453,7 +454,6 @@ function ContribTimeline() {
 function Home() {
   const [paths, setPaths] = useState<string[]>([]);
   const fetchStarted = useRef(false); // to prevent double detch from React StrictMode
-  const [loaded, setLoaded] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -479,16 +479,21 @@ function Home() {
       if (res.success) {
         setPaths(res.data);
       }
-      setLoaded(true);
     })();
   }, []);
 
   return (
     <div className="hero min-h-screen bg-base-100">
-      <div className="hero-content text-center">
-        <div className="max-w-xl">
-          <h1 className="text-5xl font-bold">gh-organizer</h1>
-          <p className="py-6">Github org (and user) stats and timeline visualizer 📇</p>
+      <div className="hero-content flex-col lg:flex-row">
+        <div>
+          <img src={Screenshot1} className="rounded-lg shadow-2xl py-4" />
+          {/* <img src={Screenshot2} className="rounded-lg shadow-2xl py-4" /> */}
+        </div>
+        <div className="max-w-xl px-10">
+          <div className="px-2">
+            <h1 className="text-5xl font-bold">gh-organizer</h1>
+            <p className="py-6">Github org (and user) stats and timeline visualizer 📇</p>
+          </div>
           <div className="flex-none">
             <ul className="py-6 menu menu-horizontal">
               <li>
@@ -508,7 +513,7 @@ function Home() {
               </li>
             </ul>
           </div>
-          <div className="h-80" /> {/* vertical spacer */}
+          <div className="h-60" /> {/* jank: vertical spacer */}
         </div>
       </div>
     </div>
