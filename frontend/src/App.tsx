@@ -10,7 +10,6 @@ import Screenshot1 from './assets/screenshot_1.png';
 // user -> repo force directed graph
 // parallelize fetching
 // starred repos
-// show contrib tenure for users on /members
 // split user and org modes. people love seeing all their contributions, regardless of ownership
 // option for including or not including nonmembers
 // use fancier grid component. select columns and resize manually
@@ -341,6 +340,30 @@ function RepoTable() {
   );
 }
 
+function Timeline({ chartData, color, prefersDarkMode} : {chartData: any, color: string, prefersDarkMode: boolean}) {
+  return (
+    <GoogleChart
+      chartType="Timeline"
+      data={chartData}
+      width="100%"
+      height="88vh"
+      options={{
+        alternatingRowStyle: false,
+        backgroundColor: prefersDarkMode ? 'rgb(29, 35, 42)' : '#fff',
+        fontName: 'ui-sans-serif',
+        timeline: {
+          singleColor: color,
+          rowLabelStyle: {
+            color: prefersDarkMode ? '#fff' : null,
+          },
+          barLabelStyle: {
+            color: prefersDarkMode ? '#fff' : null,
+          },
+        },
+      }} />
+  );
+}
+
 function RepoTimeline() {
   const props: any = useOutletContext();
   const chartData = React.useMemo(
@@ -373,25 +396,7 @@ function RepoTimeline() {
           ? <div className="flex justify-center items-center m-10">
               <span className="loading loading-spinner text-primary"></span>
             </div>
-          : <GoogleChart
-              chartType="Timeline"
-              data={chartData}
-              width="100%"
-              height="88vh"
-              options={{
-                alternatingRowStyle: false,
-                backgroundColor: props.prefersDarkMode ? 'rgb(29, 35, 42)' : '#fff',
-                fontName: 'ui-sans-serif',
-                timeline: {
-                  singleColor: "rgb(25, 174, 159)",
-                  rowLabelStyle: {
-                    color: props.prefersDarkMode ? '#fff' : null,
-                  },
-                  barLabelStyle: {
-                    color: props.prefersDarkMode ? '#fff' : null,
-                  },
-                },
-              }} />
+          : <Timeline chartData={chartData} color={"rgb(25, 174, 159)"} prefersDarkMode={props.prefersDarkMode} />
         }
     </div>
   );
@@ -424,32 +429,13 @@ function ContribTimeline() {
     [props.data],
   );
 
-  // TODO: factor this out for ContribTimeline and RepoTimeline
   return (
     <div>
       {!props.loaded
           ? <div className="flex justify-center items-center m-10">
               <span className="loading loading-spinner text-primary"></span>
             </div>
-          : <GoogleChart
-              chartType="Timeline"
-              data={chartData}
-              width="100%"
-              height="88vh"
-              options={{
-                alternatingRowStyle: false,
-                backgroundColor: props.prefersDarkMode ? 'rgb(29, 35, 42)' : '#fff',
-                fontName: 'ui-sans-serif',
-                timeline: {
-                  singleColor: "rgb(204, 0, 156)",
-                  rowLabelStyle: {
-                    color: props.prefersDarkMode ? '#fff' : null,
-                  },
-                  barLabelStyle: {
-                    color: props.prefersDarkMode ? '#fff' : null,
-                  },
-                },
-              }} />
+          : <Timeline chartData={chartData} color={"rgb(204, 0, 156)"} prefersDarkMode={props.prefersDarkMode} />
         }
     </div>
   );
@@ -574,7 +560,7 @@ function NavBar({ data }: any) {
         <ul className="menu menu-horizontal px-4">
           <li>
             <details>
-              <summary className="bg-base-300">
+              <summary className="bg-base-200">
                 {/* jank: I like nav bar being outside of the page components */}
                 /{location.pathname.split('/').slice(-1)[0]}
               </summary>
