@@ -158,8 +158,6 @@ async function fetch() {
           let resp: Record<string, any> = {};
           try {
             resp = await getRepoPullRequests(octokit, orgOrUser, repo.name, cursor);
-            // ignore PRs created by bots
-            resp.nodes = resp.nodes.filter((pr: any) => pr.author["__typename"] !== "Bot");
           } catch (err) {
             console.error('Error fetching PRs for repo ' + repo.name + ': ' + err);
             console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)
@@ -169,6 +167,10 @@ async function fetch() {
 
           for (const pr of resp.nodes) {
             if (pr.author == null) {
+              continue;
+            }
+            // ignore PRs created by bots
+            if (pr.author["__typename"] == "Bot") {
               continue;
             }
             if (!data['members'].some((member: any) => member.login === pr.author.login)) {

@@ -4,6 +4,8 @@ import DarkModePreferredStatus from './DarkMode';
 import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletContext, useNavigate } from "react-router-dom"
 import { Chart as GoogleChart } from "react-google-charts";
 import Screenshot1 from './assets/screenshot_1.png';
+import ForceGraph3D from 'react-force-graph-3d';
+import SpriteText from 'three-spritetext';
 
 // TODO: ???
 // kick off indexes as a background job from the API
@@ -441,6 +443,68 @@ function ContribTimeline() {
   );
 }
 
+function RepoForceGraph() {
+  const props: any = useOutletContext();
+
+  const forceGraph = React.useMemo(
+    () => {
+      // add all repos and contributors as nodes
+      const nodes: any[] = [];
+      if ('prDates' in props.data) {
+        Object.keys(props.data.prDates).forEach(name => {
+          nodes.push({
+            'id': name,
+            'group': 1,
+          });
+        });
+      }
+      if ('repos' in props.data) {
+        props.data.repos.forEach((repo: any) => {
+          nodes.push({
+            'id': repo.name,
+            'group': 2,
+          });
+        });
+      }
+
+      // add all repo collaborators as links. collaborators is a map of contribuor ids to counts. use the counts as values
+      const links: any[] = [];
+      if ('repos' in props.data) {
+        props.data.repos.forEach((repo: any) => {
+          if ('collaborators' in repo) {
+            Object.keys(repo.collaborators).forEach(name => {
+              links.push({
+                'source': repo.name,
+                'target': name,
+                'value': repo.collaborators[name],
+              });
+            });
+          }
+        });
+      }
+
+      return {
+        'nodes': nodes,
+        'links': links,
+      };
+    },
+    [props.data],
+  );
+
+  return (
+    <ForceGraph3D
+      graphData={forceGraph}
+      nodeAutoColorBy="group"
+      nodeThreeObject={(node: any) => {
+        const sprite = new SpriteText(node.id);
+        sprite.color = node.color;
+        sprite.textHeight = 8;
+        return sprite;
+      }}
+    />
+  );
+}
+
 // TODO: link to github in footer
 function Home() {
   const navigate = useNavigate();
@@ -569,6 +633,7 @@ function NavBar({ data }: any) {
                 <li><a href={`/owners/${owner.login}/repos`}>/repos</a></li>
                 <li><a href={`/owners/${owner.login}/repo-timeline`}>/repo-timeline</a></li>
                 <li><a href={`/owners/${owner.login}/contrib-timeline`}>/contrib-timeline</a></li>
+                <li><a href={`/owners/${owner.login}/force-graph`}>/force-graph</a></li>
               </ul>
             </details>
           </li>
@@ -644,6 +709,7 @@ function App() {
         <Route path="repos" element={<RepoTable />} />
         <Route path="repo-timeline" element={<RepoTimeline />} />
         <Route path="contrib-timeline" element={<ContribTimeline />} />
+        <Route path="force-graph" element={<RepoForceGraph />} />
         <Route index element={<Navigate to="members" replace />} />
         <Route path="*" element={<Navigate to="members" replace />} />
       </Route>
