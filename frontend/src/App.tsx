@@ -10,6 +10,10 @@ import Screenshot1 from './assets/screenshot_1.png';
 // user -> repo force directed graph
 // parallelize fetching
 // starred repos
+// show contrib tenure for users on /members
+// split user and org modes. people love seeing all their contributions, regardless of ownership
+// option for including or not including nonmembers
+// use fancier grid component. select columns and resize manually
 
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
@@ -451,6 +455,7 @@ function ContribTimeline() {
   );
 }
 
+// TODO: link to github in footer
 function Home() {
   const navigate = useNavigate();
   const [paths, setPaths] = useState<string[]>([]);
@@ -501,7 +506,7 @@ function Home() {
           </div>
           <div className="flex-none">
             <select className="select select-sm bg-base-200 w-72 mx-2 font-semibold" onChange={handleSelect}>
-              <option disabled selected>Select an org or user</option>
+              <option disabled selected>Org or user</option>
               {paths.map(path => {
                 path = path.replace(/\.[^/.]+$/, ""); // w/o file extension
                 return (

@@ -144,6 +144,7 @@ async function fetch() {
       console.timeEnd('getRepos - all')
     }
 
+    // TODO: speed this up with `collaborators`? only use PRs if you are going to do the graph
     if (fetcherEnabled('repo-prs')) {
       console.time('getRepoPullRequests - all')
       for (const repo of data['repos']) {
@@ -157,6 +158,8 @@ async function fetch() {
           let resp: Record<string, any> = {};
           try {
             resp = await getRepoPullRequests(octokit, orgOrUser, repo.name, cursor);
+            // ignore PRs created by bots
+            resp.nodes = resp.nodes.filter((pr: any) => pr.author["__typename"] !== "Bot");
           } catch (err) {
             console.error('Error fetching PRs for repo ' + repo.name + ': ' + err);
             console.timeEnd('getRepoPullRequests - ' + repo.name + ' - ' + i)

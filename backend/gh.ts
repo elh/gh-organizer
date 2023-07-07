@@ -254,6 +254,7 @@ export async function getRepoPullRequests(octokit: Octokit, orgOrUser: string, r
           }
           nodes {
             author {
+              __typename
               login
             }
             mergedAt
