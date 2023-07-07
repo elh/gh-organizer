@@ -192,6 +192,15 @@ async function fetch() {
                   data['prDates'][pr.author.login]['latest'] = pr.mergedAt;
                 }
               }
+
+              // track repo -> collab relationship
+              // TODO: just use collaborators relationship
+              repo['collaborators'] = repo['collaborators'] || {};
+              if (!(pr.author.login in repo['collaborators'])) {
+                repo['collaborators'][pr.author.login] = 1;
+              } else {
+                repo['collaborators'][pr.author.login] += 1;
+              }
             }
           }
           await fs.writeFile(file, JSON.stringify(data, null, 2));
