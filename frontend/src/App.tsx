@@ -348,7 +348,7 @@ function Timeline({ chartData, color, prefersDarkMode} : {chartData: any, color:
       chartType="Timeline"
       data={chartData}
       width="100%"
-      height="88vh"
+      height="84vh"
       options={{
         alternatingRowStyle: false,
         backgroundColor: prefersDarkMode ? 'rgb(29, 35, 42)' : '#fff',
