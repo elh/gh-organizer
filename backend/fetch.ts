@@ -203,6 +203,11 @@ async function fetch() {
               } else {
                 repo['collaborators'][pr.author.login] += 1;
               }
+
+              // track last non-bot, merged PR. a stricter notion of pushedAt
+              if (!('lastUserPRMergedAt' in repo) || pr.mergedAt > repo['lastUserPRMergedAt']) {
+                repo['lastUserPRMergedAt'] = pr.mergedAt;
+              }
             }
           }
           await fs.writeFile(file, JSON.stringify(data, null, 2));

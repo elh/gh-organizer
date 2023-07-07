@@ -257,11 +257,11 @@ function RepoTable() {
           maxWidth: "110px",
         },
         {
-          id: 'pushedAt',
-          name: 'Pushed At',
+          id: 'mergedAt',
+          name: 'Merged At', // last non-bot PR merge time or fall back to last push
           sortable: true,
-          selector: (row: any) => row.pushedAt,
-          cell: (row: any) => <p>{(new Date(row.pushedAt)).toLocaleString('en-US', {
+          selector: (row: any) => 'lastUserPRMergedAt' in row ? row.lastUserPRMergedAt : row.pushedAt,
+          cell: (row: any) => <p>{(new Date('lastUserPRMergedAt' in row ? row.lastUserPRMergedAt : row.pushedAt)).toLocaleString('en-US', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
@@ -326,7 +326,7 @@ function RepoTable() {
                   fixedHeader={true}
                   responsive={true}
                   fixedHeaderScrollHeight={"86vh"}
-                  defaultSortFieldId={"pushedAt"}
+                  defaultSortFieldId={"mergedAt"}
                   defaultSortAsc={false}
                   theme={props.prefersDarkMode ? 'dark' : 'light'}
                   customStyles={props.prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
@@ -379,11 +379,15 @@ function RepoTimeline() {
       let rows = [];
       if ('repos' in props.data) {
         rows = props.data.repos.map((repo: any) => {
+          const endDate = 'lastUserPRMergedAt' in repo ? repo.lastUserPRMergedAt : repo.pushedAt
+          if ('lastUserPRMergedAt' in repo) {
+            console.log(repo.name, repo.lastUserPRMergedAt, repo.pushedAt)
+          }
           return [
             repo.isArchived ? repo.name + ' †' : repo.name,
             new Date(repo.createdAt),
-            // corner case: if repo is created after it's last push, just use the created date
-            new Date(repo.createdAt) < new Date(repo.pushedAt) ? new Date(repo.pushedAt) : new Date(repo.createdAt),
+            // corner case: if repo is created after its last push, just use the created date
+            new Date(repo.createdAt) < new Date(endDate) ? new Date(endDate) : new Date(repo.createdAt),
           ]
         })
       }
@@ -491,6 +495,7 @@ function RepoForceGraph() {
     [props.data],
   );
 
+  // TODO: fix sizing here. make it responsive?
   return (
     <ForceGraph3D
       graphData={forceGraph}
