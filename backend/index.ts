@@ -11,8 +11,8 @@ const app = express();
 // serve files in data/
 app.use('/data', express.static('data'));
 
-// GET /data returns a JSON array of data file names
-app.get('/data', async (_, res) => {
+// GET /orgs returns a JSON array of data file names
+app.get('/orgs', async (_, res) => {
   const filePaths: string[] = [];
   fs.readdirSync('data').forEach(file => {
     // if file does not end in .json, skip

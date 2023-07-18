@@ -16,6 +16,14 @@ import SpriteText from 'three-spritetext';
 // option for including or not including nonmembers
 // use fancier grid component. select columns and resize manually
 
+function request_path(path: string) {
+  if (process.env.REACT_APP_USE_FIXTURES && process.env.REACT_APP_USE_FIXTURES === "true" ) {
+    return process.env.PUBLIC_URL + '/fixtures/' + path;
+  } else {
+    return path;
+  }
+}
+
 function caseInsensitiveSortFn(field: string) {
   return (a: any, b: any) => {
     const aVal = field in a && !!a[field] ? a[field].toLowerCase() : '';
@@ -518,7 +526,7 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`/data`);
+      const response = await fetch(request_path(`/orgs`));
       if (!response.ok) {
         console.log(response.text());
         return { success: false };
@@ -564,7 +572,7 @@ function Home() {
               {paths.map(path => {
                 path = path.replace(/\.[^/.]+$/, ""); // w/o file extension
                 return (
-                  <option>{path}</option>
+                  <option key={path}>{path}</option>
                 );
               })}
             </select>
@@ -666,7 +674,7 @@ function OrgPage() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`/data/${ownerId}.json`);
+      const response = await fetch(request_path(`/data/${ownerId}.json`));
       if (!response.ok) {
         console.log(response.text());
         return { success: false };
