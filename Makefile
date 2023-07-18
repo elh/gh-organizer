@@ -15,3 +15,7 @@ run-frontend-dev:
 lint:
 	(cd backend; npm run lint)
 	(cd frontend; npm run lint)
+
+.PHONY: deploy
+deploy:
+	(cd frontend; npm run deploy)

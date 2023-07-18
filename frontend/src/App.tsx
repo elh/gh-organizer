@@ -673,7 +673,9 @@ function OrgPage() {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  const prefersDarkMode = DarkModePreferredStatus();
+  // const prefersDarkMode = DarkModePreferredStatus();
+  // extra components will not fit dark theme style automatically. mostly working.
+  const prefersDarkMode = false;
 
   const fetchData = async () => {
     try {
