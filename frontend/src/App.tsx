@@ -388,9 +388,6 @@ function RepoTimeline() {
       if ('repos' in props.data) {
         rows = props.data.repos.map((repo: any) => {
           const endDate = 'lastUserPRMergedAt' in repo ? repo.lastUserPRMergedAt : repo.pushedAt
-          if ('lastUserPRMergedAt' in repo) {
-            console.log(repo.name, repo.lastUserPRMergedAt, repo.pushedAt)
-          }
           return [
             repo.isArchived ? repo.name + ' †' : repo.name,
             new Date(repo.createdAt),
@@ -518,7 +515,6 @@ function RepoForceGraph() {
   );
 }
 
-// TODO: link to github in footer
 function Home() {
   const navigate = useNavigate();
   const [paths, setPaths] = useState<string[]>([]);
@@ -619,10 +615,17 @@ function NavBar({ data }: any) {
     [data],
   );
 
+  const handleMenuClick = () => {
+    const menuElement = document.querySelector('#menu');
+    if (menuElement instanceof HTMLElement) {
+      menuElement.click();
+    }
+  };
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a href={`/`} className="btn btn-ghost hover:bg-inherit normal-case text-2xl">gh-organizer</a>
+        <a href={process.env.PUBLIC_URL} className="btn btn-ghost hover:bg-inherit normal-case text-2xl">gh-organizer</a>
         <a href={`https://github.com/${owner.login}`} className="link link-hover">{owner.login} - {owner.name}</a>
         {'lastUpdated' in data &&
           <span className="text-xs text-slate-500 pl-2">
@@ -644,16 +647,16 @@ function NavBar({ data }: any) {
         <ul className="menu menu-horizontal px-2">
           <li>
             <details>
-              <summary className="bg-base-200">
+              <summary id="menu" className="bg-base-200">
                 {/* jank: I like nav bar being outside of the page components */}
                 /{location.pathname.split('/').slice(-1)[0]}
               </summary>
               <ul className="p-2 bg-base-100 z-10 absolute right-0">
-                <li><a href={`/owners/${owner.login}/members`}>/members</a></li>
-                <li><a href={`/owners/${owner.login}/repos`}>/repos</a></li>
-                <li><a href={`/owners/${owner.login}/repo-timeline`}>/repo-timeline</a></li>
-                <li><a href={`/owners/${owner.login}/contrib-timeline`}>/contrib-timeline</a></li>
-                <li><a href={`/owners/${owner.login}/force-graph`}>/force-graph</a></li>
+                <li><a onClick={handleMenuClick} href={process.env.PUBLIC_URL+`#/owners/${owner.login}/members`}>/members</a></li>
+                <li><a onClick={handleMenuClick} href={process.env.PUBLIC_URL+`#/owners/${owner.login}/repos`}>/repos</a></li>
+                <li><a onClick={handleMenuClick} href={process.env.PUBLIC_URL+`#/owners/${owner.login}/repo-timeline`}>/repo-timeline</a></li>
+                <li><a onClick={handleMenuClick} href={process.env.PUBLIC_URL+`#/owners/${owner.login}/contrib-timeline`}>/contrib-timeline</a></li>
+                <li><a onClick={handleMenuClick} href={process.env.PUBLIC_URL+`#/owners/${owner.login}/force-graph`}>/force-graph</a></li>
               </ul>
             </details>
           </li>
