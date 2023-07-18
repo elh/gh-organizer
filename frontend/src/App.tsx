@@ -16,6 +16,8 @@ import SpriteText from 'three-spritetext';
 // option for including or not including nonmembers
 // use fancier grid component. select columns and resize manually
 
+// NOTE: expandableRows is disabled
+
 function request_path(path: string) {
   if (process.env.REACT_APP_USE_FIXTURES && process.env.REACT_APP_USE_FIXTURES === "true" ) {
     return process.env.PUBLIC_URL + '/fixtures/' + path;
@@ -212,8 +214,8 @@ function MemberTable() {
                   defaultSortFieldId={"login"}
                   theme={props.prefersDarkMode ? 'dark' : 'light'}
                   customStyles={props.prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
-                  expandableRows
-                  expandableRowsComponent={DataTableExpanded}
+                  // expandableRows
+                  // expandableRowsComponent={DataTableExpanded}
                   pagination={true}
                   paginationPerPage={100}
                   paginationRowsPerPageOptions={[25, 50, 100, 1000]}
@@ -338,8 +340,8 @@ function RepoTable() {
                   defaultSortAsc={false}
                   theme={props.prefersDarkMode ? 'dark' : 'light'}
                   customStyles={props.prefersDarkMode ? dataTableDarkStyles : dataTableLightStyles}
-                  expandableRows
-                  expandableRowsComponent={DataTableExpanded}
+                  // expandableRows
+                  // expandableRowsComponent={DataTableExpanded}
                   pagination={true}
                   paginationPerPage={100}
                   paginationRowsPerPageOptions={[25, 50, 100, 1000]}
