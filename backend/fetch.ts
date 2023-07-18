@@ -11,7 +11,7 @@ if (!process.env.GH_TOKEN) {
 }
 
 // `npx ts-node fetch.ts <mode> <owner> <fetchers> [<repo-privacy>]`
-// `npx ts-node fetch.ts clojure all`
+// `npx ts-node fetch.ts org clojure all`
 // 1) mode is either "org" or "user"
 // 2) owner is a github org or user to fetch for
 // 3) fetchers is a comma-separated list of fetchers to run

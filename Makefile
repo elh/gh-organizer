@@ -3,11 +3,11 @@
 fetch:
 	(cd backend; npx ts-node fetch.ts $(MODE) $(OWNER) $(FETCHERS) $(REPOPRIVACY))
 
-.PHONY: run-backend
+.PHONY: run-backend-dev
 run-backend-dev:
 	(cd backend; npm run dev)
 
-.PHONY: run-backend
+.PHONY: run-frontend-dev
 run-frontend-dev:
 	(cd frontend; npm start)
 
