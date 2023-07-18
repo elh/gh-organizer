@@ -4,12 +4,12 @@ import DarkModePreferredStatus from './DarkMode';
 import { Outlet, Route, Routes, Navigate, useParams, useLocation, useOutletContext, useNavigate } from "react-router-dom"
 import { Chart as GoogleChart } from "react-google-charts";
 import Screenshot1 from './assets/screenshot_1.png';
+import GithubMark from './assets/github-mark.png';
 import ForceGraph3D from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
 
 // TODO: ???
 // kick off indexes as a background job from the API
-// user -> repo force directed graph
 // parallelize fetching
 // starred repos
 // split user and org modes. people love seeing all their contributions, regardless of ownership
@@ -552,7 +552,6 @@ function Home() {
       <div className="hero-content flex-col lg:flex-row">
         <div className="py-10">
           <img src={Screenshot1} className="rounded-lg shadow-2xl py-4" />
-          {/* <img src={Screenshot2} className="rounded-lg shadow-2xl py-4" /> */}
         </div>
         <div className="max-w-xl px-10">
           <div className="px-2">
@@ -569,6 +568,11 @@ function Home() {
                 );
               })}
             </select>
+            <footer className="mt-16 p-6 flex items-center justify-center text-base-content">
+              <a href="https://github.com/elh/gh-organizer">
+                <img src={GithubMark} className="w-6 mx-1" />
+              </a>
+            </footer>
           </div>
           <div className="h-12" /> {/* jank: vertical spacer */}
         </div>
@@ -614,7 +618,7 @@ function NavBar({ data }: any) {
         <a href={`https://github.com/${owner.login}`} className="link link-hover">{owner.login} - {owner.name}</a>
         {'lastUpdated' in data &&
           <span className="text-xs text-slate-500 pl-2">
-            (last updated {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
+            (last fetched {(new Date(data['lastUpdated'])).toLocaleString('en-US', {
               year: 'numeric',
               month: 'numeric',
               day: 'numeric',
@@ -626,7 +630,10 @@ function NavBar({ data }: any) {
         }
       </div>
       <div className="flex-none">
-        <ul className="menu menu-horizontal px-4">
+        <a href="https://github.com/elh/gh-organizer">
+          <img src={GithubMark} className="w-6 mx-1" />
+        </a>
+        <ul className="menu menu-horizontal px-2">
           <li>
             <details>
               <summary className="bg-base-200">
