@@ -1,0 +1,847 @@
+{
+  "lastUpdated": "2023-07-18T03:07:27.190Z",
+  "members": [
+    {
+      "login": "elh",
+      "name": "Eugene Huang",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=98b530007613f117c92f1287d3c31a9177a3d22b&v=4",
+      "followers": {
+        "totalCount": 18
+      },
+      "following": {
+        "totalCount": 23
+      },
+      "repositories": {
+        "totalCount": 24
+      },
+      "starredRepositories": {
+        "totalCount": 164
+      },
+      "prs": {
+        "orgPrCount": {
+          "issueCount": 146
+        },
+        "threeMoOrgPrCount": {
+          "issueCount": 18
+        },
+        "twelveMoOrgPrCount": {
+          "issueCount": 93
+        }
+      }
+    }
+  ],
+  "repos": [
+    {
+      "name": "advent-2019",
+      "description": "🎄 My short-lived 2019 Advent of Code run in Clojure",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2019-12-01T23:28:55Z",
+      "pushedAt": "2023-01-08T01:12:01Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 19472,
+            "node": {
+              "color": "#db5855",
+              "name": "Clojure"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "detective",
+      "description": "🕵️ Create and play text-based games in the style of \"Her Story\"",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-01-04T06:09:25Z",
+      "pushedAt": "2022-01-24T10:24:14Z",
+      "archivedAt": null,
+      "stargazerCount": 5,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 19707,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "bitempura",
+      "description": "⏳ Toy, in-memory, bitemporal key-value database",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-01-22T21:33:31Z",
+      "pushedAt": "2023-07-17T05:12:50Z",
+      "archivedAt": null,
+      "stargazerCount": 8,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 29
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 115481,
+            "node": {
+              "color": "#00ADD8",
+              "name": "Go"
+            }
+          },
+          {
+            "size": 1078,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          },
+          {
+            "size": 711,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 28
+      },
+      "lastUserPRMergedAt": "2023-07-17T01:36:14Z"
+    },
+    {
+      "name": "bitempura-viz",
+      "description": "🔮 Visualize the 2D valid time and tx time history in a Bitempura bitemporal database",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-02-05T19:41:04Z",
+      "pushedAt": "2023-07-18T02:21:36Z",
+      "archivedAt": null,
+      "stargazerCount": 2,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 24
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 41699,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
+            }
+          },
+          {
+            "size": 2844,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          },
+          {
+            "size": 978,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          },
+          {
+            "size": 967,
+            "node": {
+              "color": "#563d7c",
+              "name": "CSS"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 21
+      },
+      "lastUserPRMergedAt": "2023-07-17T05:08:03Z"
+    },
+    {
+      "name": "roxie-theater",
+      "description": "🍿 Fetch Roxie Theater showtimes and format them for Letterboxd [obsolete]",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-07-14T03:01:43Z",
+      "pushedAt": "2022-07-14T21:09:58Z",
+      "archivedAt": null,
+      "stargazerCount": 1,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 6748,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "petri-tlaplus",
+      "description": "🕸 TLA+ modules and specifications for Petri nets",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-08-23T06:37:53Z",
+      "pushedAt": "2023-06-19T02:17:08Z",
+      "archivedAt": null,
+      "stargazerCount": 1,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 9
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 29581,
+            "node": {
+              "color": "#4b0079",
+              "name": "TLA"
+            }
+          },
+          {
+            "size": 1771,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 9
+      },
+      "lastUserPRMergedAt": "2023-06-19T02:12:40Z"
+    },
+    {
+      "name": "learntla-v2",
+      "description": null,
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2022-08-25T16:35:18Z",
+      "pushedAt": "2022-09-05T06:57:33Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 49420,
+            "node": {
+              "color": "#4b0079",
+              "name": "TLA"
+            }
+          },
+          {
+            "size": 5123,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          },
+          {
+            "size": 1116,
+            "node": {
+              "color": "#012456",
+              "name": "PowerShell"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "tlaplus-Examples",
+      "description": "A collection of TLA+ specifications of varying complexities",
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2022-08-28T08:48:17Z",
+      "pushedAt": "2022-08-29T04:03:32Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 1398674,
+            "node": {
+              "color": "#4b0079",
+              "name": "TLA"
+            }
+          },
+          {
+            "size": 53056,
+            "node": {
+              "color": "#3D6117",
+              "name": "TeX"
+            }
+          },
+          {
+            "size": 2346,
+            "node": {
+              "color": "#89e051",
+              "name": "Shell"
+            }
+          },
+          {
+            "size": 444,
+            "node": {
+              "color": "#b07219",
+              "name": "Java"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "feynman-781",
+      "description": "⚛️ Simple, performant graph generator for Feynman diagrams*",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-09-01T06:19:22Z",
+      "pushedAt": "2022-09-07T01:28:12Z",
+      "archivedAt": null,
+      "stargazerCount": 3,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 13
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 9203,
+            "node": {
+              "color": "#dea584",
+              "name": "Rust"
+            }
+          },
+          {
+            "size": 320,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 13
+      },
+      "lastUserPRMergedAt": "2022-09-06T04:42:02Z"
+    },
+    {
+      "name": "elh",
+      "description": "❦",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-09-06T22:19:13Z",
+      "pushedAt": "2022-09-07T01:23:12Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": []
+      }
+    },
+    {
+      "name": "quarry",
+      "description": "🧮 Tiny expert system demo for hypertension recommendations",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-09-27T03:01:09Z",
+      "pushedAt": "2022-10-03T06:32:11Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 6763,
+            "node": {
+              "color": "#74283c",
+              "name": "Prolog"
+            }
+          },
+          {
+            "size": 77,
+            "node": {
+              "color": "#7e7eff",
+              "name": "Nix"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "compress",
+      "description": "Optimized Go Compression Packages",
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2022-10-31T18:11:05Z",
+      "pushedAt": "2022-10-31T18:18:53Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 1
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 1758672,
+            "node": {
+              "color": "#00ADD8",
+              "name": "Go"
+            }
+          },
+          {
+            "size": 597799,
+            "node": {
+              "color": "#6E4C13",
+              "name": "Assembly"
+            }
+          },
+          {
+            "size": 1088,
+            "node": {
+              "color": "#89e051",
+              "name": "Shell"
+            }
+          },
+          {
+            "size": 982,
+            "node": {
+              "color": "#C1F12E",
+              "name": "Batchfile"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "awesome-advent-of-code",
+      "description": "A collection of awesome resources related to the yearly Advent of Code challenge.",
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2022-12-04T09:44:59Z",
+      "pushedAt": "2022-12-05T18:15:27Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": []
+      }
+    },
+    {
+      "name": "advent-2022",
+      "description": "⭐️ My 50-star 2022 Advent of Code in Clojure",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2022-12-04T20:37:10Z",
+      "pushedAt": "2023-01-04T17:08:21Z",
+      "archivedAt": null,
+      "stargazerCount": 4,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 82982,
+            "node": {
+              "color": "#db5855",
+              "name": "Clojure"
+            }
+          },
+          {
+            "size": 465,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "bettor",
+      "description": "🎲 Run your own parimutuel betting Discord bot. Inspired by Twitch channel point predictions",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-01-09T02:20:53Z",
+      "pushedAt": "2023-07-02T02:41:47Z",
+      "archivedAt": null,
+      "stargazerCount": 4,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 54
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 139607,
+            "node": {
+              "color": "#00ADD8",
+              "name": "Go"
+            }
+          },
+          {
+            "size": 837,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          },
+          {
+            "size": 558,
+            "node": {
+              "color": "#7e7eff",
+              "name": "Nix"
+            }
+          },
+          {
+            "size": 496,
+            "node": {
+              "color": "#384d54",
+              "name": "Dockerfile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 53
+      },
+      "lastUserPRMergedAt": "2023-07-02T02:41:46Z"
+    },
+    {
+      "name": "gossip-glomers",
+      "description": "🙊 My complete Gossip Glomers solutions in Clojure",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-03-09T07:44:20Z",
+      "pushedAt": "2023-03-18T22:20:53Z",
+      "archivedAt": null,
+      "stargazerCount": 2,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 5
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 30020,
+            "node": {
+              "color": "#db5855",
+              "name": "Clojure"
+            }
+          },
+          {
+            "size": 3230,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 5
+      },
+      "lastUserPRMergedAt": "2023-03-15T08:27:13Z"
+    },
+    {
+      "name": "gpt-doc-chat",
+      "description": "📎 Ask your documents natural language questions using GPT. My first GPT experiments",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-03-19T04:47:48Z",
+      "pushedAt": "2023-03-22T07:41:20Z",
+      "archivedAt": null,
+      "stargazerCount": 3,
+      "forkCount": 1,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 17265,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "evals",
+      "description": "Evals is a framework for evaluating OpenAI models and an open-source registry of benchmarks.",
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2023-03-27T03:34:02Z",
+      "pushedAt": "2023-06-15T19:40:48Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 230670,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          },
+          {
+            "size": 7022,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
+            }
+          },
+          {
+            "size": 68,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "make-evals",
+      "description": "🧪 My workspace for writing openai/evals",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-03-27T04:27:52Z",
+      "pushedAt": "2023-06-01T21:09:08Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 2
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 8904,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 2
+      },
+      "lastUserPRMergedAt": "2023-05-26T22:14:21Z"
+    },
+    {
+      "name": "dignum",
+      "description": "♻️ REST API generator for XTDB records w/ schema-on-write. Just a proof of concept",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-06-19T21:39:35Z",
+      "pushedAt": "2023-06-29T04:42:43Z",
+      "archivedAt": null,
+      "stargazerCount": 5,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 23176,
+            "node": {
+              "color": "#db5855",
+              "name": "Clojure"
+            }
+          },
+          {
+            "size": 220,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          },
+          {
+            "size": 123,
+            "node": {
+              "color": "#7e7eff",
+              "name": "Nix"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "gh-organizer",
+      "description": "📇 Github org (and user) stats and timeline visualizer",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-07-02T20:17:20Z",
+      "pushedAt": "2023-07-18T02:48:02Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 43736,
+            "node": {
+              "color": "#3178c6",
+              "name": "TypeScript"
+            }
+          },
+          {
+            "size": 1932,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          },
+          {
+            "size": 345,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
+            }
+          },
+          {
+            "size": 331,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          },
+          {
+            "size": 59,
+            "node": {
+              "color": "#563d7c",
+              "name": "CSS"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "fluteur",
+      "description": "🪈 A self-updating website hosted entirely in Github. Currently, a blog of GPT poetry",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-07-14T07:12:38Z",
+      "pushedAt": "2023-07-18T01:31:16Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 16
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 5554,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          },
+          {
+            "size": 166,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 1
+      },
+      "lastUserPRMergedAt": "2023-07-15T08:16:12Z"
+    }
+  ],
+  "nonMemberLogins": {},
+  "prDates": {
+    "elh": {
+      "earliest": "2022-01-23T20:37:29Z",
+      "latest": "2023-07-17T05:08:03Z"
+    }
+  },
+  "nonMembers": [],
+  "user": {
+    "login": "elh",
+    "name": "Eugene Huang",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=98b530007613f117c92f1287d3c31a9177a3d22b&v=4",
+    "followers": {
+      "totalCount": 18
+    },
+    "following": {
+      "totalCount": 23
+    },
+    "repositories": {
+      "totalCount": 24
+    },
+    "starredRepositories": {
+      "totalCount": 164
+    },
+    "prs": {
+      "orgPrCount": {
+        "issueCount": 146
+      },
+      "threeMoOrgPrCount": {
+        "issueCount": 18
+      },
+      "twelveMoOrgPrCount": {
+        "issueCount": 93
+      }
+    }
+  }
+}
