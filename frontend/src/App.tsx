@@ -464,7 +464,8 @@ function RepoForceGraph() {
       if ('prDates' in props.data) {
         Object.keys(props.data.prDates).forEach(name => {
           nodes.push({
-            'id': name,
+            'id': 'user:' + name,
+            'name': name,
             'group': 1,
           });
         });
@@ -472,21 +473,22 @@ function RepoForceGraph() {
       if ('repos' in props.data) {
         props.data.repos.forEach((repo: any) => {
           nodes.push({
-            'id': repo.name,
+            'id': 'repo:' + repo.name,
+            'name': repo.name,
             'group': 2,
           });
         });
       }
 
-      // add all repo collaborators as links. collaborators is a map of contribuor ids to counts. use the counts as values
+      // add all repo collaborators as links. collaborators is a map of contributor ids to counts. use the counts as values
       const links: any[] = [];
       if ('repos' in props.data) {
         props.data.repos.forEach((repo: any) => {
           if ('collaborators' in repo) {
             Object.keys(repo.collaborators).forEach(name => {
               links.push({
-                'source': repo.name,
-                'target': name,
+                'source': 'repo:' + repo.name,
+                'target':'user:' + name,
                 'value': repo.collaborators[name],
               });
             });
@@ -508,7 +510,7 @@ function RepoForceGraph() {
       graphData={forceGraph}
       nodeAutoColorBy="group"
       nodeThreeObject={(node: any) => {
-        const sprite = new SpriteText(node.id);
+        const sprite = new SpriteText(node.name);
         sprite.color = node.color;
         sprite.textHeight = 8;
         return sprite;
