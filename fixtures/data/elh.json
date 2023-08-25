@@ -1,31 +1,31 @@
 {
-  "lastUpdated": "2023-07-18T03:07:27.190Z",
+  "lastUpdated": "2023-08-25T06:20:23.560Z",
   "members": [
     {
       "login": "elh",
       "name": "Eugene Huang",
       "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=98b530007613f117c92f1287d3c31a9177a3d22b&v=4",
       "followers": {
-        "totalCount": 18
+        "totalCount": 19
       },
       "following": {
-        "totalCount": 23
+        "totalCount": 27
       },
       "repositories": {
-        "totalCount": 24
+        "totalCount": 26
       },
       "starredRepositories": {
-        "totalCount": 164
+        "totalCount": 185
       },
       "prs": {
         "orgPrCount": {
-          "issueCount": 146
+          "issueCount": 144
         },
         "threeMoOrgPrCount": {
-          "issueCount": 18
+          "issueCount": 21
         },
         "twelveMoOrgPrCount": {
-          "issueCount": 93
+          "issueCount": 96
         }
       }
     }
@@ -126,7 +126,7 @@
     },
     {
       "name": "bitempura-viz",
-      "description": "🔮 Visualize the 2D valid time and tx time history in a Bitempura bitemporal database",
+      "description": "🔮 Visualize the 2D valid time and tx time history of a bitemporal database",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-02-05T19:41:04Z",
@@ -201,7 +201,7 @@
     },
     {
       "name": "petri-tlaplus",
-      "description": "🕸 TLA+ modules and specifications for Petri nets",
+      "description": "🕸 TLA+ specifications for Petri nets",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-08-23T06:37:53Z",
@@ -362,7 +362,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-09-06T22:19:13Z",
-      "pushedAt": "2022-09-07T01:23:12Z",
+      "pushedAt": "2023-08-05T17:52:07Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -588,13 +588,13 @@
     },
     {
       "name": "gpt-doc-chat",
-      "description": "📎 Ask your documents natural language questions using GPT. My first GPT experiments",
+      "description": "📎 My impl of the overplayed doc Q&A. My first GPT experiments",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-03-19T04:47:48Z",
       "pushedAt": "2023-03-22T07:41:20Z",
       "archivedAt": null,
-      "stargazerCount": 3,
+      "stargazerCount": 4,
       "forkCount": 1,
       "pullRequests": {
         "totalCount": 0
@@ -681,13 +681,13 @@
     },
     {
       "name": "dignum",
-      "description": "♻️ REST API generator for XTDB records w/ schema-on-write. Just a proof of concept",
+      "description": "♻️ REST API generator for XTDB records w/ schema-on-write",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-06-19T21:39:35Z",
-      "pushedAt": "2023-06-29T04:42:43Z",
+      "pushedAt": "2023-07-27T09:02:40Z",
       "archivedAt": null,
-      "stargazerCount": 5,
+      "stargazerCount": 6,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 0
@@ -695,14 +695,14 @@
       "languages": {
         "edges": [
           {
-            "size": 23176,
+            "size": 28732,
             "node": {
               "color": "#db5855",
               "name": "Clojure"
             }
           },
           {
-            "size": 220,
+            "size": 232,
             "node": {
               "color": "#427819",
               "name": "Makefile"
@@ -724,7 +724,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-02T20:17:20Z",
-      "pushedAt": "2023-07-18T02:48:02Z",
+      "pushedAt": "2023-07-18T05:26:57Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -734,7 +734,7 @@
       "languages": {
         "edges": [
           {
-            "size": 43736,
+            "size": 44646,
             "node": {
               "color": "#3178c6",
               "name": "TypeScript"
@@ -748,17 +748,17 @@
             }
           },
           {
-            "size": 345,
-            "node": {
-              "color": "#f1e05a",
-              "name": "JavaScript"
-            }
-          },
-          {
-            "size": 331,
+            "size": 395,
             "node": {
               "color": "#427819",
               "name": "Makefile"
+            }
+          },
+          {
+            "size": 369,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
             }
           },
           {
@@ -777,17 +777,17 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-14T07:12:38Z",
-      "pushedAt": "2023-07-18T01:31:16Z",
+      "pushedAt": "2023-08-23T05:23:04Z",
       "archivedAt": null,
-      "stargazerCount": 0,
+      "stargazerCount": 1,
       "forkCount": 0,
       "pullRequests": {
-        "totalCount": 16
+        "totalCount": 51
       },
       "languages": {
         "edges": [
           {
-            "size": 5554,
+            "size": 5542,
             "node": {
               "color": "#3572A5",
               "name": "Python"
@@ -806,13 +806,138 @@
         "elh": 1
       },
       "lastUserPRMergedAt": "2023-07-15T08:16:12Z"
+    },
+    {
+      "name": "0-0-0",
+      "description": "♟️ Play chess against GPT. Have GPT explain chess positions.",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-07-28T08:13:42Z",
+      "pushedAt": "2023-08-04T04:34:43Z",
+      "archivedAt": null,
+      "stargazerCount": 1,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 14494,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
+            }
+          },
+          {
+            "size": 1823,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          },
+          {
+            "size": 315,
+            "node": {
+              "color": "#563d7c",
+              "name": "CSS"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "hitchens",
+      "description": "An inarguably well-designed Jekyll theme. Forked for https://github.com/elh/fluteur",
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2023-08-05T19:03:58Z",
+      "pushedAt": "2023-08-06T01:21:20Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 2
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 12868,
+            "node": {
+              "color": "#c6538c",
+              "name": "SCSS"
+            }
+          },
+          {
+            "size": 8047,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          },
+          {
+            "size": 793,
+            "node": {
+              "color": "#701516",
+              "name": "Ruby"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 1
+      },
+      "lastUserPRMergedAt": "2023-08-05T23:51:43Z"
+    },
+    {
+      "name": "whodunit",
+      "description": "🦓 Logic puzzle generator using Clojure core.logic",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-08-19T07:26:41Z",
+      "pushedAt": "2023-08-24T08:22:22Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 1
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 58144,
+            "node": {
+              "color": "#db5855",
+              "name": "Clojure"
+            }
+          },
+          {
+            "size": 401,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          },
+          {
+            "size": 218,
+            "node": {
+              "color": "#7e7eff",
+              "name": "Nix"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 1
+      },
+      "lastUserPRMergedAt": "2023-08-23T01:27:35Z"
     }
   ],
   "nonMemberLogins": {},
   "prDates": {
     "elh": {
       "earliest": "2022-01-23T20:37:29Z",
-      "latest": "2023-07-17T05:08:03Z"
+      "latest": "2023-08-23T01:27:35Z"
     }
   },
   "nonMembers": [],
@@ -821,26 +946,26 @@
     "name": "Eugene Huang",
     "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=98b530007613f117c92f1287d3c31a9177a3d22b&v=4",
     "followers": {
-      "totalCount": 18
+      "totalCount": 19
     },
     "following": {
-      "totalCount": 23
+      "totalCount": 27
     },
     "repositories": {
-      "totalCount": 24
+      "totalCount": 26
     },
     "starredRepositories": {
-      "totalCount": 164
+      "totalCount": 185
     },
     "prs": {
       "orgPrCount": {
-        "issueCount": 146
+        "issueCount": 144
       },
       "threeMoOrgPrCount": {
-        "issueCount": 18
+        "issueCount": 21
       },
       "twelveMoOrgPrCount": {
-        "issueCount": 93
+        "issueCount": 96
       }
     }
   }
