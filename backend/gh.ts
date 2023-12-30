@@ -15,7 +15,7 @@ export async function getOrg(octokit: Octokit, org: string): Promise<Record<stri
     },
   });
   if (resp.data.errors) {
-    throw new Error(`Error querying Github: ${String(resp.data.errors)}`);
+    throw new Error(`Error querying Github: ${JSON.stringify(resp.data.errors, null, 2)}`);
   }
   return resp.data.data.organization;
 }
@@ -87,7 +87,7 @@ export async function getMembers(octokit: Octokit, org: string, cursor: string |
     },
   });
   if (resp.data.errors) {
-    throw new Error(`Error querying Github: ${String(resp.data.errors)}`);
+    throw new Error(`Error querying Github: ${JSON.stringify(resp.data.errors, null, 2)}`);
   }
   return resp.data.data.organization.membersWithRole
 }
@@ -148,7 +148,7 @@ export async function getUser(octokit: Octokit, login: string): Promise<Record<s
   });
   if (resp.data.errors) {
     console.log(resp.data.errors)
-    throw new Error(`Error querying Github: ${String(resp.data.errors)}`);
+    throw new Error(`Error querying Github: ${JSON.stringify(resp.data.errors, null, 2)}`);
   }
   return resp.data.data.user
 }
@@ -179,7 +179,7 @@ export async function getPRStats(octokit: Octokit, orgOrUser: string, login: str
     },
   });
   if (resp.data.errors) {
-    throw new Error(`Error querying Github: ${String(resp.data.errors)}`);
+    throw new Error(`Error querying Github: ${JSON.stringify(resp.data.errors, null, 2)}`);
   }
   return resp.data.data;
 }

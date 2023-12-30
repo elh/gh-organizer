@@ -1,31 +1,31 @@
 {
-  "lastUpdated": "2023-11-05T20:51:18.783Z",
+  "lastUpdated": "2023-12-30T00:37:24.434Z",
   "members": [
     {
       "login": "elh",
       "name": "Eugene Huang",
       "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=4cac1b968b6d709ce3670e9788900ef7b9fedb43&v=4",
       "followers": {
-        "totalCount": 22
+        "totalCount": 25
       },
       "following": {
-        "totalCount": 39
+        "totalCount": 41
       },
       "repositories": {
-        "totalCount": 30
+        "totalCount": 31
       },
       "starredRepositories": {
-        "totalCount": 216
+        "totalCount": 229
       },
       "prs": {
         "orgPrCount": {
-          "issueCount": 145
+          "issueCount": 158
         },
         "threeMoOrgPrCount": {
-          "issueCount": 3
+          "issueCount": 9
         },
         "twelveMoOrgPrCount": {
-          "issueCount": 76
+          "issueCount": 84
         }
       }
     }
@@ -64,7 +64,7 @@
       "createdAt": "2022-01-04T06:09:25Z",
       "pushedAt": "2022-01-24T10:24:14Z",
       "archivedAt": null,
-      "stargazerCount": 5,
+      "stargazerCount": 6,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 0
@@ -83,7 +83,7 @@
     },
     {
       "name": "bitempura",
-      "description": "⏳ Toy, in-memory, bitemporal key-value database",
+      "description": "⏳ Toy, in-memory, bitemporal key-value database and visualizer",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-01-22T21:33:31Z",
@@ -724,7 +724,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-02T20:17:20Z",
-      "pushedAt": "2023-09-16T22:13:05Z",
+      "pushedAt": "2023-11-05T20:53:00Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -777,12 +777,12 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-14T07:12:38Z",
-      "pushedAt": "2023-10-30T16:06:20Z",
+      "pushedAt": "2023-12-25T16:06:08Z",
       "archivedAt": null,
       "stargazerCount": 4,
       "forkCount": 0,
       "pullRequests": {
-        "totalCount": 61
+        "totalCount": 69
       },
       "languages": {
         "edges": [
@@ -942,7 +942,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-08-26T18:48:36Z",
-      "pushedAt": "2023-10-13T09:09:00Z",
+      "pushedAt": "2023-11-19T20:41:02Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -952,14 +952,14 @@
       "languages": {
         "edges": [
           {
-            "size": 12152,
+            "size": 12790,
             "node": {
               "color": "#f1e05a",
               "name": "JavaScript"
             }
           },
           {
-            "size": 2154,
+            "size": 2142,
             "node": {
               "color": "#e34c26",
               "name": "HTML"
@@ -973,7 +973,7 @@
             }
           },
           {
-            "size": 837,
+            "size": 1166,
             "node": {
               "color": "#563d7c",
               "name": "CSS"
@@ -1211,9 +1211,9 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-11-02T03:35:55Z",
-      "pushedAt": "2023-11-05T20:37:44Z",
+      "pushedAt": "2023-11-06T00:39:26Z",
       "archivedAt": null,
-      "stargazerCount": 0,
+      "stargazerCount": 13,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 0
@@ -1221,7 +1221,7 @@
       "languages": {
         "edges": [
           {
-            "size": 4893,
+            "size": 5081,
             "node": {
               "color": "#db5855",
               "name": "Clojure"
@@ -1229,13 +1229,49 @@
           }
         ]
       }
+    },
+    {
+      "name": "advent-2023",
+      "description": "🐍 My 50-star 2023 Advent of Code in Python",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-12-02T02:49:59Z",
+      "pushedAt": "2023-12-27T05:34:37Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 8
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 95131,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          },
+          {
+            "size": 171,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 8
+      },
+      "lastUserPRMergedAt": "2023-12-23T09:21:45Z"
     }
   ],
   "nonMemberLogins": {},
   "prDates": {
     "elh": {
       "earliest": "2022-01-23T20:37:29Z",
-      "latest": "2023-10-13T08:18:25Z"
+      "latest": "2023-12-23T09:21:45Z"
     }
   },
   "nonMembers": [],
@@ -1244,26 +1280,26 @@
     "name": "Eugene Huang",
     "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=4cac1b968b6d709ce3670e9788900ef7b9fedb43&v=4",
     "followers": {
-      "totalCount": 22
+      "totalCount": 25
     },
     "following": {
-      "totalCount": 39
+      "totalCount": 41
     },
     "repositories": {
-      "totalCount": 30
+      "totalCount": 31
     },
     "starredRepositories": {
-      "totalCount": 216
+      "totalCount": 229
     },
     "prs": {
       "orgPrCount": {
-        "issueCount": 145
+        "issueCount": 158
       },
       "threeMoOrgPrCount": {
-        "issueCount": 3
+        "issueCount": 9
       },
       "twelveMoOrgPrCount": {
-        "issueCount": 76
+        "issueCount": 84
       }
     }
   }
