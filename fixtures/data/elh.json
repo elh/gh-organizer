@@ -1,31 +1,31 @@
 {
-  "lastUpdated": "2023-12-30T00:37:24.434Z",
+  "lastUpdated": "2024-01-19T18:53:37.448Z",
   "members": [
     {
       "login": "elh",
       "name": "Eugene Huang",
       "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=4cac1b968b6d709ce3670e9788900ef7b9fedb43&v=4",
       "followers": {
-        "totalCount": 25
+        "totalCount": 24
       },
       "following": {
-        "totalCount": 41
+        "totalCount": 43
       },
       "repositories": {
-        "totalCount": 31
+        "totalCount": 33
       },
       "starredRepositories": {
-        "totalCount": 229
+        "totalCount": 233
       },
       "prs": {
         "orgPrCount": {
-          "issueCount": 158
+          "issueCount": 159
         },
         "threeMoOrgPrCount": {
           "issueCount": 9
         },
         "twelveMoOrgPrCount": {
-          "issueCount": 84
+          "issueCount": 54
         }
       }
     }
@@ -64,7 +64,7 @@
       "createdAt": "2022-01-04T06:09:25Z",
       "pushedAt": "2022-01-24T10:24:14Z",
       "archivedAt": null,
-      "stargazerCount": 6,
+      "stargazerCount": 5,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 0
@@ -207,7 +207,7 @@
       "createdAt": "2022-08-23T06:37:53Z",
       "pushedAt": "2023-06-19T02:17:08Z",
       "archivedAt": null,
-      "stargazerCount": 1,
+      "stargazerCount": 2,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 9
@@ -328,7 +328,7 @@
       "createdAt": "2022-09-01T06:19:22Z",
       "pushedAt": "2022-09-07T01:28:12Z",
       "archivedAt": null,
-      "stargazerCount": 3,
+      "stargazerCount": 2,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 13
@@ -476,7 +476,7 @@
       "createdAt": "2022-12-04T20:37:10Z",
       "pushedAt": "2023-01-04T17:08:21Z",
       "archivedAt": null,
-      "stargazerCount": 4,
+      "stargazerCount": 3,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 0
@@ -724,7 +724,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-02T20:17:20Z",
-      "pushedAt": "2023-11-05T20:53:00Z",
+      "pushedAt": "2023-12-30T00:39:47Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -734,7 +734,7 @@
       "languages": {
         "edges": [
           {
-            "size": 44646,
+            "size": 44714,
             "node": {
               "color": "#3178c6",
               "name": "TypeScript"
@@ -777,12 +777,12 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-14T07:12:38Z",
-      "pushedAt": "2023-12-25T16:06:08Z",
+      "pushedAt": "2024-01-16T16:03:28Z",
       "archivedAt": null,
       "stargazerCount": 4,
       "forkCount": 0,
       "pullRequests": {
-        "totalCount": 69
+        "totalCount": 72
       },
       "languages": {
         "edges": [
@@ -815,7 +815,7 @@
       "createdAt": "2023-07-28T08:13:42Z",
       "pushedAt": "2023-10-13T08:44:17Z",
       "archivedAt": null,
-      "stargazerCount": 3,
+      "stargazerCount": 2,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 1
@@ -942,7 +942,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-08-26T18:48:36Z",
-      "pushedAt": "2023-11-19T20:41:02Z",
+      "pushedAt": "2024-01-19T02:34:37Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -1265,13 +1265,141 @@
         "elh": 8
       },
       "lastUserPRMergedAt": "2023-12-23T09:21:45Z"
+    },
+    {
+      "name": "gh-stars",
+      "description": "🌌 Explore users' Github stars [work in progress]",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-12-30T22:06:21Z",
+      "pushedAt": "2024-01-02T04:54:13Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 19474,
+            "node": {
+              "color": "#3178c6",
+              "name": "TypeScript"
+            }
+          },
+          {
+            "size": 3900,
+            "node": {
+              "color": "#563d7c",
+              "name": "CSS"
+            }
+          },
+          {
+            "size": 989,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
+            }
+          },
+          {
+            "size": 555,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "1brc-go",
+      "description": "1️⃣🐝🏎️ Performant Go 1BRC solution. Parse and aggregate 1B rows in seconds",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2024-01-13T22:38:41Z",
+      "pushedAt": "2024-01-19T04:59:20Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 1
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 7306,
+            "node": {
+              "color": "#00ADD8",
+              "name": "Go"
+            }
+          },
+          {
+            "size": 740,
+            "node": {
+              "color": "#89e051",
+              "name": "Shell"
+            }
+          },
+          {
+            "size": 388,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      },
+      "collaborators": {
+        "elh": 1
+      },
+      "lastUserPRMergedAt": "2024-01-19T04:59:03Z"
+    },
+    {
+      "name": "1brc",
+      "description": "1️⃣🐝🏎️ The One Billion Row Challenge -- A fun exploration of how quickly 1B rows from a text file can be aggregated with Java",
+      "isArchived": false,
+      "isFork": true,
+      "createdAt": "2024-01-15T18:37:32Z",
+      "pushedAt": "2024-01-16T04:55:23Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 1300167,
+            "node": {
+              "color": "#b07219",
+              "name": "Java"
+            }
+          },
+          {
+            "size": 142806,
+            "node": {
+              "color": "#89e051",
+              "name": "Shell"
+            }
+          },
+          {
+            "size": 5411,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          }
+        ]
+      }
     }
   ],
   "nonMemberLogins": {},
   "prDates": {
     "elh": {
       "earliest": "2022-01-23T20:37:29Z",
-      "latest": "2023-12-23T09:21:45Z"
+      "latest": "2024-01-19T04:59:03Z"
     }
   },
   "nonMembers": [],
@@ -1280,26 +1408,26 @@
     "name": "Eugene Huang",
     "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=4cac1b968b6d709ce3670e9788900ef7b9fedb43&v=4",
     "followers": {
-      "totalCount": 25
+      "totalCount": 24
     },
     "following": {
-      "totalCount": 41
+      "totalCount": 43
     },
     "repositories": {
-      "totalCount": 31
+      "totalCount": 33
     },
     "starredRepositories": {
-      "totalCount": 229
+      "totalCount": 233
     },
     "prs": {
       "orgPrCount": {
-        "issueCount": 158
+        "issueCount": 159
       },
       "threeMoOrgPrCount": {
         "issueCount": 9
       },
       "twelveMoOrgPrCount": {
-        "issueCount": 84
+        "issueCount": 54
       }
     }
   }
