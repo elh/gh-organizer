@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 import { Octokit } from "octokit";
 import {getOrg, getMembers, getPRStats, getRepos, getRepoPullRequests, getUser} from './gh';
 
@@ -33,6 +34,9 @@ if (mode !== 'org' && mode !== 'user') {
   process.exit(1);
 }
 
+if (!existsSync('data')){
+  mkdirSync('data');
+}
 const file = `data/${orgOrUser}.json`;
 
 // set up
