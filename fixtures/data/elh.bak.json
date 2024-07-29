@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2024-07-29T02:20:36.623Z",
+  "lastUpdated": "2024-04-29T00:20:26.064Z",
   "members": [
     {
       "login": "elh",
@@ -9,23 +9,23 @@
         "totalCount": 27
       },
       "following": {
-        "totalCount": 70
+        "totalCount": 64
       },
       "repositories": {
-        "totalCount": 32
+        "totalCount": 33
       },
       "starredRepositories": {
-        "totalCount": 333
+        "totalCount": 300
       },
       "prs": {
         "orgPrCount": {
-          "issueCount": 162
+          "issueCount": 161
         },
         "threeMoOrgPrCount": {
-          "issueCount": 1
+          "issueCount": 2
         },
         "twelveMoOrgPrCount": {
-          "issueCount": 16
+          "issueCount": 33
         }
       }
     }
@@ -33,7 +33,7 @@
   "repos": [
     {
       "name": "advent-2019",
-      "description": "My incomplete 2019 Advent of Code run in Clojure",
+      "description": "🎄 My short-lived 2019 Advent of Code run in Clojure",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2019-12-01T23:28:55Z",
@@ -58,13 +58,13 @@
     },
     {
       "name": "detective",
-      "description": "Create and play text-based games in the style of \"Her Story\"",
+      "description": "🕵️ Create and play text-based games in the style of \"Her Story\"",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-01-04T06:09:25Z",
       "pushedAt": "2022-01-24T10:24:14Z",
       "archivedAt": null,
-      "stargazerCount": 6,
+      "stargazerCount": 5,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 0
@@ -83,16 +83,16 @@
     },
     {
       "name": "bitempura",
-      "description": "Toy bitemporal key-value database and visualizer",
+      "description": "⏳ Toy, in-memory, bitemporal key-value database and visualizer",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-01-22T21:33:31Z",
-      "pushedAt": "2024-07-17T22:30:27Z",
+      "pushedAt": "2023-07-17T05:12:50Z",
       "archivedAt": null,
       "stargazerCount": 9,
       "forkCount": 0,
       "pullRequests": {
-        "totalCount": 31
+        "totalCount": 29
       },
       "languages": {
         "edges": [
@@ -120,13 +120,13 @@
         ]
       },
       "collaborators": {
-        "elh": 29
+        "elh": 28
       },
-      "lastUserPRMergedAt": "2024-07-17T22:30:25Z"
+      "lastUserPRMergedAt": "2023-07-17T01:36:14Z"
     },
     {
       "name": "bitempura-viz",
-      "description": "Visualize bitemporal records",
+      "description": "🔮 Visualize the 2D valid time and tx time history of a bitemporal database",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-02-05T19:41:04Z",
@@ -176,7 +176,7 @@
     },
     {
       "name": "roxie-theater",
-      "description": "Fetch Roxie Theater showtimes and format them for Letterboxd [obsolete]",
+      "description": "🍿 Fetch Roxie Theater showtimes and format them for Letterboxd [obsolete]",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-07-14T03:01:43Z",
@@ -201,7 +201,7 @@
     },
     {
       "name": "petri-tlaplus",
-      "description": "TLA+ specifications for Petri nets",
+      "description": "🕸 TLA+ specifications for Petri nets",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-08-23T06:37:53Z",
@@ -322,7 +322,7 @@
     },
     {
       "name": "feynman-781",
-      "description": "Simple graph generator for Feynman diagrams*",
+      "description": "⚛️ Simple, performant graph generator for Feynman diagrams*",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-09-01T06:19:22Z",
@@ -375,7 +375,7 @@
     },
     {
       "name": "quarry",
-      "description": "Tiny expert system demo",
+      "description": "🧮 Tiny expert system demo for hypertension recommendations",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-09-27T03:01:09Z",
@@ -470,7 +470,7 @@
     },
     {
       "name": "advent-2022",
-      "description": "My 50-star 2022 Advent of Code in Clojure",
+      "description": "⭐️ My 50-star 2022 Advent of Code in Clojure",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2022-12-04T20:37:10Z",
@@ -502,13 +502,13 @@
     },
     {
       "name": "bettor",
-      "description": "Parimutuel betting Discord bot. Inspired by Twitch predictions",
+      "description": "🎲 Run your own parimutuel betting Discord bot. Inspired by Twitch channel point predictions",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-01-09T02:20:53Z",
       "pushedAt": "2023-07-02T02:41:47Z",
       "archivedAt": null,
-      "stargazerCount": 6,
+      "stargazerCount": 4,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 54
@@ -552,13 +552,13 @@
     },
     {
       "name": "gossip-glomers",
-      "description": "My complete Gossip Glomers solutions in Clojure",
+      "description": "🙊 My complete Gossip Glomers solutions in Clojure",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-03-09T07:44:20Z",
       "pushedAt": "2023-03-18T22:20:53Z",
       "archivedAt": null,
-      "stargazerCount": 4,
+      "stargazerCount": 2,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 5
@@ -588,7 +588,7 @@
     },
     {
       "name": "gpt-doc-chat",
-      "description": "My early impl of the overplayed doc Q&A use case",
+      "description": "📎 My impl of the overplayed doc Q&A. My first GPT experiments",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-03-19T04:47:48Z",
@@ -652,7 +652,7 @@
     },
     {
       "name": "make-evals",
-      "description": "My workspace for writing openai/evals",
+      "description": "🧪 My workspace for writing openai/evals",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-03-27T04:27:52Z",
@@ -681,7 +681,7 @@
     },
     {
       "name": "dignum",
-      "description": "REST API generator for XTDB w/ schema-on-write",
+      "description": "♻️ REST API generator for XTDB records w/ schema-on-write",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-06-19T21:39:35Z",
@@ -720,11 +720,11 @@
     },
     {
       "name": "gh-organizer",
-      "description": "Github organization scraper and timeline",
+      "description": "📇 Github org (and user) stats and timeline visualizer",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-02T20:17:20Z",
-      "pushedAt": "2024-04-29T00:22:53Z",
+      "pushedAt": "2024-01-20T07:14:12Z",
       "archivedAt": null,
       "stargazerCount": 2,
       "forkCount": 0,
@@ -773,16 +773,16 @@
     },
     {
       "name": "fluteur",
-      "description": "Self-updating site hosted entirely in Github",
+      "description": "🪈 A self-updating website hosted entirely in Github. Currently, a blog of GPT poetry",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-14T07:12:38Z",
-      "pushedAt": "2024-07-22T16:06:50Z",
+      "pushedAt": "2024-04-29T00:19:32Z",
       "archivedAt": null,
-      "stargazerCount": 5,
+      "stargazerCount": 4,
       "forkCount": 0,
       "pullRequests": {
-        "totalCount": 99
+        "totalCount": 86
       },
       "languages": {
         "edges": [
@@ -809,7 +809,7 @@
     },
     {
       "name": "0-0-0",
-      "description": "Play chess against gpt-3.5-turbo-instruct",
+      "description": "♟️ Play chess against gpt-3.5-turbo-instruct (~1800 ELO Lichess). Have GPT explain chess positions.",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-28T08:13:42Z",
@@ -895,7 +895,7 @@
     },
     {
       "name": "whodunit",
-      "description": "Logic puzzle generator using Clojure core.logic",
+      "description": "🦓 Logic puzzle generator using Clojure core.logic",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-08-19T07:26:41Z",
@@ -937,8 +937,61 @@
       "lastUserPRMergedAt": "2023-08-23T01:27:35Z"
     },
     {
+      "name": "elh.github.io",
+      "description": "🪪 My Personal Website",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2023-08-26T18:48:36Z",
+      "pushedAt": "2024-04-14T07:04:41Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 16043,
+            "node": {
+              "color": "#f1e05a",
+              "name": "JavaScript"
+            }
+          },
+          {
+            "size": 2261,
+            "node": {
+              "color": "#563d7c",
+              "name": "CSS"
+            }
+          },
+          {
+            "size": 2142,
+            "node": {
+              "color": "#e34c26",
+              "name": "HTML"
+            }
+          },
+          {
+            "size": 1815,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          },
+          {
+            "size": 215,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "ePhone",
-      "description": "iframe on an iPhone model using three.js",
+      "description": "🔲 Render an iframe on an iPhone model using three.js",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-08-31T04:24:01Z",
@@ -1037,7 +1090,7 @@
     },
     {
       "name": "mal-arkey",
-      "description": "Self-hosting \"Make a Lisp\" Lisp in Go",
+      "description": "🐢 My self-hosting \"Make a Lisp\" Lisp in Go",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-09-11T06:43:21Z",
@@ -1154,11 +1207,11 @@
     },
     {
       "name": "xtbb",
-      "description": "XTDB querying CLI",
+      "description": "❎ A simple XTDB querying CLI using Babashka",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-11-02T03:35:55Z",
-      "pushedAt": "2024-07-17T22:35:06Z",
+      "pushedAt": "2023-11-06T00:39:26Z",
       "archivedAt": null,
       "stargazerCount": 14,
       "forkCount": 0,
@@ -1179,7 +1232,7 @@
     },
     {
       "name": "advent-2023",
-      "description": "My 50-star 2023 Advent of Code in Python",
+      "description": "🐍 My 50-star 2023 Advent of Code in Python",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-12-02T02:49:59Z",
@@ -1215,11 +1268,11 @@
     },
     {
       "name": "gh-stars",
-      "description": "Search your Github stars",
+      "description": "🌌 View users' Github stars in a filterable table",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-12-30T22:06:21Z",
-      "pushedAt": "2024-04-29T01:47:38Z",
+      "pushedAt": "2024-01-02T04:54:13Z",
       "archivedAt": null,
       "stargazerCount": 0,
       "forkCount": 0,
@@ -1229,7 +1282,7 @@
       "languages": {
         "edges": [
           {
-            "size": 19577,
+            "size": 19474,
             "node": {
               "color": "#3178c6",
               "name": "TypeScript"
@@ -1261,7 +1314,7 @@
     },
     {
       "name": "1brc-go",
-      "description": "Performant Go 1BRC solution",
+      "description": "1️⃣🐝🏎️ Performant Go 1BRC solution. Parse and aggregate 1B rows in seconds",
       "isArchived": false,
       "isFork": false,
       "createdAt": "2024-01-13T22:38:41Z",
@@ -1360,7 +1413,7 @@
   "prDates": {
     "elh": {
       "earliest": "2022-01-23T20:37:29Z",
-      "latest": "2024-07-17T22:30:25Z"
+      "latest": "2024-04-28T22:46:01Z"
     }
   },
   "nonMembers": [],
@@ -1372,23 +1425,23 @@
       "totalCount": 27
     },
     "following": {
-      "totalCount": 70
+      "totalCount": 64
     },
     "repositories": {
-      "totalCount": 32
+      "totalCount": 33
     },
     "starredRepositories": {
-      "totalCount": 333
+      "totalCount": 300
     },
     "prs": {
       "orgPrCount": {
-        "issueCount": 162
+        "issueCount": 161
       },
       "threeMoOrgPrCount": {
-        "issueCount": 1
+        "issueCount": 2
       },
       "twelveMoOrgPrCount": {
-        "issueCount": 16
+        "issueCount": 33
       }
     }
   }
