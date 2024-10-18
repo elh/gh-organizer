@@ -1,31 +1,31 @@
 {
-  "lastUpdated": "2024-07-29T02:20:36.623Z",
+  "lastUpdated": "2024-10-18T18:51:57.418Z",
   "members": [
     {
       "login": "elh",
       "name": "Eugene Huang",
       "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=4cac1b968b6d709ce3670e9788900ef7b9fedb43&v=4",
       "followers": {
-        "totalCount": 27
+        "totalCount": 28
       },
       "following": {
-        "totalCount": 70
+        "totalCount": 77
       },
       "repositories": {
-        "totalCount": 32
+        "totalCount": 34
       },
       "starredRepositories": {
-        "totalCount": 333
+        "totalCount": 369
       },
       "prs": {
         "orgPrCount": {
           "issueCount": 162
         },
         "threeMoOrgPrCount": {
-          "issueCount": 1
+          "issueCount": 0
         },
         "twelveMoOrgPrCount": {
-          "issueCount": 16
+          "issueCount": 12
         }
       }
     }
@@ -89,7 +89,7 @@
       "createdAt": "2022-01-22T21:33:31Z",
       "pushedAt": "2024-07-17T22:30:27Z",
       "archivedAt": null,
-      "stargazerCount": 9,
+      "stargazerCount": 10,
       "forkCount": 0,
       "pullRequests": {
         "totalCount": 31
@@ -175,13 +175,13 @@
       "lastUserPRMergedAt": "2023-07-17T05:08:03Z"
     },
     {
-      "name": "roxie-theater",
-      "description": "Fetch Roxie Theater showtimes and format them for Letterboxd [obsolete]",
-      "isArchived": false,
+      "name": "roxie-theater-2022",
+      "description": "Fetch Roxie Theater showtimes for Letterboxd [🛑 obsolete]",
+      "isArchived": true,
       "isFork": false,
       "createdAt": "2022-07-14T03:01:43Z",
       "pushedAt": "2022-07-14T21:09:58Z",
-      "archivedAt": null,
+      "archivedAt": "2024-09-30T00:15:52Z",
       "stargazerCount": 1,
       "forkCount": 0,
       "pullRequests": {
@@ -724,7 +724,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-02T20:17:20Z",
-      "pushedAt": "2024-04-29T00:22:53Z",
+      "pushedAt": "2024-07-29T02:23:26Z",
       "archivedAt": null,
       "stargazerCount": 2,
       "forkCount": 0,
@@ -734,7 +734,7 @@
       "languages": {
         "edges": [
           {
-            "size": 44714,
+            "size": 44807,
             "node": {
               "color": "#3178c6",
               "name": "TypeScript"
@@ -777,12 +777,12 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-14T07:12:38Z",
-      "pushedAt": "2024-07-22T16:06:50Z",
+      "pushedAt": "2024-10-14T16:07:07Z",
       "archivedAt": null,
       "stargazerCount": 5,
       "forkCount": 0,
       "pullRequests": {
-        "totalCount": 99
+        "totalCount": 111
       },
       "languages": {
         "edges": [
@@ -813,7 +813,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-07-28T08:13:42Z",
-      "pushedAt": "2023-10-13T08:44:17Z",
+      "pushedAt": "2024-10-13T04:14:16Z",
       "archivedAt": null,
       "stargazerCount": 2,
       "forkCount": 0,
@@ -823,7 +823,7 @@
       "languages": {
         "edges": [
           {
-            "size": 16664,
+            "size": 16991,
             "node": {
               "color": "#f1e05a",
               "name": "JavaScript"
@@ -942,7 +942,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2023-08-31T04:24:01Z",
-      "pushedAt": "2023-09-10T02:46:12Z",
+      "pushedAt": "2024-07-29T04:14:05Z",
       "archivedAt": null,
       "stargazerCount": 2,
       "forkCount": 0,
@@ -952,7 +952,7 @@
       "languages": {
         "edges": [
           {
-            "size": 12645,
+            "size": 13022,
             "node": {
               "color": "#f1e05a",
               "name": "JavaScript"
@@ -1265,7 +1265,7 @@
       "isArchived": false,
       "isFork": false,
       "createdAt": "2024-01-13T22:38:41Z",
-      "pushedAt": "2024-04-28T23:36:13Z",
+      "pushedAt": "2024-09-21T18:40:31Z",
       "archivedAt": null,
       "stargazerCount": 2,
       "forkCount": 0,
@@ -1354,41 +1354,161 @@
           }
         ]
       }
+    },
+    {
+      "name": "roxie-theater",
+      "description": "Fetch Roxie Theater showtimes for Letterboxd",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2024-09-30T00:18:14Z",
+      "pushedAt": "2024-10-17T20:42:17Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 20873,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "aergere",
+      "description": "\"Mensch ärgere Dich nicht\" board game and simulator",
+      "isArchived": false,
+      "isFork": false,
+      "createdAt": "2024-10-12T04:14:27Z",
+      "pushedAt": "2024-10-13T04:12:37Z",
+      "archivedAt": null,
+      "stargazerCount": 0,
+      "forkCount": 0,
+      "pullRequests": {
+        "totalCount": 0
+      },
+      "languages": {
+        "edges": [
+          {
+            "size": 16873,
+            "node": {
+              "color": "#3572A5",
+              "name": "Python"
+            }
+          },
+          {
+            "size": 80,
+            "node": {
+              "color": "#427819",
+              "name": "Makefile"
+            }
+          }
+        ]
+      }
     }
   ],
-  "nonMemberLogins": {},
+  "nonMemberLogins": {
+    "bhaviksingh": true
+  },
   "prDates": {
     "elh": {
-      "earliest": "2022-01-23T20:37:29Z",
+      "earliest": "2017-09-24T07:30:21Z",
       "latest": "2024-07-17T22:30:25Z"
+    },
+    "bhaviksingh": {
+      "earliest": "2017-10-08T00:03:22Z",
+      "latest": "2017-10-08T00:03:22Z"
     }
   },
-  "nonMembers": [],
+  "nonMembers": [
+    {
+      "login": "bhaviksingh",
+      "name": "Bhavik Singh",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/928949?u=e9eb232c817c3d9cb6a36ed426a46c99ea2d553f&v=4",
+      "followers": {
+        "totalCount": 14
+      },
+      "following": {
+        "totalCount": 0
+      },
+      "repositories": {
+        "totalCount": 25
+      },
+      "starredRepositories": {
+        "totalCount": 14
+      },
+      "prs": {
+        "orgPrCount": {
+          "issueCount": 1
+        },
+        "threeMoOrgPrCount": {
+          "issueCount": 0
+        },
+        "twelveMoOrgPrCount": {
+          "issueCount": 0
+        }
+      }
+    },
+    {
+      "login": "bhaviksingh",
+      "name": "Bhavik Singh",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/928949?u=e9eb232c817c3d9cb6a36ed426a46c99ea2d553f&v=4",
+      "followers": {
+        "totalCount": 14
+      },
+      "following": {
+        "totalCount": 0
+      },
+      "repositories": {
+        "totalCount": 25
+      },
+      "starredRepositories": {
+        "totalCount": 14
+      },
+      "prs": {
+        "orgPrCount": {
+          "issueCount": 1
+        },
+        "threeMoOrgPrCount": {
+          "issueCount": 0
+        },
+        "twelveMoOrgPrCount": {
+          "issueCount": 0
+        }
+      }
+    }
+  ],
   "user": {
     "login": "elh",
     "name": "Eugene Huang",
     "avatarUrl": "https://avatars.githubusercontent.com/u/1035393?u=4cac1b968b6d709ce3670e9788900ef7b9fedb43&v=4",
     "followers": {
-      "totalCount": 27
+      "totalCount": 28
     },
     "following": {
-      "totalCount": 70
+      "totalCount": 77
     },
     "repositories": {
-      "totalCount": 32
+      "totalCount": 34
     },
     "starredRepositories": {
-      "totalCount": 333
+      "totalCount": 369
     },
     "prs": {
       "orgPrCount": {
         "issueCount": 162
       },
       "threeMoOrgPrCount": {
-        "issueCount": 1
+        "issueCount": 0
       },
       "twelveMoOrgPrCount": {
-        "issueCount": 16
+        "issueCount": 12
       }
     }
   }
